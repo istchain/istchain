@@ -1,0 +1,38 @@
+package types_test
+
+import (
+	"time"
+
+	sdkmath "cosmossdk.io/math"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+
+	tmtime "github.com/cometbft/cometbft/types/time"
+
+	"github.com/istchain/istchain/x/bep3/types"
+)
+
+func i(in int64) sdkmath.Int                { return sdkmath.NewInt(in) }
+func c(denom string, amount int64) sdk.Coin { return sdk.NewInt64Coin(denom, amount) }
+func cs(coins ...sdk.Coin) sdk.Coins        { return sdk.NewCoins(coins...) }
+func ts(minOffset int) int64                { return tmtime.Now().Add(time.Duration(minOffset) * time.Minute).Unix() }
+
+func atomicSwaps(count int) types.AtomicSwaps {
+	var swaps types.AtomicSwaps
+	for i := 0; i < count; i++ {
+		swap := atomicSwap(i)
+		swaps = append(swaps, swap)
+	}
+	return swaps
+}
+
+func atomicSwap(index int) types.AtomicSwap {
+	expireOffset := uint64((index * 15) + 360) // Default expire height + offet to match timestamp
+	timestamp := ts(index)                     // One minute apart
+	randomNumber, _ := types.GenerateSecureRandomNumber()
+	randomNumberHash := types.CalculateRandomHash(randomNumber[:], timestamp)
+
+	swap := types.NewAtomicSwap(cs(c("bnb", 50000)), randomNumberHash, expireOffset, timestamp, kavaAddrs[0],
+		kavaAddrs[1], binanceAddrs[0].String(), binanceAddrs[1].String(), 1, types.SWAP_STATUS_OPEN, true, types.SWAP_DIRECTION_INCOMING)
+
+	return swap
+}
