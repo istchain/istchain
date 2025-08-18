@@ -1,0 +1,18 @@
+syntax = "proto3";
+package istchain.community.v1beta1;
+
+import "gogoproto/gogo.proto";
+import "istchain/community/v1beta1/params.proto";
+import "istchain/community/v1beta1/staking.proto";
+
+option go_package = "github.com/istchain/istchain/x/community/types";
+
+// GenesisState defines the community module's genesis state.
+message GenesisState {
+  // params defines all the parameters related to commmunity
+  Params params = 1 [(gogoproto.nullable) = false];
+
+  // StakingRewardsState stores the internal staking reward data required to
+  // track staking rewards across blocks
+  StakingRewardsState staking_rewards_state = 2 [(gogoproto.nullable) = false];
+}

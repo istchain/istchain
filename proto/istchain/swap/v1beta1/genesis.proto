@@ -1,0 +1,23 @@
+syntax = "proto3";
+package istchain.swap.v1beta1;
+
+import "gogoproto/gogo.proto";
+import "istchain/swap/v1beta1/swap.proto";
+
+option go_package = "github.com/istchain/istchain/x/swap/types";
+
+// GenesisState defines the swap module's genesis state.
+message GenesisState {
+  // params defines all the parameters related to swap
+  Params params = 1 [(gogoproto.nullable) = false];
+  // pool_records defines the available pools
+  repeated PoolRecord pool_records = 2 [
+    (gogoproto.castrepeated) = "PoolRecords",
+    (gogoproto.nullable) = false
+  ];
+  // share_records defines the owned shares of each pool
+  repeated ShareRecord share_records = 3 [
+    (gogoproto.castrepeated) = "ShareRecords",
+    (gogoproto.nullable) = false
+  ];
+}

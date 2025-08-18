@@ -1,0 +1,81 @@
+syntax = "proto3";
+package istchain.community.v1beta1;
+
+import "cosmos/base/v1beta1/coin.proto";
+import "cosmos_proto/cosmos.proto";
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "istchain/community/v1beta1/params.proto";
+
+option go_package = "github.com/istchain/istchain/x/community/types";
+
+// Query defines the gRPC querier service for x/community.
+service Query {
+  // Params queires the module params.
+  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/istchain/community/v1beta1/params";
+  }
+
+  // Balance queries the balance of all coins of x/community module.
+  rpc Balance(QueryBalanceRequest) returns (QueryBalanceResponse) {
+    option (google.api.http).get = "/istchain/community/v1beta1/balance";
+  }
+
+  // TotalBalance queries the balance of all coins, including x/distribution,
+  // x/community, and supplied balances.
+  rpc TotalBalance(QueryTotalBalanceRequest) returns (QueryTotalBalanceResponse) {
+    option (google.api.http).get = "/istchain/community/v1beta1/total_balance";
+  }
+
+  // AnnualizedRewards calculates and returns the current annualized reward percentages,
+  // like staking rewards, for the chain.
+  rpc AnnualizedRewards(QueryAnnualizedRewardsRequest) returns (QueryAnnualizedRewardsResponse) {
+    option (google.api.http).get = "/istchain/community/v1beta1/annualized_rewards";
+  }
+}
+
+// QueryParams defines the request type for querying x/community params.
+message QueryParamsRequest {}
+
+// QueryParamsResponse defines the response type for querying x/community params.
+message QueryParamsResponse {
+  // params represents the community module parameters
+  Params params = 1 [(gogoproto.nullable) = false];
+}
+
+// QueryBalanceRequest defines the request type for querying x/community balance.
+message QueryBalanceRequest {}
+
+// QueryBalanceResponse defines the response type for querying x/community balance.
+message QueryBalanceResponse {
+  repeated cosmos.base.v1beta1.Coin coins = 1 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coins"
+  ];
+}
+
+// QueryTotalBalanceRequest defines the request type for querying total community pool balance.
+message QueryTotalBalanceRequest {}
+
+// QueryTotalBalanceResponse defines the response type for querying total
+// community pool balance. This matches the x/distribution CommunityPool query response.
+message QueryTotalBalanceResponse {
+  // pool defines community pool's coins.
+  repeated cosmos.base.v1beta1.DecCoin pool = 1 [
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.DecCoins",
+    (gogoproto.nullable) = false
+  ];
+}
+
+// QueryAnnualizedRewardsRequest defines the request type for querying the annualized rewards.
+message QueryAnnualizedRewardsRequest {}
+
+// QueryAnnualizedRewardsResponse defines the response type for querying the annualized rewards.
+message QueryAnnualizedRewardsResponse {
+  // staking_rewards is the calculated annualized staking rewards percentage rate
+  string staking_rewards = 1 [
+    (cosmos_proto.scalar) = "cosmos.Dec",
+    (gogoproto.customtype) = "cosmossdk.io/math.LegacyDec",
+    (gogoproto.nullable) = false
+  ];
+}

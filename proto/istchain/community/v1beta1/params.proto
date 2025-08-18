@@ -1,0 +1,35 @@
+syntax = "proto3";
+package istchain.community.v1beta1;
+
+import "cosmos_proto/cosmos.proto";
+import "gogoproto/gogo.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/istchain/istchain/x/community/types";
+
+// Params defines the parameters of the community module.
+message Params {
+  option (gogoproto.equal) = true;
+
+  // upgrade_time_disable_inflation is the time at which to disable mint and istdist module inflation.
+  // If set to 0, inflation will be disabled from block 1.
+  google.protobuf.Timestamp upgrade_time_disable_inflation = 1 [
+    (gogoproto.stdtime) = true,
+    (gogoproto.nullable) = false
+  ];
+
+  // staking_rewards_per_second is the amount paid out to delegators each block from the community account
+  string staking_rewards_per_second = 2 [
+    (cosmos_proto.scalar) = "cosmos.Dec",
+    (gogoproto.customtype) = "cosmossdk.io/math.LegacyDec",
+    (gogoproto.nullable) = false
+  ];
+
+  // upgrade_time_set_staking_rewards_per_second is the initial staking_rewards_per_second to set
+  // and use when the disable inflation time is reached
+  string upgrade_time_set_staking_rewards_per_second = 3 [
+    (cosmos_proto.scalar) = "cosmos.Dec",
+    (gogoproto.customtype) = "cosmossdk.io/math.LegacyDec",
+    (gogoproto.nullable) = false
+  ];
+}

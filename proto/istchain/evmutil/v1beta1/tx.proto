@@ -1,0 +1,84 @@
+syntax = "proto3";
+package istchain.evmutil.v1beta1;
+
+import "cosmos/base/v1beta1/coin.proto";
+import "cosmos_proto/cosmos.proto";
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/istchain/istchain/x/evmutil/types";
+option (gogoproto.equal_all) = true;
+option (gogoproto.verbose_equal_all) = true;
+
+// Msg defines the evmutil Msg service.
+service Msg {
+  // ConvertCoinToERC20 defines a method for converting sdk.Coin to IstChain ERC20.
+  rpc ConvertCoinToERC20(MsgConvertCoinToERC20) returns (MsgConvertCoinToERC20Response);
+
+  // ConvertERC20ToCoin defines a method for converting IstChain ERC20 to sdk.Coin.
+  rpc ConvertERC20ToCoin(MsgConvertERC20ToCoin) returns (MsgConvertERC20ToCoinResponse);
+
+  // ConvertCosmosCoinToERC20 defines a method for converting a cosmos sdk.Coin to an ERC20.
+  rpc ConvertCosmosCoinToERC20(MsgConvertCosmosCoinToERC20) returns (MsgConvertCosmosCoinToERC20Response);
+
+  // ConvertCosmosCoinFromERC20 defines a method for converting a cosmos sdk.Coin to an ERC20.
+  rpc ConvertCosmosCoinFromERC20(MsgConvertCosmosCoinFromERC20) returns (MsgConvertCosmosCoinFromERC20Response);
+}
+
+// MsgConvertCoinToERC20 defines a conversion from sdk.Coin to IstChain ERC20 for EVM-native assets.
+message MsgConvertCoinToERC20 {
+  // IstChain bech32 address initiating the conversion.
+  string initiator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  // EVM 0x hex address that will receive the converted IstChain ERC20 tokens.
+  string receiver = 2;
+  // Amount is the sdk.Coin amount to convert.
+  cosmos.base.v1beta1.Coin amount = 3;
+}
+
+// MsgConvertCoinToERC20Response defines the response value from Msg/ConvertCoinToERC20.
+message MsgConvertCoinToERC20Response {}
+
+// MsgConvertERC20ToCoin defines a conversion from IstChain ERC20 to sdk.Coin for EVM-native assets.
+message MsgConvertERC20ToCoin {
+  // EVM 0x hex address initiating the conversion.
+  string initiator = 1;
+  // IstChain bech32 address that will receive the converted sdk.Coin.
+  string receiver = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  // EVM 0x hex address of the ERC20 contract.
+  string istchain_erc20_address = 3 [(gogoproto.customname) = "IstChainERC20Address"];
+  // ERC20 token amount to convert.
+  string amount = 4 [
+    (cosmos_proto.scalar) = "cosmos.Int",
+    (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Int",
+    (gogoproto.nullable) = false
+  ];
+}
+
+// MsgConvertERC20ToCoinResponse defines the response value from
+// Msg/MsgConvertERC20ToCoin.
+message MsgConvertERC20ToCoinResponse {}
+
+// MsgConvertCosmosCoinToERC20 defines a conversion from cosmos sdk.Coin to ERC20 for cosmos-native assets.
+message MsgConvertCosmosCoinToERC20 {
+  // IstChain bech32 address initiating the conversion.
+  string initiator = 1;
+  // EVM hex address that will receive the ERC20 tokens.
+  string receiver = 2;
+  // Amount is the sdk.Coin amount to convert.
+  cosmos.base.v1beta1.Coin amount = 3;
+}
+
+// MsgConvertCosmosCoinToERC20Response defines the response value from Msg/MsgConvertCosmosCoinToERC20.
+message MsgConvertCosmosCoinToERC20Response {}
+
+// MsgConvertCosmosCoinFromERC20 defines a conversion from ERC20 to cosmos coins for cosmos-native assets.
+message MsgConvertCosmosCoinFromERC20 {
+  // EVM hex address initiating the conversion.
+  string initiator = 1;
+  // IstChain bech32 address that will receive the cosmos coins.
+  string receiver = 2;
+  // Amount is the amount to convert, expressed as a Cosmos coin.
+  cosmos.base.v1beta1.Coin amount = 3;
+}
+
+// MsgConvertCosmosCoinFromERC20Response defines the response value from Msg/MsgConvertCosmosCoinFromERC20.
+message MsgConvertCosmosCoinFromERC20Response {}

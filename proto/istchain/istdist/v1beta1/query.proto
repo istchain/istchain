@@ -1,0 +1,41 @@
+syntax = "proto3";
+package istchain.istdist.v1beta1;
+
+import "cosmos/base/v1beta1/coin.proto";
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "istchain/istdist/v1beta1/params.proto";
+
+option go_package = "github.com/istchain/istchain/x/istdist/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  // Params queries the parameters of x/istdist module.
+  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/istchain/istdist/v1beta1/parameters";
+  }
+
+  // Balance queries the balance of all coins of x/istdist module.
+  rpc Balance(QueryBalanceRequest) returns (QueryBalanceResponse) {
+    option (google.api.http).get = "/istchain/istdist/v1beta1/balance";
+  }
+}
+
+// QueryParamsRequest defines the request type for querying x/istdist parameters.
+message QueryParamsRequest {}
+
+// QueryParamsResponse defines the response type for querying x/istdist parameters.
+message QueryParamsResponse {
+  Params params = 1 [(gogoproto.nullable) = false];
+}
+
+// QueryBalanceRequest defines the request type for querying x/istdist balance.
+message QueryBalanceRequest {}
+
+// QueryBalanceResponse defines the response type for querying x/istdist balance.
+message QueryBalanceResponse {
+  repeated cosmos.base.v1beta1.Coin coins = 1 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coins"
+  ];
+}

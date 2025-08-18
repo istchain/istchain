@@ -1,0 +1,44 @@
+syntax = "proto3";
+package istchain.istdist.v1beta1;
+
+import "cosmos/base/v1beta1/coin.proto";
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/istchain/istchain/x/istdist/types";
+
+// CommunityPoolMultiSpendProposal spends from the community pool by sending to one or more
+// addresses
+message CommunityPoolMultiSpendProposal {
+  option (gogoproto.goproto_stringer) = false;
+  option (gogoproto.goproto_getters) = false;
+
+  string title = 1;
+  string description = 2;
+  repeated MultiSpendRecipient recipient_list = 3 [(gogoproto.nullable) = false];
+}
+
+// CommunityPoolMultiSpendProposalJSON defines a CommunityPoolMultiSpendProposal with a deposit
+message CommunityPoolMultiSpendProposalJSON {
+  option (gogoproto.goproto_stringer) = true;
+  option (gogoproto.goproto_getters) = false;
+
+  string title = 1;
+  string description = 2;
+  repeated MultiSpendRecipient recipient_list = 3 [(gogoproto.nullable) = false];
+  repeated cosmos.base.v1beta1.Coin deposit = 4 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coins"
+  ];
+}
+
+// MultiSpendRecipient defines a recipient and the amount of coins they are receiving
+message MultiSpendRecipient {
+  option (gogoproto.goproto_stringer) = false;
+  option (gogoproto.goproto_getters) = false;
+
+  string address = 1;
+  repeated cosmos.base.v1beta1.Coin amount = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coins"
+  ];
+}

@@ -1,0 +1,64 @@
+syntax = "proto3";
+package istchain.issuance.v1beta1;
+
+import "cosmos/base/v1beta1/coin.proto";
+import "gogoproto/gogo.proto";
+import "google/protobuf/duration.proto";
+
+option go_package = "github.com/istchain/istchain/x/issuance/types";
+
+// GenesisState defines the issuance module's genesis state.
+message GenesisState {
+  // params defines all the parameters of the module.
+  Params params = 1 [(gogoproto.nullable) = false];
+
+  repeated AssetSupply supplies = 2 [(gogoproto.nullable) = false];
+}
+
+// Params defines the parameters for the issuance module.
+message Params {
+  option (gogoproto.goproto_stringer) = false;
+
+  repeated Asset assets = 1 [(gogoproto.nullable) = false];
+}
+
+// Asset type for assets in the issuance module
+message Asset {
+  option (gogoproto.goproto_stringer) = false;
+
+  string owner = 1;
+  string denom = 2;
+  repeated string blocked_addresses = 3;
+  bool paused = 4;
+  bool blockable = 5;
+  RateLimit rate_limit = 6 [(gogoproto.nullable) = false];
+}
+
+// RateLimit parameters for rate-limiting the supply of an issued asset
+message RateLimit {
+  bool active = 1;
+
+  bytes limit = 2 [
+    (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Int",
+    (gogoproto.nullable) = false,
+    (gogoproto.jsontag) = "limit,omitempty"
+  ];
+
+  google.protobuf.Duration time_period = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdduration) = true
+  ];
+}
+
+// AssetSupply contains information about an asset's rate-limited supply (the
+// total supply of the asset is tracked in the top-level supply module)
+message AssetSupply {
+  option (gogoproto.goproto_stringer) = false;
+
+  cosmos.base.v1beta1.Coin current_supply = 1 [(gogoproto.nullable) = false];
+
+  google.protobuf.Duration time_elapsed = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdduration) = true
+  ];
+}
