@@ -1,0 +1,9 @@
+global:
+  scrape_interval:     15s
+  evaluation_interval: 15s
+scrape_configs:
+- job_name: proxy
+  metrics_path: /
+  static_configs:
+    - targets:
+      - docker-host:8888

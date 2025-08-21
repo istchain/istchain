@@ -1,0 +1,67 @@
+version: '3'
+
+services:
+  istdnode0:
+    container_name: istdnode0
+    image: "istchain/istchainnode"
+    ports:
+      - "26656-26657:26656-26657"
+    environment:
+      - ID=0
+      - LOG=${LOG:-istd.log}
+    volumes:
+      - ./build:/istd:Z
+    networks:
+      localnet:
+        ipv4_address: 192.168.10.2
+
+  istdnode1:
+    container_name: istdnode1
+    image: "istchain/istchainnode"
+    ports:
+      - "26659-26660:26656-26657"
+    environment:
+      - ID=1
+      - LOG=${LOG:-istd.log}
+    volumes:
+      - ./build:/istd:Z
+    networks:
+      localnet:
+        ipv4_address: 192.168.10.3
+
+  istdnode2:
+    container_name: istdnode2
+    image: "istchain/istchainnode"
+    environment:
+      - ID=2
+      - LOG=${LOG:-istd.log}
+    ports:
+      - "26661-26662:26656-26657"
+    volumes:
+      - ./build:/istd:Z
+    networks:
+      localnet:
+        ipv4_address: 192.168.10.4
+
+  istdnode3:
+    container_name: istdnode3
+    image: "istchain/istchainnode"
+    environment:
+      - ID=3
+      - LOG=${LOG:-istd.log}
+    ports:
+      - "26663-26664:26656-26657"
+    volumes:
+      - ./build:/istd:Z
+    networks:
+      localnet:
+        ipv4_address: 192.168.10.5
+
+networks:
+  localnet:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      -
+        subnet: 192.168.10.0/16

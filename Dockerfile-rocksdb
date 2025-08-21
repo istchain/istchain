@@ -1,0 +1,40 @@
+FROM istchain/rocksdb:v9.3.1-go1.22 AS istchain-builder
+
+RUN apt-get update
+
+WORKDIR /root/istchain
+# Copy dependency files first to facilitate dependency caching
+COPY ./go.mod ./
+COPY ./go.sum ./
+
+# Download dependencies
+RUN --mount=type=cache,target=/root/.cache/go-build \
+    --mount=type=cache,target=/go/pkg/mod \
+    go version && go mod download
+
+# Add source files
+COPY . .
+
+ARG istchain_database_backend=rocksdb
+ENV ISTCHAIN_DATABASE_BACKEND=$istchain_database_backend
+
+# Mount go build and mod caches as container caches, persisted between builder invocations
+RUN --mount=type=cache,target=/root/.cache/go-build \
+    --mount=type=cache,target=/go/pkg/mod \
+    make install COSMOS_BUILD_OPTIONS=$ISTCHAIN_DATABASE_BACKEND
+
+
+FROM ubuntu:22.04
+
+RUN apt-get update \
+    && apt-get install -y libsnappy1v5 libgflags2.2 zlib1g libbz2-1.0 curl jq \
+    && rm -rf /var/lib/apt/lists/*
+
+# copy rocksdb shared objects
+COPY --from=istchain-builder /usr/local/lib/ /usr/local/lib/
+RUN ldconfig
+
+# copy istchain binary
+COPY --from=istchain-builder /go/bin/istchain /bin/istchain
+
+CMD ["istchain"]
