@@ -162,7 +162,7 @@ func NewPricefeedGenStateMultiFromTime(cdc codec.JSONCodec, t time.Time) app.Gen
 
 func NewHardGenStateMulti(genTime time.Time) testutil.HardGenesisBuilder {
 	kavaMM := testutil.NewStandardMoneyMarket("uist")
-	kavaMM.SpotMarketID = "kava:usd"
+	kavaMM.SpotMarketID = "ist:usd"
 	btcMM := testutil.NewStandardMoneyMarket("btcb")
 	btcMM.SpotMarketID = "btc:usd"
 
