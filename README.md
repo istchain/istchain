@@ -6,8 +6,8 @@
 
 <div align="center">
 
-[![GitHub](https://img.shields.io/github/license/istchain/istchain.svg)](https://github.com/istchain/istchain/blob/master/LICENSE.md)
 [![Twitter Follow](https://img.shields.io/twitter/follow/ISTCHAIN.svg?label=Follow&style=social)](https://twitter.com/ISTCHAIN)
+[![GitHub](https://img.shields.io/github/license/istchain/istchain.svg)](https://github.com/istchain/istchain/blob/master/LICENSE.md)
 
 </div>
 
