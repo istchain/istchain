@@ -6,7 +6,7 @@
 
 <div align="center">
 
-[![Twitter Follow](https://img.shields.io/twitter/follow/ISTCHAIN.svg?label=Follow&style=social)](https://twitter.com/ISTCHAIN)
+[![Twitter Follow](https://img.shields.io/twitter/follow/ISTCHAIN.svg?label=Follow&style=social)](https://x.com/ISTGlobal_)
 [![GitHub](https://img.shields.io/github/license/istchain/istchain.svg)](https://github.com/istchain/istchain/blob/master/LICENSE.md)
 
 </div>
@@ -171,7 +171,7 @@ This project is licensed under the [Apache v2 License](LICENSE.md)
 ## Community
 
 - **Website**: [http://istchain.us](http://istchain.us/)
-- **Twitter**: [https://x.com/IST_off](https://x.com/IST_off)
+- **Twitter**: [https://x.com/IST_off](https://x.com/ISTGlobal_)
 
 ---
 Note: The master branch contains features under development and may be unstable. For production environments, please use the released versions.
