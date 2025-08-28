@@ -22,6 +22,7 @@ func GetQueryCmd() *cobra.Command {
 		Use:   types.ModuleName,
 		Short: fmt.Sprintf("Querying commands for the %s module", types.ModuleName),
 	}
+	auctionQueryCmd.SilenceUsage = true
 
 	cmds := []*cobra.Command{
 		GetCmdQueryParams(),
@@ -34,66 +35,62 @@ func GetQueryCmd() *cobra.Command {
 	}
 
 	auctionQueryCmd.AddCommand(cmds...)
-
 	return auctionQueryCmd
 }
 
-// GetCmdQueryParams queries the issuance module parameters
+// GetCmdQueryParams queries the auction module parameters
 func GetCmdQueryParams() *cobra.Command {
-	return &cobra.Command{
+	cmd := &cobra.Command{
 		Use:   "params",
 		Short: fmt.Sprintf("get the %s module parameters", types.ModuleName),
 		Long:  "Get the current auction module parameters.",
 		Args:  cobra.NoArgs,
-		RunE: func(cmd *cobra.Command, args []string) error {
-			clientCtx, err := client.GetClientQueryContext(cmd)
+		RunE: func(cmd *cobra.Command, _ []string) error {
+			clientCtx, queryClient, err := getQueryClient(cmd)
 			if err != nil {
 				return err
 			}
 
-			queryClient := types.NewQueryClient(clientCtx)
-
-			res, err := queryClient.Params(context.Background(), &types.QueryParamsRequest{})
+			res, err := queryClient.Params(cmd.Context(), &types.QueryParamsRequest{})
 			if err != nil {
-				return err
+				return fmt.Errorf("query params failed: %w", err)
 			}
-
 			return clientCtx.PrintProto(&res.Params)
 		},
 	}
+	cmd.SilenceUsage = true
+	return cmd
 }
 
 // GetCmdQueryAuction queries one auction in the store
 func GetCmdQueryAuction() *cobra.Command {
-	return &cobra.Command{
+	cmd := &cobra.Command{
 		Use:   "auction [auction-id]",
 		Short: "get info about an auction",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			clientCtx, err := client.GetClientQueryContext(cmd)
+			clientCtx, queryClient, err := getQueryClient(cmd)
 			if err != nil {
 				return err
 			}
 
-			queryClient := types.NewQueryClient(clientCtx)
-
-			auctionID, err := strconv.Atoi(args[0])
+			auctionID, err := strconv.ParseUint(args[0], 10, 64)
 			if err != nil {
-				return err
+				return fmt.Errorf("invalid auction-id %q: %w", args[0], err)
 			}
 
-			params := types.QueryAuctionRequest{
-				AuctionId: uint64(auctionID),
-			}
-
-			res, err := queryClient.Auction(context.Background(), &params)
+			res, err := queryClient.Auction(cmd.Context(), &types.QueryAuctionRequest{
+				AuctionId: auctionID,
+			})
 			if err != nil {
-				return err
+				return fmt.Errorf("query auction %d failed: %w", auctionID, err)
 			}
 
 			return clientCtx.PrintProto(res)
 		},
 	}
+	cmd.SilenceUsage = true
+	return cmd
 }
 
 // Query auction flags
@@ -117,74 +114,43 @@ func GetCmdQueryAuctions() *cobra.Command {
 			fmt.Sprintf("  $ %s q %s auctions --phase=(forward|reverse)", version.AppName, types.ModuleName),
 			fmt.Sprintf("  $ %s q %s auctions --page=2 --limit=100", version.AppName, types.ModuleName),
 		}, "\n"),
-		RunE: func(cmd *cobra.Command, args []string) error {
-			auctionType, err := cmd.Flags().GetString(flagType)
-			if err != nil {
+		RunE: func(cmd *cobra.Command, _ []string) error {
+			auctionType, _ := cmd.Flags().GetString(flagType)
+			owner, _ := cmd.Flags().GetString(flagOwner)
+			denom, _ := cmd.Flags().GetString(flagDenom)
+			phase, _ := cmd.Flags().GetString(flagPhase)
+
+			// Normalize inputs (to-lower where applicable)
+			auctionType = strings.ToLower(strings.TrimSpace(auctionType))
+			phase = strings.ToLower(strings.TrimSpace(phase))
+			owner = strings.TrimSpace(owner)
+			denom = strings.TrimSpace(denom)
+
+			// Validate filters
+			if err := validateAuctionType(auctionType); err != nil {
 				return err
 			}
-			owner, err := cmd.Flags().GetString(flagOwner)
-			if err != nil {
+			if err := validateOwner(owner, auctionType); err != nil {
 				return err
 			}
-			denom, err := cmd.Flags().GetString(flagDenom)
-			if err != nil {
+			if err := validateDenom(denom); err != nil {
 				return err
 			}
-			phase, err := cmd.Flags().GetString(flagPhase)
-			if err != nil {
+			if err := validatePhase(phase, auctionType); err != nil {
 				return err
 			}
 
 			pageReq, err := client.ReadPageRequest(cmd.Flags())
 			if err != nil {
-				return err
+				return fmt.Errorf("read pagination flags failed: %w", err)
 			}
 
-			if len(auctionType) != 0 {
-				auctionType = strings.ToLower(auctionType)
-
-				if auctionType != types.CollateralAuctionType &&
-					auctionType != types.SurplusAuctionType &&
-					auctionType != types.DebtAuctionType {
-					return fmt.Errorf("invalid auction type %s", auctionType)
-				}
-			}
-
-			if len(owner) != 0 {
-				if auctionType != types.CollateralAuctionType {
-					return fmt.Errorf("cannot apply owner flag to non-collateral auction type")
-				}
-				_, err := sdk.AccAddressFromBech32(owner)
-				if err != nil {
-					return fmt.Errorf("cannot parse address from auction owner %s", owner)
-				}
-			}
-
-			if len(denom) != 0 {
-				err := sdk.ValidateDenom(denom)
-				if err != nil {
-					return err
-				}
-			}
-
-			if len(phase) != 0 {
-				phase = strings.ToLower(phase)
-
-				if len(auctionType) > 0 && auctionType != types.CollateralAuctionType {
-					return fmt.Errorf("cannot apply phase flag to non-collateral auction type")
-				}
-				if phase != types.ForwardAuctionPhase && phase != types.ReverseAuctionPhase {
-					return fmt.Errorf("invalid auction phase %s", phase)
-				}
-			}
-
-			clientCtx, err := client.GetClientQueryContext(cmd)
+			clientCtx, queryClient, err := getQueryClient(cmd)
 			if err != nil {
 				return err
 			}
 
-			queryClient := types.NewQueryClient(clientCtx)
-			request := types.QueryAuctionsRequest{
+			req := &types.QueryAuctionsRequest{
 				Type:       auctionType,
 				Owner:      owner,
 				Denom:      denom,
@@ -192,17 +158,16 @@ func GetCmdQueryAuctions() *cobra.Command {
 				Pagination: pageReq,
 			}
 
-			res, err := queryClient.Auctions(context.Background(), &request)
+			res, err := queryClient.Auctions(cmd.Context(), req)
 			if err != nil {
-				return err
+				return fmt.Errorf("query auctions failed: %w", err)
 			}
-
 			return clientCtx.PrintProto(res)
 		},
 	}
+	cmd.SilenceUsage = true
 
 	flags.AddPaginationFlagsToCmd(cmd, "auctions")
-
 	cmd.Flags().String(flagType, "", "(optional) filter by auction type, type: collateral, debt, surplus")
 	cmd.Flags().String(flagOwner, "", "(optional) filter by collateral auction owner")
 	cmd.Flags().String(flagDenom, "", "(optional) filter by auction denom")
@@ -210,3 +175,68 @@ func GetCmdQueryAuctions() *cobra.Command {
 
 	return cmd
 }
+
+// ------------------------ helpers ------------------------
+
+func getQueryClient(cmd *cobra.Command) (client.Context, types.QueryClient, error) {
+	clientCtx, err := client.GetClientQueryContext(cmd)
+	if err != nil {
+		return client.Context{}, nil, fmt.Errorf("get client query context failed: %w", err)
+	}
+	return clientCtx, types.NewQueryClient(clientCtx), nil
+}
+
+func validateAuctionType(t string) error {
+	if t == "" {
+		return nil
+	}
+	switch t {
+	case types.CollateralAuctionType, types.SurplusAuctionType, types.DebtAuctionType:
+		return nil
+	default:
+		return fmt.Errorf("invalid auction type %q (allowed: %s|%s|%s)",
+			t, types.CollateralAuctionType, types.SurplusAuctionType, types.DebtAuctionType)
+	}
+}
+
+func validateOwner(owner, auctionType string) error {
+	if owner == "" {
+		return nil
+	}
+	if auctionType != types.CollateralAuctionType {
+		return fmt.Errorf("cannot apply --owner flag to non-collateral auction type")
+	}
+	if _, err := sdk.AccAddressFromBech32(owner); err != nil {
+		return fmt.Errorf("cannot parse address from auction owner %q: %w", owner, err)
+	}
+	return nil
+}
+
+func validateDenom(denom string) error {
+	if denom == "" {
+		return nil
+	}
+	if err := sdk.ValidateDenom(denom); err != nil {
+		return fmt.Errorf("invalid denom %q: %w", denom, err)
+	}
+	return nil
+}
+
+func validatePhase(phase, auctionType string) error {
+	if phase == "" {
+		return nil
+	}
+	if auctionType != "" && auctionType != types.CollateralAuctionType {
+		return fmt.Errorf("cannot apply --phase flag to non-collateral auction type")
+	}
+	switch phase {
+	case types.ForwardAuctionPhase, types.ReverseAuctionPhase:
+		return nil
+	default:
+		return fmt.Errorf("invalid auction phase %q (allowed: %s|%s)",
+			phase, types.ForwardAuctionPhase, types.ReverseAuctionPhase)
+	}
+}
+
+// keep explicit import to ensure context is used by cmd.Context()
+var _ = context.Background
