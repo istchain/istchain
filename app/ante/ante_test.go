@@ -22,9 +22,9 @@ import (
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
 	"github.com/stretchr/testify/require"
 
-	"github.com/istchain/istchain/app"
-	bep3types "github.com/istchain/istchain/x/bep3/types"
-	pricefeedtypes "github.com/istchain/istchain/x/pricefeed/types"
+	"github.com/kava-labs/kava/app"
+	bep3types "github.com/kava-labs/kava/x/bep3/types"
+	pricefeedtypes "github.com/kava-labs/kava/x/pricefeed/types"
 )
 
 func TestMain(m *testing.M) {
@@ -67,7 +67,7 @@ func TestAppAnteHandler_AuthorizedMempool(t *testing.T) {
 		chainID,
 		app.NewFundedGenStateWithSameCoins(
 			tApp.AppCodec(),
-			sdk.NewCoins(sdk.NewInt64Coin("uist", 1e9)),
+			sdk.NewCoins(sdk.NewInt64Coin("ukava", 1e9)),
 			testAddresses,
 		),
 		newBep3GenStateMulti(tApp.AppCodec(), deputy),
@@ -115,7 +115,7 @@ func TestAppAnteHandler_AuthorizedMempool(t *testing.T) {
 					banktypes.NewMsgSend(
 						tc.address,
 						testAddresses[0],
-						sdk.NewCoins(sdk.NewInt64Coin("uist", 1_000_000)),
+						sdk.NewCoins(sdk.NewInt64Coin("ukava", 1_000_000)),
 					),
 				},
 				sdk.NewCoins(), // no fee

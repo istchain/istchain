@@ -34,13 +34,13 @@ import (
 	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/istchain/istchain/app"
-	cdptypes "github.com/istchain/istchain/x/cdp/types"
-	evmutilkeeper "github.com/istchain/istchain/x/evmutil/keeper"
-	evmutiltestutil "github.com/istchain/istchain/x/evmutil/testutil"
-	evmutiltypes "github.com/istchain/istchain/x/evmutil/types"
-	hardtypes "github.com/istchain/istchain/x/hard/types"
-	pricefeedtypes "github.com/istchain/istchain/x/pricefeed/types"
+	"github.com/kava-labs/kava/app"
+	cdptypes "github.com/kava-labs/kava/x/cdp/types"
+	evmutilkeeper "github.com/kava-labs/kava/x/evmutil/keeper"
+	evmutiltestutil "github.com/kava-labs/kava/x/evmutil/testutil"
+	evmutiltypes "github.com/kava-labs/kava/x/evmutil/types"
+	hardtypes "github.com/kava-labs/kava/x/hard/types"
+	pricefeedtypes "github.com/kava-labs/kava/x/pricefeed/types"
 )
 
 const (
@@ -48,18 +48,7 @@ const (
 	USDCCoinDenom = "erc20/usdc"
 	USDCCDPType   = "erc20-usdc"
 	TxGas         = uint64(sims.DefaultGenTxGas * 10)
-
-	// gas / denom constants
-	gasDenom    = "uist"
-	stableDenom = cdptypes.DefaultStableDenom
-
-	// domain constants used by positive EIP-712 case
-	domainName    = "IstChain Cosmos"
-	domainVersion = "1.0.0"
 )
-
-// 10^18 (wei factor) — 使用常量替代运行时幂运算，避免中间转换及溢出风险。
-var weiFactor = sdkmath.NewInt(1_000_000_000_000_000_000)
 
 type EIP712TestSuite struct {
 	suite.Suite
@@ -78,21 +67,9 @@ type EIP712TestSuite struct {
 	usdcEVMAddr   evmutiltypes.InternalEVMAddress
 }
 
-// ---- helpers ----------------------------------------------------------------
-
 func (suite *EIP712TestSuite) getEVMAmount(amount int64) sdkmath.Int {
-	return sdkmath.NewInt(amount).Mul(weiFactor)
-}
-
-func (suite *EIP712TestSuite) gasCoins(amt int64) sdk.Coins {
-	return sdk.NewCoins(sdk.NewCoin(gasDenom, sdkmath.NewInt(amt)))
-}
-
-func (suite *EIP712TestSuite) mustEncodeTx(txBuilder client.TxBuilder) []byte {
-	encodingConfig := app.MakeEncodingConfig()
-	bz, err := encodingConfig.TxConfig.TxEncoder()(txBuilder.GetTx())
-	suite.Require().NoError(err)
-	return bz
+	incr := sdkmath.RelativePow(sdkmath.NewUint(10), sdkmath.NewUint(18), sdkmath.OneUint())
+	return sdkmath.NewInt(amount).Mul(sdkmath.NewIntFromUint64(incr.Uint64()))
 }
 
 func (suite *EIP712TestSuite) buildTransaction(
@@ -102,6 +79,7 @@ func (suite *EIP712TestSuite) buildTransaction(
 	pubKey cryptotypes.PubKey,
 	option *codectypes.Any,
 ) client.TxBuilder {
+	suite.clientCtx.TxConfig.SignModeHandler()
 	txBuilder := suite.clientCtx.TxConfig.NewTxBuilder()
 	builder, ok := txBuilder.(authtx.ExtensionOptionsTxBuilder)
 	suite.Require().True(ok)
@@ -113,13 +91,17 @@ func (suite *EIP712TestSuite) buildTransaction(
 	sigsV2 := signing.SignatureV2{
 		PubKey: pubKey,
 		Data: &signing.SingleSignatureData{
-			// EIP-712 走 amino-json 模式（ethermint 兼容路径）
 			SignMode: signing.SignMode_SIGN_MODE_LEGACY_AMINO_JSON,
 		},
 		Sequence: nonce,
 	}
-	suite.Require().NoError(builder.SetSignatures(sigsV2))
-	suite.Require().NoError(builder.SetMsgs(msgs...))
+
+	err := builder.SetSignatures(sigsV2)
+	suite.Require().NoError(err)
+
+	err = builder.SetMsgs(msgs...)
+	suite.Require().NoError(err)
+
 	return builder
 }
 
@@ -136,8 +118,8 @@ func (suite *EIP712TestSuite) buildSigHash(
 	suite.Require().NoError(err)
 	ethChainID := pc.Uint64()
 
-	// legacytx 仍用于 EIP-712 fee 表达
-	fee := legacytx.NewStdFee(TxGas, gasAmount) //nolint:staticcheck
+	// GenerateTypedData TypedData
+	fee := legacytx.NewStdFee(TxGas, gasAmount) //nolint:staticcheck // Deprecated but EIP712 still uses legacytx
 	accNumber := suite.tApp.GetAccountKeeper().GetAccount(suite.ctx, from).GetAccountNumber()
 
 	data := eip712.ConstructUntypedEIP712Data(chainID, accNumber, nonce, 0, fee, msgs, "", nil)
@@ -145,20 +127,27 @@ func (suite *EIP712TestSuite) buildSigHash(
 		ethChainID,
 		msgs,
 		data,
-		&eip712.FeeDelegationOptions{FeePayer: from},
+		&eip712.FeeDelegationOptions{
+			FeePayer: from,
+		},
 		suite.tApp.GetEvmKeeper().GetParams(suite.ctx),
 	)
 	suite.Require().NoError(err)
 
+	// Override Domain if provided, this will modify the hash to sign
 	if customDomain != nil {
 		typedData.Domain = *customDomain
 	}
+
+	// Override EIP712Domain types if provided
 	if customDomainTypes != nil {
 		typedData.Types["EIP712Domain"] = customDomainTypes
 	}
 
+	// Compute sigHash to sign
 	sigHash, err := eip712.ComputeTypedDataHash(typedData)
 	suite.Require().NoError(err)
+
 	return sigHash
 }
 
@@ -171,6 +160,7 @@ func (suite *EIP712TestSuite) createTestEIP712CosmosTxBuilderWithDomain(
 	customDomain *apitypes.TypedDataDomain,
 	customDomainTypes []apitypes.Type,
 ) client.TxBuilder {
+	// Get required info
 	nonce, err := suite.tApp.GetAccountKeeper().GetSequence(suite.ctx, from)
 	suite.Require().NoError(err)
 
@@ -178,22 +168,38 @@ func (suite *EIP712TestSuite) createTestEIP712CosmosTxBuilderWithDomain(
 	suite.Require().NoError(err)
 	ethChainID := pc.Uint64()
 
-	sigHash := suite.buildSigHash(from, chainID, gasAmount, msgs, nonce, customDomain, customDomainTypes)
+	sigHash := suite.buildSigHash(
+		from,
+		chainID,
+		gasAmount,
+		msgs,
+		nonce,
+		customDomain,
+		customDomainTypes,
+	)
 
+	// Sign sigHash
 	keyringSigner := tests.NewSigner(priv)
 	signature, pubKey, err := keyringSigner.SignByAddress(from, sigHash)
 	suite.Require().NoError(err)
-	// V: 0/1 -> 27/28
-	signature[crypto.RecoveryIDOffset] += 27
+	signature[crypto.RecoveryIDOffset] += 27 // Transform V from 0/1 to 27/28 according to the yellow paper
 
-	option, err := codectypes.NewAnyWithValue(&etherminttypes.ExtensionOptionsWeb3Tx{
+	// Add ExtensionOptionsWeb3Tx extension
+	var option *codectypes.Any
+	option, err = codectypes.NewAnyWithValue(&etherminttypes.ExtensionOptionsWeb3Tx{
 		FeePayer:         from.String(),
 		TypedDataChainID: ethChainID,
 		FeePayerSig:      signature,
 	})
 	suite.Require().NoError(err)
 
-	return suite.buildTransaction(gasAmount, msgs, nonce, pubKey, option)
+	return suite.buildTransaction(
+		gasAmount,
+		msgs,
+		nonce,
+		pubKey,
+		option,
+	)
 }
 
 func (suite *EIP712TestSuite) createTestEIP712CosmosTxBuilder(
@@ -203,78 +209,47 @@ func (suite *EIP712TestSuite) createTestEIP712CosmosTxBuilder(
 	gasAmount sdk.Coins,
 	msgs []sdk.Msg,
 ) client.TxBuilder {
-	return suite.createTestEIP712CosmosTxBuilderWithDomain(from, priv, chainID, gasAmount, msgs, nil, nil)
-}
-
-// 生成“存→铸→存款”消息流水（多数用例共享）
-func (suite *EIP712TestSuite) depositMintLendMsgs(usdcDepositAmt int64, usdxToMintAmt int64) []sdk.Msg {
-	usdcAmt := suite.getEVMAmount(usdcDepositAmt)
-	convertMsg := evmutiltypes.NewMsgConvertERC20ToCoin(
-		suite.testEVMAddr,
-		suite.testAddr,
-		suite.usdcEVMAddr,
-		usdcAmt,
+	return suite.createTestEIP712CosmosTxBuilderWithDomain(
+		from,
+		priv,
+		chainID,
+		gasAmount,
+		msgs,
+		nil,
+		nil,
 	)
-	usdxAmt := sdkmath.NewInt(1_000_000).Mul(sdkmath.NewInt(usdxToMintAmt))
-	mintMsg := cdptypes.NewMsgCreateCDP(
-		suite.testAddr,
-		sdk.NewCoin(USDCCoinDenom, usdcAmt),
-		sdk.NewCoin(stableDenom, usdxAmt),
-		USDCCDPType,
-	)
-	lendMsg := hardtypes.NewMsgDeposit(suite.testAddr, sdk.NewCoins(sdk.NewCoin(stableDenom, usdxAmt)))
-	return []sdk.Msg{&convertMsg, &mintMsg, &lendMsg}
 }
-
-// 域与类型（正向用例使用）
-func domainExpected(ethChainID int64) (apitypes.TypedDataDomain, []apitypes.Type) {
-	return apitypes.TypedDataDomain{
-			Name:              domainName,
-			Version:           domainVersion,
-			ChainId:           math.NewHexOrDecimal256(ethChainID),
-			Salt:              "",
-			VerifyingContract: "",
-		}, []apitypes.Type{
-			{Name: "name", Type: "string"},
-			{Name: "version", Type: "string"},
-			{Name: "chainId", Type: "uint256"},
-		}
-}
-
-// ---- suite lifecycle --------------------------------------------------------
 
 func (suite *EIP712TestSuite) SetupTest() {
 	tApp := app.NewTestApp()
 	suite.tApp = tApp
+
+	cdc := tApp.AppCodec()
 	suite.evmutilKeeper = tApp.GetEvmutilKeeper()
 
-	// accounts
 	addr, privkey := tests.NewAddrKey()
 	suite.testAddr = sdk.AccAddress(addr.Bytes())
 	suite.testPrivKey = privkey
 	suite.testEVMAddr = evmutiltestutil.MustNewInternalEVMAddressFromString(addr.String())
-
 	addr2, privKey2 := tests.NewAddrKey()
-	suite.testAddr2 = sdk.AccAddress(addr2.Bytes())
 	suite.testPrivKey2 = privKey2
+	suite.testAddr2 = sdk.AccAddress(addr2.Bytes())
 	suite.testEVMAddr2 = evmutiltestutil.MustNewInternalEVMAddressFromString(addr2.String())
 
 	encodingConfig := app.MakeEncodingConfig()
 	suite.clientCtx = client.Context{}.WithTxConfig(encodingConfig.TxConfig)
 	suite.ethSigner = ethtypes.LatestSignerForChainID(tApp.GetEvmKeeper().ChainID())
 
-	// ---- genesis states
-	cdc := tApp.AppCodec()
-
+	// Genesis states
 	evmGs := evmtypes.NewGenesisState(
 		evmtypes.NewParams(
-			"aist",
-			false, // allowedUnprotectedTxs
-			true,  // enableCreate
-			true,  // enableCall
-			evmtypes.DefaultChainConfig(),
-			nil, // extraEIPs
-			nil, // eip712AllowedMsgs
+			"akava",                       // evmDenom
+			false,                         // allowedUnprotectedTxs
+			true,                          // enableCreate
+			true,                          // enableCall
+			evmtypes.DefaultChainConfig(), // ChainConfig
+			nil,                           // extraEIPs
+			nil,                           // eip712AllowedMsgs
 		),
 		nil,
 	)
@@ -284,15 +259,15 @@ func (suite *EIP712TestSuite) SetupTest() {
 	feemarketGenesis.Params.NoBaseFee = false
 
 	cdpGenState := cdptypes.DefaultGenesisState()
-	cdpGenState.Params.GlobalDebtLimit = sdk.NewInt64Coin("usdx", 53_000_000_000_000)
+	cdpGenState.Params.GlobalDebtLimit = sdk.NewInt64Coin("usdx", 53000000000000)
 	cdpGenState.Params.CollateralParams = cdptypes.CollateralParams{
 		{
 			Denom:                            USDCCoinDenom,
 			Type:                             USDCCDPType,
 			LiquidationRatio:                 sdk.MustNewDecFromStr("1.01"),
-			DebtLimit:                        sdk.NewInt64Coin("usdx", 500_000_000_000),
+			DebtLimit:                        sdk.NewInt64Coin("usdx", 500000000000),
 			StabilityFee:                     sdk.OneDec(),
-			AuctionSize:                      sdkmath.NewIntFromUint64(10_000_000_000),
+			AuctionSize:                      sdkmath.NewIntFromUint64(10000000000),
 			LiquidationPenalty:               sdk.MustNewDecFromStr("0.05"),
 			CheckCollateralizationIndexCount: sdkmath.NewInt(10),
 			KeeperRewardPercentage:           sdk.MustNewDecFromStr("0.01"),
@@ -326,15 +301,47 @@ func (suite *EIP712TestSuite) SetupTest() {
 
 	pricefeedGenState := pricefeedtypes.DefaultGenesisState()
 	pricefeedGenState.Params.Markets = []pricefeedtypes.Market{
-		{MarketID: "usdx:usd", BaseAsset: "usdx", QuoteAsset: "usd", Oracles: []sdk.AccAddress{}, Active: true},
-		{MarketID: "usdc:usd", BaseAsset: "usdc", QuoteAsset: "usd", Oracles: []sdk.AccAddress{}, Active: true},
-		{MarketID: "usdc:usd:30", BaseAsset: "usdc", QuoteAsset: "usd", Oracles: []sdk.AccAddress{}, Active: true},
+		{
+			MarketID:   "usdx:usd",
+			BaseAsset:  "usdx",
+			QuoteAsset: "usd",
+			Oracles:    []sdk.AccAddress{},
+			Active:     true,
+		},
+		{
+			MarketID:   "usdc:usd",
+			BaseAsset:  "usdc",
+			QuoteAsset: "usd",
+			Oracles:    []sdk.AccAddress{},
+			Active:     true,
+		},
+		{
+			MarketID:   "usdc:usd:30",
+			BaseAsset:  "usdc",
+			QuoteAsset: "usd",
+			Oracles:    []sdk.AccAddress{},
+			Active:     true,
+		},
 	}
-	now := time.Now().Add(1 * time.Hour)
 	pricefeedGenState.PostedPrices = []pricefeedtypes.PostedPrice{
-		{MarketID: "usdx:usd", OracleAddress: sdk.AccAddress{}, Price: sdk.MustNewDecFromStr("1.00"), Expiry: now},
-		{MarketID: "usdc:usd", OracleAddress: sdk.AccAddress{}, Price: sdk.MustNewDecFromStr("1.00"), Expiry: now},
-		{MarketID: "usdc:usd:30", OracleAddress: sdk.AccAddress{}, Price: sdk.MustNewDecFromStr("1.00"), Expiry: now},
+		{
+			MarketID:      "usdx:usd",
+			OracleAddress: sdk.AccAddress{},
+			Price:         sdk.MustNewDecFromStr("1.00"),
+			Expiry:        time.Now().Add(1 * time.Hour),
+		},
+		{
+			MarketID:      "usdc:usd",
+			OracleAddress: sdk.AccAddress{},
+			Price:         sdk.MustNewDecFromStr("1.00"),
+			Expiry:        time.Now().Add(1 * time.Hour),
+		},
+		{
+			MarketID:      "usdc:usd:30",
+			OracleAddress: sdk.AccAddress{},
+			Price:         sdk.MustNewDecFromStr("1.00"),
+			Expiry:        time.Now().Add(1 * time.Hour),
+		},
 	}
 
 	genState := app.GenesisState{
@@ -345,10 +352,10 @@ func (suite *EIP712TestSuite) SetupTest() {
 		pricefeedtypes.ModuleName: cdc.MustMarshalJSON(&pricefeedGenState),
 	}
 
-	// 资助测试账户
+	// funds our test accounts with some ukava
 	coinsGenState := app.NewFundedGenStateWithSameCoins(
 		tApp.AppCodec(),
-		sdk.NewCoins(sdk.NewInt64Coin(gasDenom, 1e9)),
+		sdk.NewCoins(sdk.NewInt64Coin("ukava", 1e9)),
 		[]sdk.AccAddress{suite.testAddr, suite.testAddr2},
 	)
 
@@ -359,7 +366,7 @@ func (suite *EIP712TestSuite) SetupTest() {
 		coinsGenState,
 	)
 
-	// consensus key / header
+	// consensus key
 	consPriv, err := ethsecp256k1.GenerateKey()
 	suite.Require().NoError(err)
 	consAddress := sdk.ConsAddress(consPriv.PubKey().Address())
@@ -369,7 +376,9 @@ func (suite *EIP712TestSuite) SetupTest() {
 		ChainID:         ChainID,
 		Time:            time.Now().UTC(),
 		ProposerAddress: consAddress.Bytes(),
-		Version:         tmversion.Consensus{Block: version.BlockProtocol},
+		Version: tmversion.Consensus{
+			Block: version.BlockProtocol,
+		},
 		LastBlockId: tmproto.BlockID{
 			Hash: tmhash.Sum([]byte("block_id")),
 			PartSetHeader: tmproto.PartSetHeader{
@@ -387,7 +396,10 @@ func (suite *EIP712TestSuite) SetupTest() {
 	})
 	suite.ctx = ctx
 
-	// 设置 validator（EVM Config 依赖）
+	// We need to set the validator as calling the EVM looks up the validator address
+	//nolint:lll // ignore long line for link
+	// https://github.com/evmos/ethermint/blob/f21592ebfe74da7590eb42ed926dae970b2a9a3f/x/evm/keeper/state_transition.go#L487
+	// evmkeeper.EVMConfig() will return error "failed to load evm config" if not set
 	valAcc := &etherminttypes.EthAccount{
 		BaseAccount: authtypes.NewBaseAccount(sdk.AccAddress(consAddress.Bytes()), nil, 0, 0),
 		CodeHash:    common.BytesToHash(crypto.Keccak256(nil)).String(),
@@ -397,45 +409,51 @@ func (suite *EIP712TestSuite) SetupTest() {
 	valAddr := sdk.ValAddress(testAddresses[0].Bytes())
 	validator, err := stakingtypes.NewValidator(valAddr, consPriv.PubKey(), stakingtypes.Description{})
 	suite.Require().NoError(err)
-	suite.Require().NoError(tApp.GetStakingKeeper().SetValidatorByConsAddr(ctx, validator))
+	err = tApp.GetStakingKeeper().SetValidatorByConsAddr(ctx, validator)
+	suite.Require().NoError(err)
 	tApp.GetStakingKeeper().SetValidator(ctx, validator)
 
-	// 部署 USDC ERC20 合约 & 注册转换对
+	// Deploy an ERC20 contract for USDC
 	contractAddr := suite.deployUSDCERC20()
-	pair := evmutiltypes.NewConversionPair(contractAddr, USDCCoinDenom)
+	pair := evmutiltypes.NewConversionPair(
+		contractAddr,
+		USDCCoinDenom,
+	)
 	suite.usdcEVMAddr = pair.GetAddress()
 
-	// 提升块 Gas 上限
+	// update consensus params
 	cParams := tApp.GetConsensusParams(suite.ctx)
 	cParams.Block.MaxGas = sims.DefaultGenTxGas * 20
 	tApp.StoreConsensusParams(suite.ctx, cParams)
 
-	// 启用一个默认转换对（历史保留）
+	// Add a contract to evmutil conversion pair
 	evmutilParams := suite.evmutilKeeper.GetParams(suite.ctx)
-	evmutilParams.EnabledConversionPairs = evmutiltypes.NewConversionPairs(
-		evmutiltypes.NewConversionPair(
-			evmutiltestutil.MustNewInternalEVMAddressFromString("0x15932E26f5BD4923d46a2b205191C4b5d5f43FE3"),
-			USDCCoinDenom,
-		),
-	)
+	evmutilParams.EnabledConversionPairs =
+		evmutiltypes.NewConversionPairs(
+			evmutiltypes.NewConversionPair(
+				// First contract evmutil module deploys
+				evmutiltestutil.MustNewInternalEVMAddressFromString("0x15932E26f5BD4923d46a2b205191C4b5d5f43FE3"),
+				"erc20/usdc",
+			),
+		)
 	suite.evmutilKeeper.SetParams(suite.ctx, evmutilParams)
 
-	// 允许通过 EIP712 的消息列表
+	// allow msgs through evm eip712
 	evmKeeper := suite.tApp.GetEvmKeeper()
 	params := evmKeeper.GetParams(suite.ctx)
 	params.EIP712AllowedMsgs = []evmtypes.EIP712AllowedMsg{
 		{
-			MsgTypeUrl:       "/istchain.evmutil.v1beta1.MsgConvertERC20ToCoin",
+			MsgTypeUrl:       "/kava.evmutil.v1beta1.MsgConvertERC20ToCoin",
 			MsgValueTypeName: "MsgValueEVMConvertERC20ToCoin",
 			ValueTypes: []evmtypes.EIP712MsgAttrType{
 				{Name: "initiator", Type: "string"},
 				{Name: "receiver", Type: "string"},
-				{Name: "istchain_erc20_address", Type: "string"},
+				{Name: "kava_erc20_address", Type: "string"},
 				{Name: "amount", Type: "string"},
 			},
 		},
 		{
-			MsgTypeUrl:       "/istchain.cdp.v1beta1.MsgCreateCDP",
+			MsgTypeUrl:       "/kava.cdp.v1beta1.MsgCreateCDP",
 			MsgValueTypeName: "MsgValueCDPCreate",
 			ValueTypes: []evmtypes.EIP712MsgAttrType{
 				{Name: "sender", Type: "string"},
@@ -445,7 +463,7 @@ func (suite *EIP712TestSuite) SetupTest() {
 			},
 		},
 		{
-			MsgTypeUrl:       "/istchain.cdp.v1beta1.MsgDeposit",
+			MsgTypeUrl:       "/kava.cdp.v1beta1.MsgDeposit",
 			MsgValueTypeName: "MsgValueCDPDeposit",
 			ValueTypes: []evmtypes.EIP712MsgAttrType{
 				{Name: "depositor", Type: "string"},
@@ -455,7 +473,7 @@ func (suite *EIP712TestSuite) SetupTest() {
 			},
 		},
 		{
-			MsgTypeUrl:       "/istchain.hard.v1beta1.MsgDeposit",
+			MsgTypeUrl:       "/kava.hard.v1beta1.MsgDeposit",
 			MsgValueTypeName: "MsgValueHardDeposit",
 			ValueTypes: []evmtypes.EIP712MsgAttrType{
 				{Name: "depositor", Type: "string"},
@@ -463,7 +481,7 @@ func (suite *EIP712TestSuite) SetupTest() {
 			},
 		},
 		{
-			MsgTypeUrl:       "/istchain.evmutil.v1beta1.MsgConvertCoinToERC20",
+			MsgTypeUrl:       "/kava.evmutil.v1beta1.MsgConvertCoinToERC20",
 			MsgValueTypeName: "MsgValueEVMConvertCoinToERC20",
 			ValueTypes: []evmtypes.EIP712MsgAttrType{
 				{Name: "initiator", Type: "string"},
@@ -472,7 +490,7 @@ func (suite *EIP712TestSuite) SetupTest() {
 			},
 		},
 		{
-			MsgTypeUrl:       "/istchain.cdp.v1beta1.MsgRepayDebt",
+			MsgTypeUrl:       "/kava.cdp.v1beta1.MsgRepayDebt",
 			MsgValueTypeName: "MsgValueCDPRepayDebt",
 			ValueTypes: []evmtypes.EIP712MsgAttrType{
 				{Name: "sender", Type: "string"},
@@ -481,7 +499,7 @@ func (suite *EIP712TestSuite) SetupTest() {
 			},
 		},
 		{
-			MsgTypeUrl:       "/istchain.hard.v1beta1.MsgWithdraw",
+			MsgTypeUrl:       "/kava.hard.v1beta1.MsgWithdraw",
 			MsgValueTypeName: "MsgValueHardWithdraw",
 			ValueTypes: []evmtypes.EIP712MsgAttrType{
 				{Name: "depositor", Type: "string"},
@@ -489,15 +507,31 @@ func (suite *EIP712TestSuite) SetupTest() {
 			},
 		},
 	}
-	suite.Require().NoError(evmKeeper.SetParams(suite.ctx, params))
+	err = evmKeeper.SetParams(suite.ctx, params)
+	suite.Require().NoError(err)
 
-	// 初始发 50k USDC（ERC20）
+	// give test address 50k erc20 usdc to begin with
 	initBal := suite.getEVMAmount(50_000)
-	suite.Require().NoError(suite.evmutilKeeper.MintERC20(ctx, pair.GetAddress(), suite.testEVMAddr, initBal.BigInt()))
-	suite.Require().NoError(suite.evmutilKeeper.MintERC20(ctx, pair.GetAddress(), suite.testEVMAddr2, initBal.BigInt()))
+	err = suite.evmutilKeeper.MintERC20(
+		ctx,
+		pair.GetAddress(), // contractAddr
+		suite.testEVMAddr, // receiver
+		initBal.BigInt(),
+	)
+	suite.Require().NoError(err)
+	err = suite.evmutilKeeper.MintERC20(
+		ctx,
+		pair.GetAddress(),  // contractAddr
+		suite.testEVMAddr2, // receiver
+		initBal.BigInt(),
+	)
+	suite.Require().NoError(err)
 
-	// 触发 feemarket beginblock 设置 basefee
+	// We need to commit so that the ethermint feemarket beginblock runs to set the minfee
+	// feeMarketKeeper.GetBaseFee() will return nil otherwise
 	suite.Commit()
+
+	// set base fee
 	suite.tApp.GetFeeMarketKeeper().SetBaseFee(suite.ctx, big.NewInt(100))
 }
 
@@ -505,54 +539,71 @@ func (suite *EIP712TestSuite) Commit() {
 	_ = suite.tApp.Commit()
 	header := suite.ctx.BlockHeader()
 	header.Height++
-	suite.tApp.BeginBlock(abci.RequestBeginBlock{Header: header})
+	suite.tApp.BeginBlock(abci.RequestBeginBlock{
+		Header: header,
+	})
+
+	// update ctx
 	suite.ctx = suite.tApp.NewContext(false, header)
 }
 
 func (suite *EIP712TestSuite) deployUSDCERC20() evmutiltypes.InternalEVMAddress {
-	suite.Require().NoError(
-		suite.tApp.FundModuleAccount(suite.ctx, evmutiltypes.ModuleName, sdk.NewCoins(sdk.NewCoin(gasDenom, sdk.ZeroInt()))),
+	// make sure module account is created
+	err := suite.tApp.FundModuleAccount(
+		suite.ctx,
+		evmutiltypes.ModuleName,
+		sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(0))),
 	)
-	addr, err := suite.evmutilKeeper.DeployTestMintableERC20Contract(suite.ctx, "USDC", "USDC", uint8(18))
 	suite.Require().NoError(err)
-	suite.Require().Greater(len(addr.Address), 0)
-	return addr
+
+	contractAddr, err := suite.evmutilKeeper.DeployTestMintableERC20Contract(suite.ctx, "USDC", "USDC", uint8(18))
+	suite.Require().NoError(err)
+	suite.Require().Greater(len(contractAddr.Address), 0)
+	return contractAddr
 }
 
-// ---- tests ------------------------------------------------------------------
-
 func (suite *EIP712TestSuite) TestEIP712Tx() {
+	encodingConfig := app.MakeEncodingConfig()
+
 	testcases := []struct {
 		name           string
 		usdcDepositAmt int64
 		usdxToMintAmt  int64
 		updateTx       func(txBuilder client.TxBuilder, msgs []sdk.Msg) client.TxBuilder
 		updateMsgs     func(msgs []sdk.Msg) []sdk.Msg
+		expectedCode   uint32
 		failCheckTx    bool
 		errMsg         string
 	}{
 		{
 			name:           "processes deposit eip712 messages successfully",
-			usdcDepositAmt: 100, usdxToMintAmt: 99,
+			usdcDepositAmt: 100,
+			usdxToMintAmt:  99,
 		},
 		{
 			name:           "fails when conversion more erc20 usdc than balance",
-			usdcDepositAmt: 51_000, usdxToMintAmt: 100,
-			errMsg: "transfer amount exceeds balance",
+			usdcDepositAmt: 51_000,
+			usdxToMintAmt:  100,
+			errMsg:         "transfer amount exceeds balance",
 		},
 		{
 			name:           "fails when minting more usdx than allowed",
-			usdcDepositAmt: 100, usdxToMintAmt: 100,
-			errMsg: "proposed collateral ratio is below liquidation ratio",
+			usdcDepositAmt: 100,
+			usdxToMintAmt:  100,
+			errMsg:         "proposed collateral ratio is below liquidation ratio",
 		},
 		{
 			name:           "fails when trying to convert usdc for another address",
-			usdcDepositAmt: 100, usdxToMintAmt: 90,
-			errMsg:      "unauthorized",
-			failCheckTx: true,
+			usdcDepositAmt: 100,
+			usdxToMintAmt:  90,
+			errMsg:         "unauthorized",
+			failCheckTx:    true,
 			updateMsgs: func(msgs []sdk.Msg) []sdk.Msg {
 				convertMsg := evmutiltypes.NewMsgConvertERC20ToCoin(
-					suite.testEVMAddr2, suite.testAddr, suite.usdcEVMAddr, suite.getEVMAmount(100),
+					suite.testEVMAddr2,
+					suite.testAddr,
+					suite.usdcEVMAddr,
+					suite.getEVMAmount(100),
 				)
 				msgs[0] = &convertMsg
 				return msgs
@@ -560,11 +611,15 @@ func (suite *EIP712TestSuite) TestEIP712Tx() {
 		},
 		{
 			name:           "fails when trying to convert erc20 for non-whitelisted contract",
-			usdcDepositAmt: 100, usdxToMintAmt: 90,
-			errMsg: "ERC20 token not enabled to convert to sdk.Coin",
+			usdcDepositAmt: 100,
+			usdxToMintAmt:  90,
+			errMsg:         "ERC20 token not enabled to convert to sdk.Coin",
 			updateMsgs: func(msgs []sdk.Msg) []sdk.Msg {
 				convertMsg := evmutiltypes.NewMsgConvertERC20ToCoin(
-					suite.testEVMAddr, suite.testAddr, suite.testEVMAddr2, suite.getEVMAmount(100),
+					suite.testEVMAddr,
+					suite.testAddr,
+					suite.testEVMAddr2,
+					suite.getEVMAmount(100),
 				)
 				msgs[0] = &convertMsg
 				return msgs
@@ -572,9 +627,10 @@ func (suite *EIP712TestSuite) TestEIP712Tx() {
 		},
 		{
 			name:           "fails when signer tries to send messages with invalid signature",
-			usdcDepositAmt: 100, usdxToMintAmt: 90,
-			failCheckTx: true,
-			errMsg:      "tx intended signer does not match the given signer",
+			usdcDepositAmt: 100,
+			usdxToMintAmt:  90,
+			failCheckTx:    true,
+			errMsg:         "tx intended signer does not match the given signer",
 			updateTx: func(txBuilder client.TxBuilder, _ []sdk.Msg) client.TxBuilder {
 				option, err := codectypes.NewAnyWithValue(&etherminttypes.ExtensionOptionsWeb3Tx{
 					FeePayer:         suite.testAddr.String(),
@@ -582,6 +638,7 @@ func (suite *EIP712TestSuite) TestEIP712Tx() {
 					FeePayerSig:      []byte("sig"),
 				})
 				suite.Require().NoError(err)
+
 				builder, _ := txBuilder.(authtx.ExtensionOptionsTxBuilder)
 				builder.SetExtensionOptions(option)
 				return txBuilder
@@ -589,98 +646,221 @@ func (suite *EIP712TestSuite) TestEIP712Tx() {
 		},
 		{
 			name:           "fails when insufficient gas fees are provided",
-			usdcDepositAmt: 100, usdxToMintAmt: 90,
-			errMsg: "insufficient funds",
+			usdcDepositAmt: 100,
+			usdxToMintAmt:  90,
+			errMsg:         "insufficient funds",
 			updateTx: func(txBuilder client.TxBuilder, _ []sdk.Msg) client.TxBuilder {
 				bk := suite.tApp.GetBankKeeper()
-				gasCoins := bk.GetBalance(suite.ctx, suite.testAddr, gasDenom)
-				suite.Require().NoError(
-					bk.SendCoins(suite.ctx, suite.testAddr, suite.testAddr2, sdk.NewCoins(gasCoins)),
+				gasCoins := bk.GetBalance(suite.ctx, suite.testAddr, "ukava")
+				err := suite.tApp.GetBankKeeper().SendCoins(
+					suite.ctx,
+					suite.testAddr,
+					suite.testAddr2,
+					sdk.NewCoins(gasCoins),
 				)
+				suite.Require().NoError(err)
 				return txBuilder
 			},
 		},
 		{
 			name:           "fails when invalid chain id is provided",
-			usdcDepositAmt: 100, usdxToMintAmt: 90,
-			failCheckTx: true, errMsg: "invalid chain-id",
+			usdcDepositAmt: 100,
+			usdxToMintAmt:  90,
+			failCheckTx:    true,
+			errMsg:         "invalid chain-id",
 			updateTx: func(_ client.TxBuilder, msgs []sdk.Msg) client.TxBuilder {
+				gasAmt := sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(20)))
 				return suite.createTestEIP712CosmosTxBuilder(
-					suite.testAddr, suite.testPrivKey, "isttest_12-1", suite.gasCoins(20), msgs,
+					suite.testAddr,
+					suite.testPrivKey,
+					"kavatest_12-1",
+					gasAmt,
+					msgs,
 				)
 			},
 		},
 		{
 			name:           "fails when invalid fee payer is provided",
-			usdcDepositAmt: 100, usdxToMintAmt: 90,
-			failCheckTx: true, errMsg: "invalid pubkey",
+			usdcDepositAmt: 100,
+			usdxToMintAmt:  90,
+			failCheckTx:    true,
+			errMsg:         "invalid pubkey",
 			updateTx: func(_ client.TxBuilder, msgs []sdk.Msg) client.TxBuilder {
+				gasAmt := sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(20)))
 				return suite.createTestEIP712CosmosTxBuilder(
-					suite.testAddr2, suite.testPrivKey2, ChainID, suite.gasCoins(20), msgs,
+					suite.testAddr2,
+					suite.testPrivKey2,
+					ChainID,
+					gasAmt,
+					msgs,
 				)
 			},
 		},
 		{
 			name:           "passes when domain matches expected fields",
-			usdcDepositAmt: 100, usdxToMintAmt: 90,
-			failCheckTx: false, errMsg: "",
+			usdcDepositAmt: 100,
+			usdxToMintAmt:  90,
+			failCheckTx:    false,
+			errMsg:         "",
 			updateTx: func(_ client.TxBuilder, msgs []sdk.Msg) client.TxBuilder {
+				gasAmt := sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(20)))
+
 				pc, err := etherminttypes.ParseChainID(ChainID)
 				suite.Require().NoError(err)
-				domain, domainTypes := domainExpected(pc.Int64())
+				ethChainID := pc.Int64()
+
+				// Expected domain used in Ethermint ante handler
+				// These are explicitly set in this test to ensure Ethermint
+				// is using the expected domain for signature verification
+				domain := apitypes.TypedDataDomain{
+					Name:    "Kava Cosmos",
+					Version: "1.0.0",
+					ChainId: math.NewHexOrDecimal256(ethChainID),
+
+					// Both should be omitted
+					Salt:              "",
+					VerifyingContract: "",
+				}
+
+				// Must be in order as defined in EIP-712
+				// https://eips.ethereum.org/EIPS/eip-712#definition-of-domainseparator
+				// Internally the data is written in order of the types
+				domainTypes := []apitypes.Type{
+					{
+						Name: "name",
+						Type: "string",
+					},
+					{
+						Name: "version",
+						Type: "string",
+					},
+					{
+						Name: "chainId",
+						Type: "uint256",
+					},
+					// Exclude empty fields
+				}
+
 				return suite.createTestEIP712CosmosTxBuilderWithDomain(
-					suite.testAddr, suite.testPrivKey, ChainID, suite.gasCoins(20), msgs, &domain, domainTypes,
+					suite.testAddr,
+					suite.testPrivKey,
+					ChainID,
+					gasAmt,
+					msgs,
+					&domain,
+					domainTypes,
 				)
 			},
 		},
 		{
 			name:           "fails when domain.verifyingContract is non-empty string type",
-			usdcDepositAmt: 100, usdxToMintAmt: 90,
-			failCheckTx: true, errMsg: "signature verification failed",
+			usdcDepositAmt: 100,
+			usdxToMintAmt:  90,
+			failCheckTx:    true,
+			errMsg:         "signature verification failed",
 			updateTx: func(_ client.TxBuilder, msgs []sdk.Msg) client.TxBuilder {
+				gasAmt := sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(20)))
+
 				pc, err := etherminttypes.ParseChainID(ChainID)
 				suite.Require().NoError(err)
+				ethChainID := pc.Int64()
+
+				// Domain and types are **not** included in the tx data.
+				// Both signature creation on client & verification in ante
+				// should match to produce a matching signature hash.
 				domain := apitypes.TypedDataDomain{
-					Name:    domainName,
-					Version: domainVersion,
-					ChainId: math.NewHexOrDecimal256(pc.Int64()),
-					Salt:    "",
-					// 错误: 非空 string
-					VerifyingContract: "istchainCosmos",
+					Name:    "Kava Cosmos",
+					Version: "1.0.0",
+					ChainId: math.NewHexOrDecimal256(ethChainID),
+
+					Salt: "",
+					// Original value with string type instead of address.
+					// This has been changed to expect empty field
+					VerifyingContract: "kavaCosmos",
 				}
+
 				domainTypes := []apitypes.Type{
-					{Name: "name", Type: "string"},
-					{Name: "version", Type: "string"},
-					{Name: "chainId", Type: "uint256"},
-					{Name: "verifyingContract", Type: "string"},
+					{
+						Name: "name",
+						Type: "string",
+					},
+					{
+						Name: "version",
+						Type: "string",
+					},
+					{
+						Name: "chainId",
+						Type: "uint256",
+					},
+					{
+						Name: "verifyingContract",
+						// Incorrect! but old type in kava <= v0.26.0
+						Type: "string",
+					},
 				}
+
 				return suite.createTestEIP712CosmosTxBuilderWithDomain(
-					suite.testAddr, suite.testPrivKey, ChainID, suite.gasCoins(20), msgs, &domain, domainTypes,
+					suite.testAddr,
+					suite.testPrivKey,
+					ChainID,
+					gasAmt,
+					msgs,
+					&domain,
+					domainTypes,
 				)
 			},
 		},
 		{
 			name:           "fails when domain.verifyingContract is non-empty address type",
-			usdcDepositAmt: 100, usdxToMintAmt: 90,
-			failCheckTx: true, errMsg: "signature verification failed",
+			usdcDepositAmt: 100,
+			usdxToMintAmt:  90,
+			failCheckTx:    true,
+			errMsg:         "signature verification failed",
 			updateTx: func(_ client.TxBuilder, msgs []sdk.Msg) client.TxBuilder {
+				gasAmt := sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(20)))
+
 				pc, err := etherminttypes.ParseChainID(ChainID)
 				suite.Require().NoError(err)
+				ethChainID := pc.Int64()
+
 				domain := apitypes.TypedDataDomain{
-					Name:              domainName,
-					Version:           domainVersion,
-					ChainId:           math.NewHexOrDecimal256(pc.Int64()),
-					Salt:              "",
+					Name:    "Kava Cosmos",
+					Version: "1.0.0",
+					ChainId: math.NewHexOrDecimal256(ethChainID),
+
+					Salt: "",
+					// Address type
 					VerifyingContract: "0xc6d953c98f260cb7c3667cac87e5d508a0a81277",
 				}
+
 				domainTypes := []apitypes.Type{
-					{Name: "name", Type: "string"},
-					{Name: "version", Type: "string"},
-					{Name: "chainId", Type: "uint256"},
-					{Name: "verifyingContract", Type: "address"},
+					{
+						Name: "name",
+						Type: "string",
+					},
+					{
+						Name: "version",
+						Type: "string",
+					},
+					{
+						Name: "chainId",
+						Type: "uint256",
+					},
+					{
+						Name: "verifyingContract",
+						// Correct type, but is value is not empty when its expected to be
+						Type: "address",
+					},
 				}
+
 				return suite.createTestEIP712CosmosTxBuilderWithDomain(
-					suite.testAddr, suite.testPrivKey, ChainID, suite.gasCoins(20), msgs, &domain, domainTypes,
+					suite.testAddr,
+					suite.testPrivKey,
+					ChainID,
+					gasAmt,
+					msgs,
+					&domain,
+					domainTypes,
 				)
 			},
 		},
@@ -690,52 +870,89 @@ func (suite *EIP712TestSuite) TestEIP712Tx() {
 		suite.Run(tc.name, func() {
 			suite.SetupTest()
 
-			msgs := suite.depositMintLendMsgs(tc.usdcDepositAmt, tc.usdxToMintAmt)
+			// create messages to convert, mint, and deposit to lend
+			usdcAmt := suite.getEVMAmount(tc.usdcDepositAmt)
+			convertMsg := evmutiltypes.NewMsgConvertERC20ToCoin(
+				suite.testEVMAddr,
+				suite.testAddr,
+				suite.usdcEVMAddr,
+				usdcAmt,
+			)
+			usdxAmt := sdkmath.NewInt(1_000_000).Mul(sdkmath.NewInt(tc.usdxToMintAmt))
+			mintMsg := cdptypes.NewMsgCreateCDP(
+				suite.testAddr,
+				sdk.NewCoin(USDCCoinDenom, usdcAmt),
+				sdk.NewCoin(cdptypes.DefaultStableDenom, usdxAmt),
+				USDCCDPType,
+			)
+			lendMsg := hardtypes.NewMsgDeposit(
+				suite.testAddr,
+				sdk.NewCoins(sdk.NewCoin(cdptypes.DefaultStableDenom, usdxAmt)),
+			)
+			msgs := []sdk.Msg{
+				&convertMsg,
+				&mintMsg,
+				&lendMsg,
+			}
 			if tc.updateMsgs != nil {
 				msgs = tc.updateMsgs(msgs)
 			}
 
+			gasAmt := sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(20)))
 			txBuilder := suite.createTestEIP712CosmosTxBuilder(
-				suite.testAddr, suite.testPrivKey, ChainID, suite.gasCoins(20), msgs,
+				suite.testAddr,
+				suite.testPrivKey,
+				ChainID,
+				gasAmt,
+				msgs,
 			)
 			if tc.updateTx != nil {
 				txBuilder = tc.updateTx(txBuilder, msgs)
 			}
+			txBytes, err := encodingConfig.TxConfig.TxEncoder()(txBuilder.GetTx())
+			suite.Require().NoError(err)
 
-			txBytes := suite.mustEncodeTx(txBuilder)
-
-			resCheckTx := suite.tApp.CheckTx(abci.RequestCheckTx{Tx: txBytes, Type: abci.CheckTxType_New})
+			resCheckTx := suite.tApp.CheckTx(
+				abci.RequestCheckTx{
+					Tx:   txBytes,
+					Type: abci.CheckTxType_New,
+				},
+			)
 			if !tc.failCheckTx {
-				suite.Require().Equal(uint32(0), resCheckTx.Code, resCheckTx.Log)
+				suite.Require().Equal(resCheckTx.Code, uint32(0), resCheckTx.Log)
 			} else {
-				suite.Require().NotEqual(uint32(0), resCheckTx.Code, resCheckTx.Log)
+				suite.Require().NotEqual(resCheckTx.Code, uint32(0), resCheckTx.Log)
 				suite.Require().Contains(resCheckTx.Log, tc.errMsg)
 			}
 
-			resDeliverTx := suite.tApp.DeliverTx(abci.RequestDeliverTx{Tx: txBytes})
-			if tc.errMsg == "" {
-				suite.Require().Equal(uint32(0), resDeliverTx.Code, resDeliverTx.Log)
+			resDeliverTx := suite.tApp.DeliverTx(
+				abci.RequestDeliverTx{
+					Tx: txBytes,
+				},
+			)
 
-				// user cosmos erc20/usdc balance
+			if tc.errMsg == "" {
+				suite.Require().Equal(resDeliverTx.Code, uint32(0), resDeliverTx.Log)
+
+				// validate user cosmos erc20/usd balance
 				bk := suite.tApp.GetBankKeeper()
 				amt := bk.GetBalance(suite.ctx, suite.testAddr, USDCCoinDenom)
 				suite.Require().Equal(sdk.ZeroInt(), amt.Amount)
 
-				// cdp
-				usdxAmt := sdkmath.NewInt(1_000_000).Mul(sdkmath.NewInt(tc.usdxToMintAmt))
+				// validate cdp
 				cdp, found := suite.tApp.GetCDPKeeper().GetCdpByOwnerAndCollateralType(suite.ctx, suite.testAddr, USDCCDPType)
 				suite.Require().True(found)
 				suite.Require().Equal(suite.testAddr, cdp.Owner)
 				suite.Require().Equal(sdk.NewCoin(USDCCoinDenom, suite.getEVMAmount(100)), cdp.Collateral)
-				suite.Require().Equal(sdk.NewCoin(stableDenom, usdxAmt), cdp.Principal)
+				suite.Require().Equal(sdk.NewCoin("usdx", usdxAmt), cdp.Principal)
 
-				// hard
+				// validate hard
 				hardDeposit, found := suite.tApp.GetHardKeeper().GetDeposit(suite.ctx, suite.testAddr)
 				suite.Require().True(found)
 				suite.Require().Equal(suite.testAddr, hardDeposit.Depositor)
-				suite.Require().Equal(sdk.NewCoins(sdk.NewCoin(stableDenom, usdxAmt)), hardDeposit.Amount)
+				suite.Require().Equal(sdk.NewCoins(sdk.NewCoin("usdx", usdxAmt)), hardDeposit.Amount)
 			} else {
-				suite.Require().NotEqual(uint32(0), resDeliverTx.Code, resCheckTx.Log)
+				suite.Require().NotEqual(resDeliverTx.Code, uint32(0), resCheckTx.Log)
 				suite.Require().Contains(resDeliverTx.Log, tc.errMsg)
 			}
 		})
@@ -743,55 +960,112 @@ func (suite *EIP712TestSuite) TestEIP712Tx() {
 }
 
 func (suite *EIP712TestSuite) TestEIP712Tx_DepositAndWithdraw() {
-	// deposit flow
-	depositMsgs := suite.depositMintLendMsgs(100, 99)
-	txBuilder := suite.createTestEIP712CosmosTxBuilder(
-		suite.testAddr, suite.testPrivKey, ChainID, suite.gasCoins(20), depositMsgs,
+	encodingConfig := app.MakeEncodingConfig()
+
+	// create deposit msgs
+	usdcAmt := suite.getEVMAmount(100)
+	convertMsg := evmutiltypes.NewMsgConvertERC20ToCoin(
+		suite.testEVMAddr,
+		suite.testAddr,
+		suite.usdcEVMAddr,
+		usdcAmt,
 	)
-	txBytes := suite.mustEncodeTx(txBuilder)
-	resDeliverTx := suite.tApp.DeliverTx(abci.RequestDeliverTx{Tx: txBytes})
-	suite.Require().Equal(uint32(0), resDeliverTx.Code, resDeliverTx.Log)
+	usdxAmt := sdkmath.NewInt(1_000_000).Mul(sdkmath.NewInt(99))
+	mintMsg := cdptypes.NewMsgCreateCDP(
+		suite.testAddr,
+		sdk.NewCoin(USDCCoinDenom, usdcAmt),
+		sdk.NewCoin(cdptypes.DefaultStableDenom, usdxAmt),
+		USDCCDPType,
+	)
+	lendMsg := hardtypes.NewMsgDeposit(
+		suite.testAddr,
+		sdk.NewCoins(sdk.NewCoin(cdptypes.DefaultStableDenom, usdxAmt)),
+	)
+	depositMsgs := []sdk.Msg{
+		&convertMsg,
+		&mintMsg,
+		&lendMsg,
+	}
+
+	// deliver deposit msg
+	gasAmt := sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(20)))
+	txBuilder := suite.createTestEIP712CosmosTxBuilder(
+		suite.testAddr,
+		suite.testPrivKey,
+		ChainID,
+		gasAmt,
+		depositMsgs,
+	)
+	txBytes, err := encodingConfig.TxConfig.TxEncoder()(txBuilder.GetTx())
+	suite.Require().NoError(err)
+	resDeliverTx := suite.tApp.DeliverTx(
+		abci.RequestDeliverTx{
+			Tx: txBytes,
+		},
+	)
+	suite.Require().Equal(resDeliverTx.Code, uint32(0), resDeliverTx.Log)
 
 	// validate hard
 	hardDeposit, found := suite.tApp.GetHardKeeper().GetDeposit(suite.ctx, suite.testAddr)
 	suite.Require().True(found)
 	suite.Require().Equal(suite.testAddr, hardDeposit.Depositor)
-	suite.Require().Equal(sdk.NewCoins(sdk.NewCoin(stableDenom, sdkmath.NewInt(99_000_000))), hardDeposit.Amount)
+	suite.Require().Equal(sdk.NewCoins(sdk.NewCoin("usdx", sdkmath.NewInt(99_000_000))), hardDeposit.Amount)
 
-	// erc20 balance
+	// validate erc20 balance
 	coinBal, err := suite.evmutilKeeper.QueryERC20BalanceOf(suite.ctx, suite.usdcEVMAddr, suite.testEVMAddr)
 	suite.Require().NoError(err)
 	suite.Require().Equal(suite.getEVMAmount(49_900).BigInt(), coinBal)
 
-	// withdraw flow
-	usdcAmt := suite.getEVMAmount(100)
-	usdxAmt := sdkmath.NewInt(99_000_000)
-
+	// withdraw msgs
 	withdrawConvertMsg := evmutiltypes.NewMsgConvertCoinToERC20(
-		suite.testAddr.String(), suite.testEVMAddr.String(), sdk.NewCoin(USDCCoinDenom, usdcAmt),
+		suite.testAddr.String(),
+		suite.testEVMAddr.String(),
+		sdk.NewCoin(USDCCoinDenom, usdcAmt),
 	)
-	cdpWithdrawMsg := cdptypes.NewMsgRepayDebt(suite.testAddr, USDCCDPType, sdk.NewCoin(stableDenom, usdxAmt))
-	hardWithdrawMsg := hardtypes.NewMsgWithdraw(suite.testAddr, sdk.NewCoins(sdk.NewCoin(stableDenom, usdxAmt)))
+	cdpWithdrawMsg := cdptypes.NewMsgRepayDebt(
+		suite.testAddr,
+		USDCCDPType,
+		sdk.NewCoin(cdptypes.DefaultStableDenom, usdxAmt),
+	)
+	hardWithdrawMsg := hardtypes.NewMsgWithdraw(
+		suite.testAddr,
+		sdk.NewCoins(sdk.NewCoin(cdptypes.DefaultStableDenom, usdxAmt)),
+	)
+	withdrawMsgs := []sdk.Msg{
+		&hardWithdrawMsg,
+		&cdpWithdrawMsg,
+		&withdrawConvertMsg,
+	}
 
-	withdrawMsgs := []sdk.Msg{&hardWithdrawMsg, &cdpWithdrawMsg, &withdrawConvertMsg}
+	// deliver withdraw msg
 	txBuilder = suite.createTestEIP712CosmosTxBuilder(
-		suite.testAddr, suite.testPrivKey, ChainID, suite.gasCoins(20), withdrawMsgs,
+		suite.testAddr,
+		suite.testPrivKey,
+		ChainID,
+		gasAmt,
+		withdrawMsgs,
 	)
-	txBytes = suite.mustEncodeTx(txBuilder)
-	resDeliverTx = suite.tApp.DeliverTx(abci.RequestDeliverTx{Tx: txBytes})
-	suite.Require().Equal(uint32(0), resDeliverTx.Code, resDeliverTx.Log)
+	txBytes, err = encodingConfig.TxConfig.TxEncoder()(txBuilder.GetTx())
+	suite.Require().NoError(err)
+	resDeliverTx = suite.tApp.DeliverTx(
+		abci.RequestDeliverTx{
+			Tx: txBytes,
+		},
+	)
+	suite.Require().Equal(resDeliverTx.Code, uint32(0), resDeliverTx.Log)
 
-	// post conditions
+	// validate hard & cdp should be repayed
 	_, found = suite.tApp.GetHardKeeper().GetDeposit(suite.ctx, suite.testAddr)
 	suite.Require().False(found)
 	_, found = suite.tApp.GetCDPKeeper().GetCdpByOwnerAndCollateralType(suite.ctx, suite.testAddr, USDCCDPType)
 	suite.Require().False(found)
 
-	// user cosmos erc20/usdc balance should be zero
+	// validate user cosmos erc20/usd balance
 	bk := suite.tApp.GetBankKeeper()
 	amt := bk.GetBalance(suite.ctx, suite.testAddr, USDCCoinDenom)
 	suite.Require().Equal(sdk.ZeroInt(), amt.Amount)
 
+	// validate erc20 balance
 	coinBal, err = suite.evmutilKeeper.QueryERC20BalanceOf(suite.ctx, suite.usdcEVMAddr, suite.testEVMAddr)
 	suite.Require().NoError(err)
 	suite.Require().Equal(suite.getEVMAmount(50_000).BigInt(), coinBal)
