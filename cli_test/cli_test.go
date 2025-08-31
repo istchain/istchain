@@ -26,7 +26,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/mint"
 )
 
-func TestIstCLIKeysAddMultisig(t *testing.T) {
+func TestKvCLIKeysAddMultisig(t *testing.T) {
 	t.Parallel()
 	f := InitFixtures(t)
 
@@ -53,7 +53,7 @@ func TestIstCLIKeysAddMultisig(t *testing.T) {
 	f.Cleanup()
 }
 
-func TestIstCLIKeysAddRecover(t *testing.T) {
+func TestKvCLIKeysAddRecover(t *testing.T) {
 	t.Parallel()
 	f := InitFixtures(t)
 
@@ -62,36 +62,36 @@ func TestIstCLIKeysAddRecover(t *testing.T) {
 
 	exitSuccess, _, _ = f.KeysAddRecover("test-recover", "dentist task convince chimney quality leave banana trade firm crawl eternal easily")
 	require.True(t, exitSuccess)
-	require.Equal(t, "ist1rsjxn2e4dfl3a2qzuzzjvvgjmmate383g9q4cz", f.KeyAddress("test-recover").String())
+	require.Equal(t, "kava1rsjxn2e4dfl3a2qzuzzjvvgjmmate383g9q4cz", f.KeyAddress("test-recover").String())
 
 	// test old bip44 coin type
 	exitSuccess, _, _ = f.KeysAddRecover("test-recover-legacy", "dentist task convince chimney quality leave banana trade firm crawl eternal easily", "--legacy-hd-path")
 	require.True(t, exitSuccess)
-	require.Equal(t, "ist1qcfdf69js922qrdr4yaww3ax7gjml6pd39p8lj", f.KeyAddress("test-recover-legacy").String())
+	require.Equal(t, "kava1qcfdf69js922qrdr4yaww3ax7gjml6pd39p8lj", f.KeyAddress("test-recover-legacy").String())
 
 	// Cleanup testing directories
 	f.Cleanup()
 }
 
-func TestIstChainCLIKeysAddRecoverHDPath(t *testing.T) {
+func TestKavaCLIKeysAddRecoverHDPath(t *testing.T) {
 	t.Parallel()
 	f := InitFixtures(t)
 
 	f.KeysAddRecoverHDPath("test-recoverHD1", "dentist task convince chimney quality leave banana trade firm crawl eternal easily", 0, 0)
-	require.Equal(t, "ist1rsjxn2e4dfl3a2qzuzzjvvgjmmate383g9q4cz", f.KeyAddress("test-recoverHD1").String())
+	require.Equal(t, "kava1rsjxn2e4dfl3a2qzuzzjvvgjmmate383g9q4cz", f.KeyAddress("test-recoverHD1").String())
 
 	f.KeysAddRecoverHDPath("test-recoverH2", "dentist task convince chimney quality leave banana trade firm crawl eternal easily", 1, 5)
-	require.Equal(t, "ist1qpj6nstqn0n5gzcsaezspuhulje6msjq5t8cq5", f.KeyAddress("test-recoverH2").String())
+	require.Equal(t, "kava1qpj6nstqn0n5gzcsaezspuhulje6msjq5t8cq5", f.KeyAddress("test-recoverH2").String())
 
 	f.KeysAddRecoverHDPath("test-recoverH3", "dentist task convince chimney quality leave banana trade firm crawl eternal easily", 1, 17)
-	require.Equal(t, "ist1vayfpstgapt7dmv7074kc3ll8xpf0rlzvh4k08", f.KeyAddress("test-recoverH3").String())
+	require.Equal(t, "kava1vayfpstgapt7dmv7074kc3ll8xpf0rlzvh4k08", f.KeyAddress("test-recoverH3").String())
 
 	f.KeysAddRecoverHDPath("test-recoverH4", "dentist task convince chimney quality leave banana trade firm crawl eternal easily", 2, 17)
-	require.Equal(t, "ist1xvsfnksmhr887skcfrm4pe3va54tkmrtw7wyer", f.KeyAddress("test-recoverH4").String())
+	require.Equal(t, "kava1xvsfnksmhr887skcfrm4pe3va54tkmrtw7wyer", f.KeyAddress("test-recoverH4").String())
 
 	// test old bip44 coin type
 	f.KeysAddRecoverHDPath("test-recoverH5", "dentist task convince chimney quality leave banana trade firm crawl eternal easily", 2, 17, "--legacy-hd-path")
-	require.Equal(t, "ist1v9plmhvyhgxk3th9ydacm7j4z357s3nhhmy0tv", f.KeyAddress("test-recoverH5").String())
+	require.Equal(t, "kava1v9plmhvyhgxk3th9ydacm7j4z357s3nhhmy0tv", f.KeyAddress("test-recoverH5").String())
 
 	exitSuccess, _, _ := f.KeysAddRecover("test-recover-fail", "dentist task convince chimney quality leave banana trade firm crawl eternal easily", "--legacy-hd-path --hd-path 44'/459'/0'/0/0")
 	require.False(t, exitSuccess)
@@ -99,28 +99,28 @@ func TestIstChainCLIKeysAddRecoverHDPath(t *testing.T) {
 	// test -hd-path flag
 	exitSuccess, _, _ = f.KeysAddRecover("test-recoverH6", "dentist task convince chimney quality leave banana trade firm crawl eternal easily", "--hd-path 44'/459'/0'/0/0")
 	require.True(t, exitSuccess)
-	require.Equal(t, "ist1rsjxn2e4dfl3a2qzuzzjvvgjmmate383g9q4cz", f.KeyAddress("test-recoverH6").String())
+	require.Equal(t, "kava1rsjxn2e4dfl3a2qzuzzjvvgjmmate383g9q4cz", f.KeyAddress("test-recoverH6").String())
 
 	exitSuccess, _, _ = f.KeysAddRecover("test-recoverH7", "dentist task convince chimney quality leave banana trade firm crawl eternal easily", "--hd-path 44'/459'/2'/0/17")
 	require.True(t, exitSuccess)
-	require.Equal(t, "ist1xvsfnksmhr887skcfrm4pe3va54tkmrtw7wyer", f.KeyAddress("test-recoverH7").String())
+	require.Equal(t, "kava1xvsfnksmhr887skcfrm4pe3va54tkmrtw7wyer", f.KeyAddress("test-recoverH7").String())
 
 	// Cleanup testing directories
 	f.Cleanup()
 }
 
-func TestIstCLIMinimumFees(t *testing.T) {
+func TestKvCLIMinimumFees(t *testing.T) {
 	t.Parallel()
 	f := InitFixtures(t)
 
-	// start istd server with minimum fees
+	// start kvd server with minimum fees
 	minGasPrice, _ := sdk.NewDecFromStr("0.000006")
 	fees := fmt.Sprintf(
 		"--minimum-gas-prices=%s,%s",
 		sdk.NewDecCoinFromDec(feeDenom, minGasPrice),
 		sdk.NewDecCoinFromDec(fee2Denom, minGasPrice),
 	)
-	proc := f.IstStart(fees)
+	proc := f.GDStart(fees)
 	defer proc.Stop(false)
 
 	barAddr := f.KeyAddress(keyBar)
@@ -147,13 +147,13 @@ func TestIstCLIMinimumFees(t *testing.T) {
 	f.Cleanup()
 }
 
-func TestIstCLIGasPrices(t *testing.T) {
+func TestKvCLIGasPrices(t *testing.T) {
 	t.Parallel()
 	f := InitFixtures(t)
 
-	// start istd server with minimum fees
+	// start kvd server with minimum fees
 	minGasPrice, _ := sdk.NewDecFromStr("0.000006")
-	proc := f.IstStart(fmt.Sprintf("--minimum-gas-prices=%s", sdk.NewDecCoinFromDec(feeDenom, minGasPrice)))
+	proc := f.GDStart(fmt.Sprintf("--minimum-gas-prices=%s", sdk.NewDecCoinFromDec(feeDenom, minGasPrice)))
 	defer proc.Stop(false)
 
 	barAddr := f.KeyAddress(keyBar)
@@ -181,13 +181,13 @@ func TestIstCLIGasPrices(t *testing.T) {
 	f.Cleanup()
 }
 
-func TestIstCLIFeesDeduction(t *testing.T) {
+func TestKvCLIFeesDeduction(t *testing.T) {
 	t.Parallel()
 	f := InitFixtures(t)
 
-	// start istd server with minimum fees
+	// start kvd server with minimum fees
 	minGasPrice, _ := sdk.NewDecFromStr("0.000006")
-	proc := f.IstStart(fmt.Sprintf("--minimum-gas-prices=%s", sdk.NewDecCoinFromDec(feeDenom, minGasPrice)))
+	proc := f.GDStart(fmt.Sprintf("--minimum-gas-prices=%s", sdk.NewDecCoinFromDec(feeDenom, minGasPrice)))
 	defer proc.Stop(false)
 
 	// Save key addresses for later use
@@ -234,12 +234,12 @@ func TestIstCLIFeesDeduction(t *testing.T) {
 	f.Cleanup()
 }
 
-func TestIstCLISend(t *testing.T) {
+func TestKvCLISend(t *testing.T) {
 	t.Parallel()
 	f := InitFixtures(t)
 
-	// start istd server
-	proc := f.IstStart()
+	// start kvd server
+	proc := f.GDStart()
 	defer proc.Stop(false)
 
 	// Save key addresses for later use
@@ -303,12 +303,12 @@ func TestIstCLISend(t *testing.T) {
 	f.Cleanup()
 }
 
-func TestIstCLISendMultiplePerBlock(t *testing.T) {
+func TestKvCLISendMultiplePerBlock(t *testing.T) {
 	t.Parallel()
 	f := InitFixtures(t)
 
-	// start istd server
-	proc := f.IstStart()
+	// start kvd server
+	proc := f.GDStart()
 	defer proc.Stop(false)
 
 	// Save key addresses for later use
@@ -337,14 +337,14 @@ func TestIstCLISendMultiplePerBlock(t *testing.T) {
 	f.Cleanup()
 }
 
-func TestIstCLIGasAuto(t *testing.T) {
+func TestKvCLIGasAuto(t *testing.T) {
 	// https://github.com/cosmos/cosmos-sdk/pull/5179
 	t.Skip()
 	t.Parallel()
 	f := InitFixtures(t)
 
-	// start istd server
-	proc := f.IstStart()
+	// start kvd server
+	proc := f.GDStart()
 	defer proc.Stop(false)
 
 	fooAddr := f.KeyAddress(keyFoo)
@@ -398,12 +398,12 @@ func TestIstCLIGasAuto(t *testing.T) {
 	f.Cleanup()
 }
 
-func TestIstCLICreateValidator(t *testing.T) {
+func TestKvCLICreateValidator(t *testing.T) {
 	t.Parallel()
 	f := InitFixtures(t)
 
-	// start istd server
-	proc := f.IstStart()
+	// start kvd server
+	proc := f.GDStart()
 	defer proc.Stop(false)
 
 	barAddr := f.KeyAddress(keyBar)
@@ -471,7 +471,7 @@ func TestIstCLICreateValidator(t *testing.T) {
 	f.Cleanup()
 }
 
-func TestIstCLIQueryRewards(t *testing.T) {
+func TestKvCLIQueryRewards(t *testing.T) {
 	t.Parallel()
 	f := InitFixtures(t)
 
@@ -486,14 +486,14 @@ func TestIstCLIQueryRewards(t *testing.T) {
 	require.NoError(t, err)
 	genesisState[mint.ModuleName] = mintDataBz
 
-	genFile := filepath.Join(f.IstdHome, "config", "genesis.json")
+	genFile := filepath.Join(f.KvdHome, "config", "genesis.json")
 	genDoc, err := tmtypes.GenesisDocFromFile(genFile)
 	require.NoError(t, err)
 	genDoc.AppState, err = f.cdc.MarshalJSON(genesisState)
 	require.NoError(t, genDoc.SaveAs(genFile))
 
-	// start istd server
-	proc := f.IstStart()
+	// start kvd server
+	proc := f.GDStart()
 	defer proc.Stop(false)
 
 	fooAddr := f.KeyAddress(keyFoo)
@@ -503,12 +503,12 @@ func TestIstCLIQueryRewards(t *testing.T) {
 	f.Cleanup()
 }
 
-func TestIstCLIQuerySupply(t *testing.T) {
+func TestKvCLIQuerySupply(t *testing.T) {
 	t.Parallel()
 	f := InitFixtures(t)
 
-	// start istd server
-	proc := f.IstStart()
+	// start kvd server
+	proc := f.GDStart()
 	defer proc.Stop(false)
 
 	totalSupply := f.QueryTotalSupply()
@@ -520,12 +520,12 @@ func TestIstCLIQuerySupply(t *testing.T) {
 	f.Cleanup()
 }
 
-func TestIstCLISubmitProposal(t *testing.T) {
+func TestKvCLISubmitProposal(t *testing.T) {
 	t.Parallel()
 	f := InitFixtures(t)
 
-	// start istd server
-	proc := f.IstStart()
+	// start kvd server
+	proc := f.GDStart()
 	defer proc.Stop(false)
 
 	f.QueryGovParamDeposit()
@@ -665,7 +665,7 @@ func TestIstCLISubmitProposal(t *testing.T) {
 	f.Cleanup()
 }
 
-func TestIstCLISubmitParamChangeProposal(t *testing.T) {
+func TestKvCLISubmitParamChangeProposal(t *testing.T) {
 	t.Parallel()
 	f := InitFixtures(t)
 
@@ -729,7 +729,7 @@ func TestIstCLISubmitParamChangeProposal(t *testing.T) {
 	f.Cleanup()
 }
 
-func TestIstCLISubmitCommunityPoolSpendProposal(t *testing.T) {
+func TestKvCLISubmitCommunityPoolSpendProposal(t *testing.T) {
 	t.Parallel()
 	f := InitFixtures(t)
 
@@ -745,7 +745,7 @@ func TestIstCLISubmitCommunityPoolSpendProposal(t *testing.T) {
 	require.NoError(t, err)
 	genesisState[mint.ModuleName] = mintDataBz
 
-	genFile := filepath.Join(f.IstdHome, "config", "genesis.json")
+	genFile := filepath.Join(f.KvdHome, "config", "genesis.json")
 	genDoc, err := tmtypes.GenesisDocFromFile(genFile)
 	require.NoError(t, err)
 	genDoc.AppState, err = f.cdc.MarshalJSON(genesisState)
@@ -812,7 +812,7 @@ func TestIstCLISubmitCommunityPoolSpendProposal(t *testing.T) {
 	f.Cleanup()
 }
 
-func TestIstCLIQueryTxPagination(t *testing.T) {
+func TestKvCLIQueryTxPagination(t *testing.T) {
 	// Skip until https://github.com/cometbft/cometbft/issues/4432 has been
 	// resolved and included in a release.
 	t.SkipNow()
@@ -870,7 +870,7 @@ func TestIstCLIQueryTxPagination(t *testing.T) {
 	f.Cleanup()
 }
 
-func TestIstCLIValidateSignatures(t *testing.T) {
+func TestKvCLIValidateSignatures(t *testing.T) {
 	t.Parallel()
 	f := InitFixtures(t)
 
@@ -919,7 +919,7 @@ func TestIstCLIValidateSignatures(t *testing.T) {
 	f.Cleanup()
 }
 
-func TestIstCLISendGenerateSignAndBroadcast(t *testing.T) {
+func TestKvCLISendGenerateSignAndBroadcast(t *testing.T) {
 	t.Parallel()
 	f := InitFixtures(t)
 
@@ -1003,7 +1003,7 @@ func TestIstCLISendGenerateSignAndBroadcast(t *testing.T) {
 	f.Cleanup()
 }
 
-func TestIstCLIMultisignInsufficientCosigners(t *testing.T) {
+func TestKvCLIMultisignInsufficientCosigners(t *testing.T) {
 	t.Parallel()
 	f := InitFixtures(t)
 
@@ -1056,7 +1056,7 @@ func TestIstCLIMultisignInsufficientCosigners(t *testing.T) {
 	f.Cleanup()
 }
 
-func TestIstCLIEncode(t *testing.T) {
+func TestKvCLIEncode(t *testing.T) {
 	t.Parallel()
 	f := InitFixtures(t)
 
@@ -1092,7 +1092,7 @@ func TestIstCLIEncode(t *testing.T) {
 	require.Equal(t, "deadbeef", decodedTx.Memo)
 }
 
-func TestIstCLIMultisignSortSignatures(t *testing.T) {
+func TestKvCLIMultisignSortSignatures(t *testing.T) {
 	t.Parallel()
 	f := InitFixtures(t)
 
@@ -1158,7 +1158,7 @@ func TestIstCLIMultisignSortSignatures(t *testing.T) {
 	f.Cleanup()
 }
 
-func TestIstCLIMultisign(t *testing.T) {
+func TestKvCLIMultisign(t *testing.T) {
 	t.Parallel()
 	f := InitFixtures(t)
 
@@ -1234,7 +1234,7 @@ func TestIstCLIMultisign(t *testing.T) {
 	f.Cleanup()
 }
 
-func TestIstCLIConfig(t *testing.T) {
+func TestKvCLIConfig(t *testing.T) {
 	t.Parallel()
 	f := InitFixtures(t)
 	node := fmt.Sprintf("%s:%s", f.RPCAddr, f.Port)
@@ -1265,7 +1265,7 @@ trust-node = true
 	f.Cleanup()
 }
 
-func TestIstdCollectGentxs(t *testing.T) {
+func TestKvdCollectGentxs(t *testing.T) {
 	t.Parallel()
 	var customMaxBytes, customMaxGas int64 = 99999999, 1234567
 	f := NewFixtures(t)
@@ -1313,7 +1313,7 @@ func TestIstdCollectGentxs(t *testing.T) {
 	f.Cleanup(gentxDir)
 }
 
-func TestIstdAddGenesisAccount(t *testing.T) {
+func TestKvdAddGenesisAccount(t *testing.T) {
 	t.Parallel()
 	f := NewFixtures(t)
 
