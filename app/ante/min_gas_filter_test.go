@@ -11,8 +11,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/app/ante"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/app/ante"
 )
 
 func mustParseDecCoins(value string) sdk.DecCoins {
@@ -30,7 +30,7 @@ func TestEvmMinGasFilter(t *testing.T) {
 
 	ctx := tApp.NewContext(true, tmproto.Header{Height: 1, Time: tmtime.Now()})
 	tApp.GetEvmKeeper().SetParams(ctx, evmtypes.Params{
-		EvmDenom: "aist",
+		EvmDenom: "akava",
 	})
 
 	testCases := []struct {
@@ -44,29 +44,29 @@ func TestEvmMinGasFilter(t *testing.T) {
 			mustParseDecCoins(""),
 		},
 		{
-			"zero uist gas price",
-			mustParseDecCoins("0uist"),
-			mustParseDecCoins("0uist"),
+			"zero ukava gas price",
+			mustParseDecCoins("0ukava"),
+			mustParseDecCoins("0ukava"),
 		},
 		{
-			"non-zero uist gas price",
-			mustParseDecCoins("0.001uist"),
-			mustParseDecCoins("0.001uist"),
+			"non-zero ukava gas price",
+			mustParseDecCoins("0.001ukava"),
+			mustParseDecCoins("0.001ukava"),
 		},
 		{
-			"zero uist gas price, min aist price",
-			mustParseDecCoins("0uist;100000aist"),
-			mustParseDecCoins("0uist"), // aist is removed
+			"zero ukava gas price, min akava price",
+			mustParseDecCoins("0ukava;100000akava"),
+			mustParseDecCoins("0ukava"), // akava is removed
 		},
 		{
-			"zero uist gas price, min aist price, other token",
-			mustParseDecCoins("0uist;100000aist;0.001other"),
-			mustParseDecCoins("0uist;0.001other"), // aist is removed
+			"zero ukava gas price, min akava price, other token",
+			mustParseDecCoins("0ukava;100000akava;0.001other"),
+			mustParseDecCoins("0ukava;0.001other"), // akava is removed
 		},
 		{
-			"non-zero uist gas price, min aist price",
-			mustParseDecCoins("0.25uist;100000aist;0.001other"),
-			mustParseDecCoins("0.25uist;0.001other"), // aist is removed
+			"non-zero ukava gas price, min akava price",
+			mustParseDecCoins("0.25ukava;100000akava;0.001other"),
+			mustParseDecCoins("0.25ukava;0.001other"), // akava is removed
 		},
 	}
 

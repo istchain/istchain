@@ -12,8 +12,8 @@ import (
 	vesting "github.com/cosmos/cosmos-sdk/x/auth/vesting/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/app/ante"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/app/ante"
 )
 
 func TestVestingMempoolDecorator_MsgCreateVestingAccount_Unauthorized(t *testing.T) {
@@ -33,7 +33,7 @@ func TestVestingMempoolDecorator_MsgCreateVestingAccount_Unauthorized(t *testing
 			"MsgCreateVestingAccount",
 			vesting.NewMsgCreateVestingAccount(
 				testAddresses[0], testAddresses[1],
-				sdk.NewCoins(sdk.NewInt64Coin("uist", 100_000_000)),
+				sdk.NewCoins(sdk.NewInt64Coin("ukava", 100_000_000)),
 				time.Date(1998, 1, 1, 0, 0, 0, 0, time.UTC).Unix(),
 				false,
 			),
@@ -44,7 +44,7 @@ func TestVestingMempoolDecorator_MsgCreateVestingAccount_Unauthorized(t *testing
 			"MsgCreateVestingAccount",
 			vesting.NewMsgCreatePermanentLockedAccount(
 				testAddresses[0], testAddresses[1],
-				sdk.NewCoins(sdk.NewInt64Coin("uist", 100_000_000)),
+				sdk.NewCoins(sdk.NewInt64Coin("ukava", 100_000_000)),
 			),
 			true,
 			"MsgTypeURL /cosmos.vesting.v1beta1.MsgCreatePermanentLockedAccount not supported",
@@ -63,7 +63,7 @@ func TestVestingMempoolDecorator_MsgCreateVestingAccount_Unauthorized(t *testing
 			"other messages not affected",
 			banktypes.NewMsgSend(
 				testAddresses[0], testAddresses[1],
-				sdk.NewCoins(sdk.NewInt64Coin("uist", 100_000_000)),
+				sdk.NewCoins(sdk.NewInt64Coin("ukava", 100_000_000)),
 			),
 			false,
 			"",
