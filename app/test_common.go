@@ -41,22 +41,22 @@ import (
 	feemarketkeeper "github.com/evmos/ethermint/x/feemarket/keeper"
 	"github.com/stretchr/testify/require"
 
-	auctionkeeper "github.com/istchain/istchain/x/auction/keeper"
-	bep3keeper "github.com/istchain/istchain/x/bep3/keeper"
-	cdpkeeper "github.com/istchain/istchain/x/cdp/keeper"
-	committeekeeper "github.com/istchain/istchain/x/committee/keeper"
-	communitykeeper "github.com/istchain/istchain/x/community/keeper"
-	earnkeeper "github.com/istchain/istchain/x/earn/keeper"
-	evmutilkeeper "github.com/istchain/istchain/x/evmutil/keeper"
-	hardkeeper "github.com/istchain/istchain/x/hard/keeper"
-	incentivekeeper "github.com/istchain/istchain/x/incentive/keeper"
-	issuancekeeper "github.com/istchain/istchain/x/issuance/keeper"
-	istdistkeeper "github.com/istchain/istchain/x/istdist/keeper"
-	liquidkeeper "github.com/istchain/istchain/x/liquid/keeper"
-	pricefeedkeeper "github.com/istchain/istchain/x/pricefeed/keeper"
-	routerkeeper "github.com/istchain/istchain/x/router/keeper"
-	savingskeeper "github.com/istchain/istchain/x/savings/keeper"
-	swapkeeper "github.com/istchain/istchain/x/swap/keeper"
+	auctionkeeper "github.com/kava-labs/kava/x/auction/keeper"
+	bep3keeper "github.com/kava-labs/kava/x/bep3/keeper"
+	cdpkeeper "github.com/kava-labs/kava/x/cdp/keeper"
+	committeekeeper "github.com/kava-labs/kava/x/committee/keeper"
+	communitykeeper "github.com/kava-labs/kava/x/community/keeper"
+	earnkeeper "github.com/kava-labs/kava/x/earn/keeper"
+	evmutilkeeper "github.com/kava-labs/kava/x/evmutil/keeper"
+	hardkeeper "github.com/kava-labs/kava/x/hard/keeper"
+	incentivekeeper "github.com/kava-labs/kava/x/incentive/keeper"
+	issuancekeeper "github.com/kava-labs/kava/x/issuance/keeper"
+	kavadistkeeper "github.com/kava-labs/kava/x/kavadist/keeper"
+	liquidkeeper "github.com/kava-labs/kava/x/liquid/keeper"
+	pricefeedkeeper "github.com/kava-labs/kava/x/pricefeed/keeper"
+	routerkeeper "github.com/kava-labs/kava/x/router/keeper"
+	savingskeeper "github.com/kava-labs/kava/x/savings/keeper"
+	swapkeeper "github.com/kava-labs/kava/x/swap/keeper"
 )
 
 var (
@@ -64,7 +64,7 @@ var (
 	defaultInitialHeight int64 = 1
 )
 
-const TestChainId = "isttest_2221-1"
+const TestChainId = "kavatest_2221-1"
 
 // TestApp is a simple wrapper around an App. It exposes internal keepers for use in integration tests.
 // This file also contains test helpers. Ideally they would be in separate package.
@@ -117,7 +117,7 @@ func (tApp TestApp) GetDistrKeeper() distkeeper.Keeper          { return tApp.di
 func (tApp TestApp) GetGovKeeper() govkeeper.Keeper             { return tApp.govKeeper }
 func (tApp TestApp) GetCrisisKeeper() crisiskeeper.Keeper       { return tApp.crisisKeeper }
 func (tApp TestApp) GetParamsKeeper() paramskeeper.Keeper       { return tApp.paramsKeeper }
-func (tApp TestApp) GetIstDistKeeper() istdistkeeper.Keeper     { return tApp.istdistKeeper }
+func (tApp TestApp) GetKavadistKeeper() kavadistkeeper.Keeper   { return tApp.kavadistKeeper }
 func (tApp TestApp) GetAuctionKeeper() auctionkeeper.Keeper     { return tApp.auctionKeeper }
 func (tApp TestApp) GetIssuanceKeeper() issuancekeeper.Keeper   { return tApp.issuanceKeeper }
 func (tApp TestApp) GetBep3Keeper() bep3keeper.Keeper           { return tApp.bep3Keeper }
@@ -174,7 +174,7 @@ func GenesisStateWithSingleValidator(
 	balances := []banktypes.Balance{
 		{
 			Address: acc.GetAddress().String(),
-			Coins:   sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(100000000000000))),
+			Coins:   sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(100000000000000))),
 		},
 	}
 
@@ -237,7 +237,7 @@ func genesisStateWithValSet(
 	}
 	// set validators and delegations
 	currentStakingGenesis := stakingtypes.GetGenesisStateFromAppState(app.appCodec, genesisState)
-	currentStakingGenesis.Params.BondDenom = "uist"
+	currentStakingGenesis.Params.BondDenom = "ukava"
 
 	stakingGenesis := stakingtypes.NewGenesisState(
 		currentStakingGenesis.Params,
@@ -257,13 +257,13 @@ func genesisStateWithValSet(
 
 	for range delegations {
 		// add delegated tokens to total supply
-		totalSupply = totalSupply.Add(sdk.NewCoin("uist", bondAmt))
+		totalSupply = totalSupply.Add(sdk.NewCoin("ukava", bondAmt))
 	}
 
 	// add bonded amount to bonded pool module account
 	balances = append(balances, banktypes.Balance{
 		Address: authtypes.NewModuleAddress(stakingtypes.BondedPoolName).String(),
-		Coins:   sdk.Coins{sdk.NewCoin("uist", bondAmt)},
+		Coins:   sdk.Coins{sdk.NewCoin("ukava", bondAmt)},
 	})
 
 	bankGenesis := banktypes.NewGenesisState(

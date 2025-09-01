@@ -9,7 +9,7 @@ import (
 	"testing"
 
 	sdkmath "cosmossdk.io/math"
-	"github.com/istchain/istchain/app"
+	"github.com/kava-labs/kava/app"
 
 	abci "github.com/cometbft/cometbft/abci/types"
 	tmbytes "github.com/cometbft/cometbft/libs/bytes"
@@ -52,9 +52,9 @@ func (suite *SimulateRequestTestSuite) TearDownTest() {
 }
 
 func (suite *SimulateRequestTestSuite) TestSimulateRequest() {
-	fromAddr, err := sdk.AccAddressFromBech32("ist1esagqd83rhqdtpy5sxhklaxgn58k2m3s3mnpea")
+	fromAddr, err := sdk.AccAddressFromBech32("kava1esagqd83rhqdtpy5sxhklaxgn58k2m3s3mnpea")
 	suite.Require().NoError(err)
-	toAddr, err := sdk.AccAddressFromBech32("ist1mq9qxlhze029lm0frzw2xr6hem8c3k9ts54w0w")
+	toAddr, err := sdk.AccAddressFromBech32("kava1mq9qxlhze029lm0frzw2xr6hem8c3k9ts54w0w")
 	suite.Require().NoError(err)
 
 	simRequest := app.SimulateRequest{
@@ -62,11 +62,11 @@ func (suite *SimulateRequestTestSuite) TestSimulateRequest() {
 			bank.MsgSend{
 				FromAddress: fromAddr,
 				ToAddress:   toAddr,
-				Amount:      sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(1e6))),
+				Amount:      sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(1e6))),
 			},
 		},
 		Fee: auth.StdFee{
-			Amount: sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(5e4))),
+			Amount: sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(5e4))),
 			Gas:    1e6,
 		},
 		Memo: "test memo",
