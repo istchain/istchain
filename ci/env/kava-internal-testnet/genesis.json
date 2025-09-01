@@ -1,6 +1,6 @@
 {
   "genesis_time": "2022-05-25T17:00:00Z",
-  "chain_id": "istchain_proto_2221-17000",
+  "chain_id": "kava_2221-17000",
   "initial_height": "1",
   "consensus_params": {
     "block": {
@@ -14,12 +14,16 @@
       "max_bytes": "50000"
     },
     "validator": {
-      "pub_key_types": ["ed25519"]
+      "pub_key_types": [
+        "ed25519"
+      ]
     },
     "version": {}
   },
   "app_hash": "",
   "app_state": {
+    "06-solomachine": null,
+    "07-tendermint": null,
     "auction": {
       "next_auction_id": "1",
       "params": {
@@ -42,50 +46,40 @@
       },
       "accounts": [
         {
-          "@type": "/ethermint.types.v1.EthAccount",
+          "@type": "/cosmos.auth.v1beta1.ModuleAccount",
           "base_account": {
-            "address": "ist1g3kdcr8ah7rs07dk00elnkpmk34e6dcj94306a",
-            "pub_key": null,
-            "account_number": "0",
-            "sequence": "1"
-          },
-          "code_hash": "0"
-        },
-        {
-          "@type": "/ethermint.types.v1.EthAccount",
-          "base_account": {
-            "address": "ist1jc92jznsjlvfs6d4l8qjhc4j3gaapvmkypxlln",
+            "address": "kava1cj7njkw2g9fqx4e768zc75dp9sks8u9znxrf0w",
             "pub_key": null,
             "account_number": "0",
             "sequence": "0"
           },
-          "code_hash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
+          "name": "kavadist",
+          "permissions": [
+            "minter"
+          ]
+        },
+        {
+          "@type": "/cosmos.auth.v1beta1.BaseAccount",
+          "address": "kava1fy5zeuutmxzwcx5hncu5q83ug3zcqmxcpwrjsn",
+          "pub_key": null,
+          "account_number": "0",
+          "sequence": "0"
         },
         {
           "@type": "/cosmos.auth.v1beta1.ModuleAccount",
           "base_account": {
-            "address": "ist1cj7njkw2g9fqx4e768zc75dp9sks8u9znxrf0w",
+            "address": "kava1mfru9azs5nua2wxcd4sq64g5nt7nn4n8s2w8cu",
             "pub_key": null,
             "account_number": "0",
             "sequence": "0"
           },
-          "name": "istdist",
-          "permissions": ["minter"]
+          "name": "swap",
+          "permissions": []
         },
         {
           "@type": "/ethermint.types.v1.EthAccount",
           "base_account": {
-            "address": "ist1ak4pa9z2aty94ze2cs06wsdnkg9hsvfkp40r02",
-            "pub_key": null,
-            "account_number": "0",
-            "sequence": "0"
-          },
-          "code_hash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
-        },
-        {
-          "@type": "/ethermint.types.v1.EthAccount",
-          "base_account": {
-            "address": "ist123fxg0l602etulhhcdm0vt7l57qya5wjcrwhzz",
+            "address": "kava1ak4pa9z2aty94ze2cs06wsdnkg9hsvfkp40r02",
             "pub_key": null,
             "account_number": "0",
             "sequence": "0"
@@ -95,7 +89,7 @@
         {
           "@type": "/ethermint.types.v1.EthAccount",
           "base_account": {
-            "address": "ist10wlnqzyss4accfqmyxwx5jy5x9nfkwh6qm7n4t",
+            "address": "kava123fxg0l602etulhhcdm0vt7l57qya5wjcrwhzz",
             "pub_key": null,
             "account_number": "0",
             "sequence": "0"
@@ -105,7 +99,17 @@
         {
           "@type": "/ethermint.types.v1.EthAccount",
           "base_account": {
-            "address": "ist1vtf08rd2z9fm8qwxa54y3el5vues8ty64qcdyr",
+            "address": "kava10wlnqzyss4accfqmyxwx5jy5x9nfkwh6qm7n4t",
+            "pub_key": null,
+            "account_number": "0",
+            "sequence": "0"
+          },
+          "code_hash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
+        },
+        {
+          "@type": "/ethermint.types.v1.EthAccount",
+          "base_account": {
+            "address": "kava1vtf08rd2z9fm8qwxa54y3el5vues8ty64qcdyr",
             "pub_key": null,
             "account_number": "0",
             "sequence": "1"
@@ -115,7 +119,7 @@
         {
           "@type": "/ethermint.types.v1.EthAccount",
           "base_account": {
-            "address": "ist1wrrekcy2h0zs9shkruuwqsvsldq8hm70yad4ke",
+            "address": "kava1wrrekcy2h0zs9shkruuwqsvsldq8hm70yad4ke",
             "pub_key": null,
             "account_number": "0",
             "sequence": "1"
@@ -123,19 +127,55 @@
           "code_hash": "0xd51cf04c1b78bc48b348e8455c4181539ab0b7ff84bb081fed109cd5feafaede"
         },
         {
-          "@type": "/cosmos.auth.v1beta1.ModuleAccount",
+          "@type": "/ethermint.types.v1.EthAccount",
           "base_account": {
-            "address": "ist1mfru9azs5nua2wxcd4sq64g5nt7nn4n8s2w8cu",
+            "address": "kava1g3kdcr8ah7rs07dk00elnkpmk34e6dcj94306a",
+            "pub_key": null,
+            "account_number": "0",
+            "sequence": "1"
+          },
+          "code_hash": "0"
+        },
+        {
+          "@type": "/ethermint.types.v1.EthAccount",
+          "base_account": {
+            "address": "kava1xg3g4gadzvlgfqwnsfufnsv6r0gmtnhl9f09p5",
             "pub_key": null,
             "account_number": "0",
             "sequence": "0"
           },
-          "name": "swap",
-          "permissions": []
+          "code_hash": "0"
+        },
+        {
+          "@type": "/ethermint.types.v1.EthAccount",
+          "base_account": {
+            "address": "kava1kq0kfnnffkna9hknzg8kgx89ljczjtjdt8qrv7",
+            "pub_key": null,
+            "account_number": "0",
+            "sequence": "0"
+          },
+          "code_hash": "0"
+        },
+        {
+          "@type": "/ethermint.types.v1.EthAccount",
+          "base_account": {
+            "address": "kava1xcgtffvv2yeqmgs3yz4gv29kgjrj8usxw9ehkk",
+            "pub_key": null,
+            "account_number": "0",
+            "sequence": "0"
+          },
+          "code_hash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
         },
         {
           "@type": "/cosmos.auth.v1beta1.BaseAccount",
-          "address": "ist1fy5zeuutmxzwcx5hncu5q83ug3zcqmxcpwrjsn",
+          "address": "kava1vlpsrmdyuywvaqrv7rx6xga224sqfwz3fyfhwq",
+          "pub_key": null,
+          "account_number": "0",
+          "sequence": "0"
+        },
+        {
+          "@type": "/cosmos.auth.v1beta1.BaseAccount",
+          "address": "kava1krh7k30pc9rteejpl2zycj0vau58y8c69xkzws",
           "pub_key": null,
           "account_number": "0",
           "sequence": "0"
@@ -143,7 +183,7 @@
         {
           "@type": "/ethermint.types.v1.EthAccount",
           "base_account": {
-            "address": "ist1xcgtffvv2yeqmgs3yz4gv29kgjrj8usxw9ehkk",
+            "address": "kava1w66m9hdzwgd6uc8g93zqkcumgwzrpcw9e32lf8",
             "pub_key": null,
             "account_number": "0",
             "sequence": "0"
@@ -153,77 +193,26 @@
         {
           "@type": "/ethermint.types.v1.EthAccount",
           "base_account": {
-            "address": "ist1kq0kfnnffkna9hknzg8kgx89ljczjtjdt8qrv7",
-            "pub_key": null,
-            "account_number": "0",
-            "sequence": "0"
-          },
-          "code_hash": "0"
-        },
-        {
-          "@type": "/cosmos.auth.v1beta1.BaseAccount",
-          "address": "ist1vlpsrmdyuywvaqrv7rx6xga224sqfwz3fyfhwq",
-          "pub_key": null,
-          "account_number": "0",
-          "sequence": "0"
-        },
-        {
-          "@type": "/cosmos.auth.v1beta1.BaseAccount",
-          "address": "ist1krh7k30pc9rteejpl2zycj0vau58y8c69xkzws",
-          "pub_key": null,
-          "account_number": "0",
-          "sequence": "0"
-        },
-        {
-          "@type": "/ethermint.types.v1.EthAccount",
-          "base_account": {
-            "address": "ist1w66m9hdzwgd6uc8g93zqkcumgwzrpcw9e32lf8",
-            "pub_key": null,
-            "account_number": "0",
-            "sequence": "0"
-          },
-          "code_hash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
-        },
-        {
-          "@type": "/ethermint.types.v1.EthAccount",
-          "base_account": {
-            "address": "ist1xg3g4gadzvlgfqwnsfufnsv6r0gmtnhl9f09p5",
-            "pub_key": null,
-            "account_number": "0",
-            "sequence": "0"
-          },
-          "code_hash": "0"
-        },
-        {
-          "@type": "/cosmos.auth.v1beta1.BaseAccount",
-          "address": "ist10cy05c0j9udypdrp0wy8a5jtshx67v7zk5sdzp",
-          "pub_key": null,
-          "account_number": "0",
-          "sequence": "0"
-        },
-        {
-          "@type": "/cosmos.auth.v1beta1.BaseAccount",
-          "address": "ist1qffzssyckxgrd7qm6g59r7rfjpp047kzaefatc",
-          "pub_key": null,
-          "account_number": "0",
-          "sequence": "0"
-        },
-        {
-          "@type": "/cosmos.auth.v1beta1.BaseAccount",
-          "address": "ist14w4avgdvqrlpww6l5dhgj4egfn6ln7gmxhytjv",
-          "pub_key": null,
-          "account_number": "0",
-          "sequence": "0"
-        },
-        {
-          "@type": "/ethermint.types.v1.EthAccount",
-          "base_account": {
-            "address": "ist1seqjrgakfgzasu5g8gwsmgzwacg85e8nnxeqxl",
-            "pub_key": null,
             "account_number": "23",
+            "address": "kava1seqjrgakfgzasu5g8gwsmgzwacg85e8nnxeqxl",
+            "pub_key": null,
             "sequence": "1"
           },
           "code_hash": "0x45d85d503e0143ffd2bb95d7bcb4dadfc1c05ff005fc7c26e63eb47f496fdafc"
+        },
+        {
+          "@type": "/cosmos.auth.v1beta1.BaseAccount",
+          "address": "kava10cy05c0j9udypdrp0wy8a5jtshx67v7zk5sdzp",
+          "pub_key": null,
+          "account_number": "0",
+          "sequence": "0"
+        },
+        {
+          "@type": "/cosmos.auth.v1beta1.BaseAccount",
+          "address": "kava1qffzssyckxgrd7qm6g59r7rfjpp047kzaefatc",
+          "pub_key": null,
+          "account_number": "0",
+          "sequence": "0"
         }
       ]
     },
@@ -235,8 +224,8 @@
             "msg": "/cosmos.bank.v1beta1.MsgMultiSend"
           },
           "expiration": null,
-          "grantee": "ist10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
-          "granter": "ist17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
+          "grantee": "kava10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
+          "granter": "kava17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
         },
         {
           "authorization": {
@@ -244,8 +233,8 @@
             "msg": "/cosmos.bank.v1beta1.MsgSend"
           },
           "expiration": null,
-          "grantee": "ist10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
-          "granter": "ist17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
+          "grantee": "kava10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
+          "granter": "kava17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
         },
         {
           "authorization": {
@@ -253,8 +242,8 @@
             "msg": "/cosmos.distribution.v1beta1.MsgFundCommunityPool"
           },
           "expiration": null,
-          "grantee": "ist10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
-          "granter": "ist17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
+          "grantee": "kava10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
+          "granter": "kava17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
         },
         {
           "authorization": {
@@ -262,8 +251,8 @@
             "msg": "/cosmos.distribution.v1beta1.MsgSetWithdrawAddress"
           },
           "expiration": null,
-          "grantee": "ist10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
-          "granter": "ist17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
+          "grantee": "kava10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
+          "granter": "kava17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
         },
         {
           "authorization": {
@@ -271,8 +260,8 @@
             "msg": "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward"
           },
           "expiration": null,
-          "grantee": "ist10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
-          "granter": "ist17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
+          "grantee": "kava10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
+          "granter": "kava17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
         },
         {
           "authorization": {
@@ -280,8 +269,8 @@
             "msg": "/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission"
           },
           "expiration": null,
-          "grantee": "ist10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
-          "granter": "ist17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
+          "grantee": "kava10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
+          "granter": "kava17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
         },
         {
           "authorization": {
@@ -289,8 +278,8 @@
             "msg": "/cosmos.staking.v1beta1.MsgBeginRedelegate"
           },
           "expiration": null,
-          "grantee": "ist10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
-          "granter": "ist17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
+          "grantee": "kava10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
+          "granter": "kava17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
         },
         {
           "authorization": {
@@ -298,8 +287,8 @@
             "msg": "/cosmos.staking.v1beta1.MsgCancelUnbondingDelegation"
           },
           "expiration": null,
-          "grantee": "ist10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
-          "granter": "ist17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
+          "grantee": "kava10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
+          "granter": "kava17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
         },
         {
           "authorization": {
@@ -307,8 +296,8 @@
             "msg": "/cosmos.staking.v1beta1.MsgDelegate"
           },
           "expiration": null,
-          "grantee": "ist10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
-          "granter": "ist17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
+          "grantee": "kava10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
+          "granter": "kava17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
         },
         {
           "authorization": {
@@ -316,143 +305,143 @@
             "msg": "/cosmos.staking.v1beta1.MsgUndelegate"
           },
           "expiration": null,
-          "grantee": "ist10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
-          "granter": "ist17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
+          "grantee": "kava10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
+          "granter": "kava17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
         },
         {
           "authorization": {
             "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
-            "msg": "/istchain.cdp.v1beta1.MsgCreateCDP"
+            "msg": "/kava.cdp.v1beta1.MsgCreateCDP"
           },
           "expiration": null,
-          "grantee": "ist10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
-          "granter": "ist17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
+          "grantee": "kava10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
+          "granter": "kava17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
         },
         {
           "authorization": {
             "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
-            "msg": "/istchain.cdp.v1beta1.MsgDeposit"
+            "msg": "/kava.cdp.v1beta1.MsgDeposit"
           },
           "expiration": null,
-          "grantee": "ist10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
-          "granter": "ist17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
+          "grantee": "kava10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
+          "granter": "kava17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
         },
         {
           "authorization": {
             "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
-            "msg": "/istchain.cdp.v1beta1.MsgDrawDebt"
+            "msg": "/kava.cdp.v1beta1.MsgDrawDebt"
           },
           "expiration": null,
-          "grantee": "ist10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
-          "granter": "ist17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
+          "grantee": "kava10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
+          "granter": "kava17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
         },
         {
           "authorization": {
             "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
-            "msg": "/istchain.cdp.v1beta1.MsgRepayDebt"
+            "msg": "/kava.cdp.v1beta1.MsgRepayDebt"
           },
           "expiration": null,
-          "grantee": "ist10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
-          "granter": "ist17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
+          "grantee": "kava10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
+          "granter": "kava17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
         },
         {
           "authorization": {
             "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
-            "msg": "/istchain.cdp.v1beta1.MsgWithdraw"
+            "msg": "/kava.cdp.v1beta1.MsgWithdraw"
           },
           "expiration": null,
-          "grantee": "ist10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
-          "granter": "ist17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
+          "grantee": "kava10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
+          "granter": "kava17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
         },
         {
           "authorization": {
             "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
-            "msg": "/istchain.hard.v1beta1.MsgBorrow"
+            "msg": "/kava.hard.v1beta1.MsgBorrow"
           },
           "expiration": null,
-          "grantee": "ist10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
-          "granter": "ist17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
+          "grantee": "kava10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
+          "granter": "kava17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
         },
         {
           "authorization": {
             "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
-            "msg": "/istchain.hard.v1beta1.MsgDeposit"
+            "msg": "/kava.hard.v1beta1.MsgDeposit"
           },
           "expiration": null,
-          "grantee": "ist10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
-          "granter": "ist17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
+          "grantee": "kava10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
+          "granter": "kava17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
         },
         {
           "authorization": {
             "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
-            "msg": "/istchain.hard.v1beta1.MsgRepay"
+            "msg": "/kava.hard.v1beta1.MsgRepay"
           },
           "expiration": null,
-          "grantee": "ist10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
-          "granter": "ist17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
+          "grantee": "kava10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
+          "granter": "kava17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
         },
         {
           "authorization": {
             "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
-            "msg": "/istchain.hard.v1beta1.MsgWithdraw"
+            "msg": "/kava.hard.v1beta1.MsgWithdraw"
           },
           "expiration": null,
-          "grantee": "ist10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
-          "granter": "ist17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
+          "grantee": "kava10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
+          "granter": "kava17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
         },
         {
           "authorization": {
             "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
-            "msg": "/istchain.liquid.v1beta1.MsgBurnDerivative"
+            "msg": "/kava.liquid.v1beta1.MsgBurnDerivative"
           },
           "expiration": null,
-          "grantee": "ist10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
-          "granter": "ist17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
+          "grantee": "kava10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
+          "granter": "kava17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
         },
         {
           "authorization": {
             "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
-            "msg": "/istchain.liquid.v1beta1.MsgMintDerivative"
+            "msg": "/kava.liquid.v1beta1.MsgMintDerivative"
           },
           "expiration": null,
-          "grantee": "ist10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
-          "granter": "ist17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
+          "grantee": "kava10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
+          "granter": "kava17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
         },
         {
           "authorization": {
             "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
-            "msg": "/istchain.swap.v1beta1.MsgDeposit"
+            "msg": "/kava.swap.v1beta1.MsgDeposit"
           },
           "expiration": null,
-          "grantee": "ist10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
-          "granter": "ist17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
+          "grantee": "kava10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
+          "granter": "kava17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
         },
         {
           "authorization": {
             "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
-            "msg": "/istchain.swap.v1beta1.MsgSwapExactForTokens"
+            "msg": "/kava.swap.v1beta1.MsgSwapExactForTokens"
           },
           "expiration": null,
-          "grantee": "ist10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
-          "granter": "ist17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
+          "grantee": "kava10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
+          "granter": "kava17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
         },
         {
           "authorization": {
             "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
-            "msg": "/istchain.swap.v1beta1.MsgSwapForExactTokens"
+            "msg": "/kava.swap.v1beta1.MsgSwapForExactTokens"
           },
           "expiration": null,
-          "grantee": "ist10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
-          "granter": "ist17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
+          "grantee": "kava10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
+          "granter": "kava17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
         },
         {
           "authorization": {
             "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
-            "msg": "/istchain.swap.v1beta1.MsgWithdraw"
+            "msg": "/kava.swap.v1beta1.MsgWithdraw"
           },
           "expiration": null,
-          "grantee": "ist10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
-          "granter": "ist17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
+          "grantee": "kava10d07y265gmmuvt4z0w9aw880jnsr700jxh8cq5",
+          "granter": "kava17d2wax0zhjrrecvaszuyxdf5wcu5a0p4qlx3t5"
         }
       ]
     },
@@ -463,73 +452,65 @@
       },
       "balances": [
         {
-          "address": "ist1qffzssyckxgrd7qm6g59r7rfjpp047kzaefatc",
+          "address": "kava1xg3g4gadzvlgfqwnsfufnsv6r0gmtnhl9f09p5",
           "coins": [
             {
-              "denom": "btcb",
-              "amount": "200000000"
-            },
-            {
-              "denom": "busd",
-              "amount": "1000000000000000"
-            },
-            {
-              "denom": "hard",
-              "amount": "1000000000"
-            },
-            {
-              "denom": "swp",
-              "amount": "5000000000"
-            },
-            {
-              "denom": "uist",
-              "amount": "100000000000000"
-            },
-            {
-              "denom": "usdx",
-              "amount": "103000000000"
-            }
-          ]
-        },
-        {
-          "address": "ist1xg3g4gadzvlgfqwnsfufnsv6r0gmtnhl9f09p5",
-          "coins": [
-            {
-              "denom": "uist",
+              "denom": "ukava",
               "amount": "1000000000000000000"
             }
           ]
         },
         {
-          "address": "ist1xcgtffvv2yeqmgs3yz4gv29kgjrj8usxw9ehkk",
+          "address": "kava1fy5zeuutmxzwcx5hncu5q83ug3zcqmxcpwrjsn",
           "coins": [
             {
-              "denom": "uist",
+              "denom": "ukava",
+              "amount": "100000000000000"
+            }
+          ]
+        },
+        {
+          "address": "kava1cj7njkw2g9fqx4e768zc75dp9sks8u9znxrf0w",
+          "coins": [
+            {
+              "denom": "hard",
+              "amount": "100000000000000"
+            },
+            {
+              "denom": "swp",
+              "amount": "100000000000000"
+            },
+            {
+              "denom": "ukava",
+              "amount": "100000000000000"
+            }
+          ]
+        },
+        {
+          "address": "kava1xcgtffvv2yeqmgs3yz4gv29kgjrj8usxw9ehkk",
+          "coins": [
+            {
+              "denom": "ukava",
               "amount": "1000000000"
             }
           ]
         },
         {
-          "address": "ist1g3kdcr8ah7rs07dk00elnkpmk34e6dcj94306a",
+          "address": "kava1g3kdcr8ah7rs07dk00elnkpmk34e6dcj94306a",
           "coins": [
             {
-              "denom": "uist",
+              "denom": "ukava",
               "amount": "10000000000000000000000"
             }
           ]
         },
         {
-          "address": "ist1fy5zeuutmxzwcx5hncu5q83ug3zcqmxcpwrjsn",
+          "address": "kava1vlpsrmdyuywvaqrv7rx6xga224sqfwz3fyfhwq",
           "coins": [
             {
-              "denom": "uist",
-              "amount": "100000000000000"
-            }
-          ]
-        },
-        {
-          "address": "ist1vlpsrmdyuywvaqrv7rx6xga224sqfwz3fyfhwq",
-          "coins": [
+              "denom": "bnb",
+              "amount": "500000000"
+            },
             {
               "denom": "btcb",
               "amount": "200000000"
@@ -551,91 +532,54 @@
               "amount": "1000000000"
             },
             {
-              "denom": "hard",
-              "amount": "1000000000"
-            },
-            {
-              "denom": "swp",
-              "amount": "5000000000"
-            },
-            {
-              "denom": "uist",
-              "amount": "10000000000000"
-            },
-            {
-              "denom": "usdx",
-              "amount": "103000000000"
-            }
-          ]
-        },
-        {
-          "address": "ist1w66m9hdzwgd6uc8g93zqkcumgwzrpcw9e32lf8",
-          "coins": [
-            {
-              "denom": "uist",
-              "amount": "1000000000"
-            }
-          ]
-        },
-        {
-          "address": "ist10cy05c0j9udypdrp0wy8a5jtshx67v7zk5sdzp",
-          "coins": [
-            {
-              "denom": "btcb",
+              "denom": "erc20/bitgo/wbtc",
               "amount": "200000000"
             },
             {
-              "denom": "busd",
-              "amount": "1000000000000000"
+              "denom": "erc20/multichain/usdc",
+              "amount": "1000000000000000000"
+            },
+            {
+              "denom": "erc20/multichain/usdt",
+              "amount": "10000000000"
+            },
+            {
+              "denom": "erc20/multichain/wbtc",
+              "amount": "1000000000"
             },
             {
               "denom": "hard",
               "amount": "1000000000"
             },
             {
+              "denom": "ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2",
+              "amount": "10000000000"
+            },
+            {
               "denom": "swp",
               "amount": "5000000000"
             },
             {
-              "denom": "uist",
+              "denom": "ukava",
               "amount": "10000000000000"
             },
             {
               "denom": "usdx",
               "amount": "103000000000"
+            },
+            {
+              "denom": "xrpb",
+              "amount": "1000000000000000"
             }
           ]
         },
         {
-          "address": "ist1jc92jznsjlvfs6d4l8qjhc4j3gaapvmkypxlln",
+          "address": "kava1krh7k30pc9rteejpl2zycj0vau58y8c69xkzws",
           "coins": [
             {
-              "denom": "uist",
-              "amount": "1000000000"
-            }
-          ]
-        },
-        {
-          "address": "ist14w4avgdvqrlpww6l5dhgj4egfn6ln7gmxhytjv",
-          "coins": [
-            {
-              "denom": "uist",
-              "amount": "1000000000"
-            }
-          ]
-        },
-        {
-          "address": "ist1kq0kfnnffkna9hknzg8kgx89ljczjtjdt8qrv7",
-          "coins": [
-            {
-              "denom": "uist",
-              "amount": "1000000000000000000"
-            }
-          ]
-        },
-        {
-          "address": "ist1krh7k30pc9rteejpl2zycj0vau58y8c69xkzws",
-          "coins": [
+              "denom": "bnb",
+              "amount": "100000000000000000"
+            },
             {
               "denom": "btcb",
               "amount": "200000000"
@@ -657,6 +601,14 @@
               "amount": "1000000000"
             },
             {
+              "denom": "erc20/bitgo/wbtc",
+              "amount": "200000000"
+            },
+            {
+              "denom": "erc20/tether/usdt",
+              "amount": "100000000000"
+            },
+            {
               "denom": "hard",
               "amount": "1000000000"
             },
@@ -665,34 +617,39 @@
               "amount": "5000000000"
             },
             {
-              "denom": "uist",
+              "denom": "ukava",
               "amount": "10000000000000"
             },
             {
               "denom": "usdx",
               "amount": "103000000000"
+            },
+            {
+              "denom": "xrpb",
+              "amount": "103000000000"
             }
           ]
         },
         {
-          "address": "ist1cj7njkw2g9fqx4e768zc75dp9sks8u9znxrf0w",
+          "address": "kava1w66m9hdzwgd6uc8g93zqkcumgwzrpcw9e32lf8",
           "coins": [
             {
-              "denom": "hard",
-              "amount": "100000000000000"
-            },
-            {
-              "denom": "swp",
-              "amount": "100000000000000"
-            },
-            {
-              "denom": "uist",
-              "amount": "100000000000000"
+              "denom": "ukava",
+              "amount": "1000000000"
             }
           ]
         },
         {
-          "address": "ist1mfru9azs5nua2wxcd4sq64g5nt7nn4n8s2w8cu",
+          "address": "kava1kq0kfnnffkna9hknzg8kgx89ljczjtjdt8qrv7",
+          "coins": [
+            {
+              "denom": "ukava",
+              "amount": "1000000000000000000"
+            }
+          ]
+        },
+        {
+          "address": "kava1mfru9azs5nua2wxcd4sq64g5nt7nn4n8s2w8cu",
           "coins": [
             {
               "denom": "btcb",
@@ -707,8 +664,66 @@
               "amount": "5000000000"
             },
             {
-              "denom": "uist",
+              "denom": "ukava",
               "amount": "5000000000"
+            },
+            {
+              "denom": "usdx",
+              "amount": "103000000000"
+            }
+          ]
+        },
+        {
+          "address": "kava10cy05c0j9udypdrp0wy8a5jtshx67v7zk5sdzp",
+          "coins": [
+            {
+              "denom": "btcb",
+              "amount": "200000000"
+            },
+            {
+              "denom": "busd",
+              "amount": "1000000000000000"
+            },
+            {
+              "denom": "hard",
+              "amount": "1000000000"
+            },
+            {
+              "denom": "swp",
+              "amount": "5000000000"
+            },
+            {
+              "denom": "ukava",
+              "amount": "10000000000000"
+            },
+            {
+              "denom": "usdx",
+              "amount": "103000000000"
+            }
+          ]
+        },
+        {
+          "address": "kava1qffzssyckxgrd7qm6g59r7rfjpp047kzaefatc",
+          "coins": [
+            {
+              "denom": "btcb",
+              "amount": "200000000"
+            },
+            {
+              "denom": "busd",
+              "amount": "1000000000000000"
+            },
+            {
+              "denom": "hard",
+              "amount": "1000000000"
+            },
+            {
+              "denom": "swp",
+              "amount": "5000000000"
+            },
+            {
+              "denom": "ukava",
+              "amount": "100000000000000"
             },
             {
               "denom": "usdx",
@@ -736,7 +751,7 @@
               "time_based_limit": "0"
             },
             "active": true,
-            "deputy_address": "ist1kla4wl0ccv7u85cemvs3y987hqk0afcv7vue84",
+            "deputy_address": "kava1kla4wl0ccv7u85cemvs3y987hqk0afcv7vue84",
             "fixed_fee": "2",
             "min_swap_amount": "3",
             "max_swap_amount": "2000000000",
@@ -753,7 +768,7 @@
               "time_based_limit": "0"
             },
             "active": true,
-            "deputy_address": "ist14q5sawxdxtpap5x5sgzj7v4sp3ucncjlpuk3hs",
+            "deputy_address": "kava14q5sawxdxtpap5x5sgzj7v4sp3ucncjlpuk3hs",
             "fixed_fee": "100000",
             "min_swap_amount": "100001",
             "max_swap_amount": "250000000000000",
@@ -770,7 +785,7 @@
               "time_based_limit": "0"
             },
             "active": true,
-            "deputy_address": "ist1agcvt07tcw0tglu0hmwdecsnuxp2yd45f3avgm",
+            "deputy_address": "kava1agcvt07tcw0tglu0hmwdecsnuxp2yd45f3avgm",
             "fixed_fee": "1000",
             "min_swap_amount": "1001",
             "max_swap_amount": "500000000000",
@@ -787,7 +802,7 @@
               "time_based_limit": "0"
             },
             "active": true,
-            "deputy_address": "ist1j9je7f6s0v6k7dmgv6u5k5ru202f5ffsc7af04",
+            "deputy_address": "kava1j9je7f6s0v6k7dmgv6u5k5ru202f5ffsc7af04",
             "fixed_fee": "20000",
             "min_swap_amount": "20001",
             "max_swap_amount": "100000000000000",
@@ -816,7 +831,7 @@
             "minimum_withdraw_amount": "10000000"
           }
         ],
-        "relayer": "ist15tmj37vh7ch504px9fcfglmvx6y9m70646ev8t",
+        "relayer": "kava15tmj37vh7ch504px9fcfglmvx6y9m70646ev8t",
         "enabled_conversion_pairs": []
       },
       "erc20_bridge_pairs": [],
@@ -830,60 +845,43 @@
       "cdps": [],
       "debt_denom": "debt",
       "deposits": [],
-      "gov_denom": "uist",
+      "gov_denom": "ukava",
       "params": {
         "circuit_breaker": false,
         "liquidation_block_interval": 500,
         "collateral_params": [
           {
-            "auction_size": "50000000000",
-            "conversion_factor": "8",
-            "debt_limit": {
-              "amount": "20000000000000",
-              "denom": "usdx"
-            },
             "denom": "bnb",
-            "liquidation_market_id": "bnb:usd:30",
-            "liquidation_penalty": "0.050000000000000000",
-            "liquidation_ratio": "1.500000000000000000",
-            "keeper_reward_percentage": "0.01",
-            "check_collateralization_index_count": "10",
-            "spot_market_id": "bnb:usd",
-            "stability_fee": "1.000000000782997700",
-            "type": "bnb-a"
-          },
-          {
-            "auction_size": "100000000",
-            "conversion_factor": "8",
-            "debt_limit": {
-              "amount": "2000000000000",
-              "denom": "usdx"
-            },
-            "denom": "btcb",
-            "liquidation_market_id": "btc:usd:30",
-            "liquidation_penalty": "0.050000000000000000",
-            "liquidation_ratio": "1.500000000000000000",
-            "keeper_reward_percentage": "0.01",
-            "check_collateralization_index_count": "10",
-            "spot_market_id": "btc:usd",
-            "stability_fee": "1.000000000782997700",
-            "type": "btcb-a"
-          },
-          {
-            "denom": "xrpb",
-            "type": "xrpb-a",
+            "type": "bnb-a",
             "liquidation_ratio": "1.500000000000000000",
             "debt_limit": {
               "denom": "usdx",
-              "amount": "1000000000000"
+              "amount": "5000000000000"
             },
-            "stability_fee": "1.000000001547125958",
-            "auction_size": "100000000000",
-            "liquidation_penalty": "0.075000000000000000",
-            "keeper_reward_percentage": "0.01",
+            "stability_fee": "1.000000000158153904",
+            "auction_size": "50000000000",
+            "liquidation_penalty": "0.025000000000000000",
+            "spot_market_id": "bnb:usd",
+            "liquidation_market_id": "bnb:usd:30",
+            "keeper_reward_percentage": "0.010000000000000000",
             "check_collateralization_index_count": "10",
-            "spot_market_id": "xrp:usd",
-            "liquidation_market_id": "xrp:usd:30",
+            "conversion_factor": "8"
+          },
+          {
+            "denom": "btcb",
+            "type": "btcb-a",
+            "liquidation_ratio": "1.500000000000000000",
+            "debt_limit": {
+              "denom": "usdx",
+              "amount": "10000000000000"
+            },
+            "stability_fee": "1.000000000782997609",
+            "auction_size": "100000000",
+            "liquidation_penalty": "0.025000000000000000",
+            "spot_market_id": "btc:usd",
+            "liquidation_market_id": "btc:usd:30",
+            "keeper_reward_percentage": "0.010000000000000000",
+            "check_collateralization_index_count": "10",
             "conversion_factor": "8"
           },
           {
@@ -892,15 +890,15 @@
             "liquidation_ratio": "1.010000000000000000",
             "debt_limit": {
               "denom": "usdx",
-              "amount": "3000000000000"
+              "amount": "50000000000000"
             },
             "stability_fee": "1.000000000000000000",
             "auction_size": "1000000000000",
-            "liquidation_penalty": "0.075000000000000000",
-            "check_collateralization_index_count": "10",
-            "keeper_reward_percentage": "0.01",
+            "liquidation_penalty": "0.025000000000000000",
             "spot_market_id": "busd:usd",
             "liquidation_market_id": "busd:usd:30",
+            "keeper_reward_percentage": "0.010000000000000000",
+            "check_collateralization_index_count": "10",
             "conversion_factor": "8"
           },
           {
@@ -909,135 +907,67 @@
             "liquidation_ratio": "1.100000000000000000",
             "debt_limit": {
               "denom": "usdx",
-              "amount": "3000000000000"
+              "amount": "1000000000000"
             },
             "stability_fee": "1.000000012857214317",
             "auction_size": "1000000000000",
-            "liquidation_penalty": "0.075000000000000000",
-            "check_collateralization_index_count": "10",
-            "keeper_reward_percentage": "0.01",
+            "liquidation_penalty": "0.025000000000000000",
             "spot_market_id": "busd:usd",
             "liquidation_market_id": "busd:usd:30",
+            "keeper_reward_percentage": "0.010000000000000000",
+            "check_collateralization_index_count": "10",
             "conversion_factor": "8"
           },
           {
-            "auction_size": "50000000000",
-            "conversion_factor": "6",
-            "debt_limit": {
-              "amount": "2000000000000",
-              "denom": "usdx"
-            },
-            "denom": "uist",
-            "liquidation_market_id": "ist:usd:30",
-            "liquidation_penalty": "0.050000000000000000",
+            "denom": "xrpb",
+            "type": "xrpb-a",
             "liquidation_ratio": "1.500000000000000000",
-            "keeper_reward_percentage": "0.01",
+            "debt_limit": {
+              "denom": "usdx",
+              "amount": "5000000000000"
+            },
+            "stability_fee": "1.000000000782997609",
+            "auction_size": "4000000000000",
+            "liquidation_penalty": "0.025000000000000000",
+            "spot_market_id": "xrp:usd",
+            "liquidation_market_id": "xrp:usd:30",
+            "keeper_reward_percentage": "0.010000000000000000",
             "check_collateralization_index_count": "10",
-            "spot_market_id": "ist:usd",
-            "stability_fee": "1.000000000782997700",
-            "type": "uist-a"
+            "conversion_factor": "8"
           },
           {
-            "auction_size": "50000000000",
-            "conversion_factor": "6",
-            "debt_limit": {
-              "amount": "2000000000000",
-              "denom": "usdx"
-            },
-            "denom": "ibc/C72DE26FFF16DE62BE2784E12229BDF5F4465CE8B10530426D6DB53255FF01B2",
-            "liquidation_market_id": "luna:usd:30",
-            "spot_market_id": "luna:usd",
-            "liquidation_penalty": "0.050000000000000000",
+            "denom": "ukava",
+            "type": "ukava-a",
             "liquidation_ratio": "1.500000000000000000",
-            "keeper_reward_percentage": "0.01",
+            "debt_limit": {
+              "denom": "usdx",
+              "amount": "250000000000"
+            },
+            "stability_fee": "1.000000000782997609",
+            "auction_size": "5000000000",
+            "liquidation_penalty": "0.025000000000000000",
+            "spot_market_id": "kava:usd",
+            "liquidation_market_id": "kava:usd:30",
+            "keeper_reward_percentage": "0.010000000000000000",
             "check_collateralization_index_count": "10",
-            "stability_fee": "1.000000000782997700",
-            "type": "luna-a"
+            "conversion_factor": "6"
           },
           {
-            "auction_size": "50000000000",
-            "conversion_factor": "6",
-            "debt_limit": {
-              "amount": "2000000000000",
-              "denom": "usdx"
-            },
-            "denom": "ibc/4129EB76C01ED14052054BB975DE0C6C5010E12FFD9253C20C58BCD828BEE9A5",
-            "liquidation_market_id": "akt:usd:30",
-            "spot_market_id": "akt:usd",
-            "liquidation_penalty": "0.050000000000000000",
-            "liquidation_ratio": "1.500000000000000000",
-            "keeper_reward_percentage": "0.01",
-            "check_collateralization_index_count": "10",
-            "stability_fee": "1.000000000782997700",
-            "type": "akt-a"
-          },
-          {
-            "auction_size": "50000000000",
-            "conversion_factor": "6",
-            "debt_limit": {
-              "amount": "2000000000000",
-              "denom": "usdx"
-            },
-            "denom": "ibc/ED07A3391A112B175915CD8FAF43A2DA8E4790EDE12566649D0C2F97716B8518",
-            "liquidation_market_id": "osmo:usd:30",
-            "spot_market_id": "osmo:usd",
-            "liquidation_penalty": "0.050000000000000000",
-            "liquidation_ratio": "1.500000000000000000",
-            "keeper_reward_percentage": "0.01",
-            "check_collateralization_index_count": "10",
-            "stability_fee": "1.000000000782997700",
-            "type": "osmo-a"
-          },
-          {
-            "auction_size": "50000000000",
-            "conversion_factor": "6",
-            "debt_limit": {
-              "amount": "2000000000000",
-              "denom": "usdx"
-            },
-            "denom": "ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2",
-            "liquidation_market_id": "atom:usd:30",
-            "spot_market_id": "atom:usd",
-            "liquidation_penalty": "0.050000000000000000",
-            "liquidation_ratio": "1.500000000000000000",
-            "keeper_reward_percentage": "0.01",
-            "check_collateralization_index_count": "10",
-            "stability_fee": "1.000000000782997700",
-            "type": "atom-a"
-          },
-          {
-            "auction_size": "50000000000",
-            "conversion_factor": "6",
-            "debt_limit": {
-              "amount": "2000000000000",
-              "denom": "usdx"
-            },
             "denom": "hard",
-            "liquidation_market_id": "hard:usd:30",
-            "liquidation_penalty": "0.050000000000000000",
+            "type": "hard-a",
             "liquidation_ratio": "1.500000000000000000",
-            "keeper_reward_percentage": "0.01",
-            "check_collateralization_index_count": "10",
-            "spot_market_id": "hard:usd",
-            "stability_fee": "1.000000000782997700",
-            "type": "hard-a"
-          },
-          {
-            "auction_size": "50000000000",
-            "conversion_factor": "6",
             "debt_limit": {
-              "amount": "2000000000000",
-              "denom": "usdx"
+              "denom": "usdx",
+              "amount": "100000000000"
             },
-            "denom": "swp",
-            "liquidation_market_id": "swp:usd:30",
-            "liquidation_penalty": "0.050000000000000000",
-            "liquidation_ratio": "1.500000000000000000",
-            "keeper_reward_percentage": "0.01",
+            "stability_fee": "1.000000000782997609",
+            "auction_size": "5000000000",
+            "liquidation_penalty": "0.025000000000000000",
+            "spot_market_id": "hard:usd",
+            "liquidation_market_id": "hard:usd:30",
+            "keeper_reward_percentage": "0.010000000000000000",
             "check_collateralization_index_count": "10",
-            "spot_market_id": "swp:usd",
-            "stability_fee": "1.000000000782997700",
-            "type": "swp-a"
+            "conversion_factor": "6"
           },
           {
             "denom": "hbtc",
@@ -1048,13 +978,47 @@
               "amount": "10000000000000"
             },
             "stability_fee": "1.000000001547125958",
-            "auction_size": "1000000000000",
-            "liquidation_penalty": "0.075000000000000000",
-            "check_collateralization_index_count": "10",
-            "keeper_reward_percentage": "0.01",
+            "auction_size": "100000000",
+            "liquidation_penalty": "0.025000000000000000",
             "spot_market_id": "btc:usd",
             "liquidation_market_id": "btc:usd:30",
+            "keeper_reward_percentage": "0.010000000000000000",
+            "check_collateralization_index_count": "10",
             "conversion_factor": "8"
+          },
+          {
+            "denom": "swp",
+            "type": "swp-a",
+            "liquidation_ratio": "1.500000000000000000",
+            "debt_limit": {
+              "denom": "usdx",
+              "amount": "10000000"
+            },
+            "stability_fee": "1.000000001547125958",
+            "auction_size": "50000000000",
+            "liquidation_penalty": "0.025000000000000000",
+            "spot_market_id": "swp:usd",
+            "liquidation_market_id": "swp:usd:30",
+            "keeper_reward_percentage": "0.010000000000000000",
+            "check_collateralization_index_count": "10",
+            "conversion_factor": "6"
+          },
+          {
+            "denom": "erc20/tether/usdt",
+            "type": "usdt-a",
+            "liquidation_ratio": "1.010000000000000000",
+            "debt_limit": {
+              "denom": "usdx",
+              "amount": "25000000000000"
+            },
+            "stability_fee": "1.000000000000000000",
+            "auction_size": "100000000000",
+            "liquidation_penalty": "0.025000000000000000",
+            "spot_market_id": "usdt:usd",
+            "liquidation_market_id": "usdt:usd:30",
+            "keeper_reward_percentage": "0.010000000000000000",
+            "check_collateralization_index_count": "10",
+            "conversion_factor": "6"
           }
         ],
         "debt_auction_lot": "10000000000",
@@ -1066,7 +1030,7 @@
           "reference_asset": "usd"
         },
         "global_debt_limit": {
-          "amount": "53000000000000",
+          "amount": "181200010000000",
           "denom": "usdx"
         },
         "surplus_auction_lot": "10000000000",
@@ -1077,26 +1041,19 @@
     "committee": {
       "committees": [
         {
-          "@type": "/istchain.committee.v1beta1.MemberCommittee",
+          "@type": "/kava.committee.v1beta1.MemberCommittee",
           "base_committee": {
             "id": "1",
-            "description": "IstChain Stability Committee",
-            "members": ["ist1fy5zeuutmxzwcx5hncu5q83ug3zcqmxcpwrjsn"],
+            "description": "Kava Stability Committee",
+            "members": [
+              "kava1fy5zeuutmxzwcx5hncu5q83ug3zcqmxcpwrjsn"
+            ],
             "permissions": [
               {
-                "@type": "/istchain.committee.v1beta1.TextPermission"
+                "@type": "/kava.committee.v1beta1.TextPermission"
               },
               {
-                "@type": "/istchain.committee.v1beta1.CommunityPoolLendWithdrawPermission"
-              },
-              {
-                "@type": "/istchain.committee.v1beta1.CommunityCDPRepayDebtPermission"
-              },
-              {
-                "@type": "/istchain.committee.v1beta1.CommunityCDPWithdrawCollateralPermission"
-              },
-              {
-                "@type": "/istchain.committee.v1beta1.ParamsChangePermission",
+                "@type": "/kava.committee.v1beta1.ParamsChangePermission",
                 "allowed_params_changes": [
                   {
                     "subspace": "auction",
@@ -1159,7 +1116,7 @@
                     "key": "Active"
                   },
                   {
-                    "subspace": "istdist",
+                    "subspace": "kavadist",
                     "key": "Active"
                   },
                   {
@@ -1183,14 +1140,16 @@
           }
         },
         {
-          "@type": "/istchain.committee.v1beta1.MemberCommittee",
+          "@type": "/kava.committee.v1beta1.MemberCommittee",
           "base_committee": {
             "id": "2",
-            "description": "IstChain Safety Committee",
-            "members": ["ist1fy5zeuutmxzwcx5hncu5q83ug3zcqmxcpwrjsn"],
+            "description": "Kava Safety Committee",
+            "members": [
+              "kava1fy5zeuutmxzwcx5hncu5q83ug3zcqmxcpwrjsn"
+            ],
             "permissions": [
               {
-                "@type": "/istchain.committee.v1beta1.SoftwareUpgradePermission"
+                "@type": "/kava.committee.v1beta1.SoftwareUpgradePermission"
               }
             ],
             "vote_threshold": "0.667000000000000000",
@@ -1199,14 +1158,16 @@
           }
         },
         {
-          "@type": "/istchain.committee.v1beta1.MemberCommittee",
+          "@type": "/kava.committee.v1beta1.MemberCommittee",
           "base_committee": {
             "id": "3",
-            "description": "IstChain God Committee (testing only)",
-            "members": ["ist1fy5zeuutmxzwcx5hncu5q83ug3zcqmxcpwrjsn"],
+            "description": "Kava God Committee (testing only)",
+            "members": [
+              "kava1fy5zeuutmxzwcx5hncu5q83ug3zcqmxcpwrjsn"
+            ],
             "permissions": [
               {
-                "@type": "/istchain.committee.v1beta1.GodPermission"
+                "@type": "/kava.committee.v1beta1.GodPermission"
               }
             ],
             "vote_threshold": "0.667000000000000000",
@@ -1215,17 +1176,19 @@
           }
         },
         {
-          "@type": "/istchain.committee.v1beta1.TokenCommittee",
+          "@type": "/kava.committee.v1beta1.TokenCommittee",
           "base_committee": {
             "id": "4",
             "description": "HARD Governance Committee",
-            "members": ["ist1fy5zeuutmxzwcx5hncu5q83ug3zcqmxcpwrjsn"],
+            "members": [
+              "kava1fy5zeuutmxzwcx5hncu5q83ug3zcqmxcpwrjsn"
+            ],
             "permissions": [
               {
-                "@type": "/istchain.committee.v1beta1.TextPermission"
+                "@type": "/kava.committee.v1beta1.TextPermission"
               },
               {
-                "@type": "/istchain.committee.v1beta1.ParamsChangePermission",
+                "@type": "/kava.committee.v1beta1.ParamsChangePermission",
                 "allowed_params_changes": [
                   {
                     "subspace": "hard",
@@ -1258,17 +1221,19 @@
           "tally_denom": "hard"
         },
         {
-          "@type": "/istchain.committee.v1beta1.TokenCommittee",
+          "@type": "/kava.committee.v1beta1.TokenCommittee",
           "base_committee": {
             "id": "5",
             "description": "SWP Governance Committee",
-            "members": ["ist1fy5zeuutmxzwcx5hncu5q83ug3zcqmxcpwrjsn"],
+            "members": [
+              "kava1fy5zeuutmxzwcx5hncu5q83ug3zcqmxcpwrjsn"
+            ],
             "permissions": [
               {
-                "@type": "/istchain.committee.v1beta1.TextPermission"
+                "@type": "/kava.committee.v1beta1.TextPermission"
               },
               {
-                "@type": "/istchain.committee.v1beta1.ParamsChangePermission",
+                "@type": "/kava.committee.v1beta1.ParamsChangePermission",
                 "allowed_params_changes": [
                   {
                     "subspace": "swap",
@@ -1314,7 +1279,7 @@
     },
     "crisis": {
       "constant_fee": {
-        "denom": "uist",
+        "denom": "ukava",
         "amount": "1000"
       }
     },
@@ -1342,31 +1307,43 @@
         "allowed_vaults": [
           {
             "denom": "usdx",
-            "strategies": ["STRATEGY_TYPE_HARD"]
+            "strategies": [
+              "STRATEGY_TYPE_HARD"
+            ]
           },
           {
-            "denom": "uist",
-            "strategies": ["STRATEGY_TYPE_SAVINGS"]
+            "denom": "ukava",
+            "strategies": [
+              "STRATEGY_TYPE_SAVINGS"
+            ]
           },
           {
             "denom": "erc20/multichain/usdc",
-            "strategies": ["STRATEGY_TYPE_SAVINGS"],
+            "strategies": [
+              "STRATEGY_TYPE_SAVINGS"
+            ],
             "is_private_vault": false,
             "allowed_depositors": []
           },
           {
-            "denom": "bist",
-            "strategies": ["STRATEGY_TYPE_SAVINGS"]
+            "denom": "bkava",
+            "strategies": [
+              "STRATEGY_TYPE_SAVINGS"
+            ]
           },
           {
             "denom": "bnb",
-            "strategies": ["STRATEGY_TYPE_SAVINGS"],
+            "strategies": [
+              "STRATEGY_TYPE_SAVINGS"
+            ],
             "is_private_vault": false,
             "allowed_depositors": []
           },
           {
             "denom": "erc20/multichain/usdt",
-            "strategies": ["STRATEGY_TYPE_SAVINGS"],
+            "strategies": [
+              "STRATEGY_TYPE_SAVINGS"
+            ],
             "is_private_vault": false,
             "allowed_depositors": []
           }
@@ -1471,7 +1448,7 @@
         }
       ],
       "params": {
-        "evm_denom": "aist",
+        "evm_denom": "akava",
         "enable_create": true,
         "enable_call": true,
         "extra_eips": [],
@@ -1498,7 +1475,7 @@
         },
         "eip712_allowed_msgs": [
           {
-            "msg_type_url": "/istchain.evmutil.v1beta1.MsgConvertERC20ToCoin",
+            "msg_type_url": "/kava.evmutil.v1beta1.MsgConvertERC20ToCoin",
             "msg_value_type_name": "MsgValueEVMConvertERC20ToCoin",
             "value_types": [
               {
@@ -1510,7 +1487,7 @@
                 "type": "string"
               },
               {
-                "name": "ist_erc20_address",
+                "name": "kava_erc20_address",
                 "type": "string"
               },
               {
@@ -1521,7 +1498,7 @@
             "nested_types": []
           },
           {
-            "msg_type_url": "/istchain.evmutil.v1beta1.MsgConvertCoinToERC20",
+            "msg_type_url": "/kava.evmutil.v1beta1.MsgConvertCoinToERC20",
             "msg_value_type_name": "MsgValueEVMConvertCoinToERC20",
             "value_types": [
               {
@@ -1540,7 +1517,7 @@
             "nested_types": []
           },
           {
-            "msg_type_url": "/istchain.earn.v1beta1.MsgDeposit",
+            "msg_type_url": "/kava.earn.v1beta1.MsgDeposit",
             "msg_value_type_name": "MsgValueEarnDeposit",
             "value_types": [
               {
@@ -1559,7 +1536,7 @@
             "nested_types": []
           },
           {
-            "msg_type_url": "/istchain.earn.v1beta1.MsgWithdraw",
+            "msg_type_url": "/kava.earn.v1beta1.MsgWithdraw",
             "msg_value_type_name": "MsgValueEarnWithdraw",
             "value_types": [
               {
@@ -1639,7 +1616,7 @@
             "nested_types": []
           },
           {
-            "msg_type_url": "/istchain.incentive.v1beta1.MsgClaimUSDXMintingReward",
+            "msg_type_url": "/kava.incentive.v1beta1.MsgClaimUSDXMintingReward",
             "msg_value_type_name": "MsgValueIncentiveClaimUSDXMintingReward",
             "value_types": [
               {
@@ -1654,7 +1631,7 @@
             "nested_types": []
           },
           {
-            "msg_type_url": "/istchain.incentive.v1beta1.MsgClaimHardReward",
+            "msg_type_url": "/kava.incentive.v1beta1.MsgClaimHardReward",
             "msg_value_type_name": "MsgValueIncentiveClaimHardReward",
             "value_types": [
               {
@@ -1683,7 +1660,7 @@
             ]
           },
           {
-            "msg_type_url": "/istchain.incentive.v1beta1.MsgClaimDelegatorReward",
+            "msg_type_url": "/kava.incentive.v1beta1.MsgClaimDelegatorReward",
             "msg_value_type_name": "MsgValueIncentiveClaimDelegatorReward",
             "value_types": [
               {
@@ -1712,7 +1689,7 @@
             ]
           },
           {
-            "msg_type_url": "/istchain.incentive.v1beta1.MsgClaimSwapReward",
+            "msg_type_url": "/kava.incentive.v1beta1.MsgClaimSwapReward",
             "msg_value_type_name": "MsgValueIncentiveClaimSwapReward",
             "value_types": [
               {
@@ -1741,7 +1718,7 @@
             ]
           },
           {
-            "msg_type_url": "/istchain.incentive.v1beta1.MsgClaimSavingsReward",
+            "msg_type_url": "/kava.incentive.v1beta1.MsgClaimSavingsReward",
             "msg_value_type_name": "MsgValueIncentiveClaimSavingsReward",
             "value_types": [
               {
@@ -1770,7 +1747,7 @@
             ]
           },
           {
-            "msg_type_url": "/istchain.incentive.v1beta1.MsgClaimEarnReward",
+            "msg_type_url": "/kava.incentive.v1beta1.MsgClaimEarnReward",
             "msg_value_type_name": "MsgValueIncentiveClaimEarnReward",
             "value_types": [
               {
@@ -1799,7 +1776,7 @@
             ]
           },
           {
-            "msg_type_url": "/istchain.router.v1beta1.MsgMintDeposit",
+            "msg_type_url": "/kava.router.v1beta1.MsgMintDeposit",
             "msg_value_type_name": "MsgValueRouterMintDeposit",
             "value_types": [
               {
@@ -1818,7 +1795,7 @@
             "nested_types": []
           },
           {
-            "msg_type_url": "/istchain.router.v1beta1.MsgDelegateMintDeposit",
+            "msg_type_url": "/kava.router.v1beta1.MsgDelegateMintDeposit",
             "msg_value_type_name": "MsgValueRouterDelegateMintDeposit",
             "value_types": [
               {
@@ -1837,7 +1814,7 @@
             "nested_types": []
           },
           {
-            "msg_type_url": "/istchain.router.v1beta1.MsgWithdrawBurn",
+            "msg_type_url": "/kava.router.v1beta1.MsgWithdrawBurn",
             "msg_value_type_name": "MsgValueRouterWithdrawBurn",
             "value_types": [
               {
@@ -1856,7 +1833,7 @@
             "nested_types": []
           },
           {
-            "msg_type_url": "/istchain.router.v1beta1.MsgWithdrawBurnUndelegate",
+            "msg_type_url": "/kava.router.v1beta1.MsgWithdrawBurnUndelegate",
             "msg_value_type_name": "MsgValueRouterWithdrawBurnUndelegate",
             "value_types": [
               {
@@ -1913,7 +1890,7 @@
             "nested_types": []
           },
           {
-            "msg_type_url": "/istchain.liquid.v1beta1.MsgMintDerivative",
+            "msg_type_url": "/kava.liquid.v1beta1.MsgMintDerivative",
             "msg_value_type_name": "MsgValueMintDerivative",
             "value_types": [
               {
@@ -1932,7 +1909,7 @@
             "nested_types": []
           },
           {
-            "msg_type_url": "/istchain.liquid.v1beta1.MsgBurnDerivative",
+            "msg_type_url": "/kava.liquid.v1beta1.MsgBurnDerivative",
             "msg_value_type_name": "MsgValueBurnDerivative",
             "value_types": [
               {
@@ -1951,7 +1928,7 @@
             "nested_types": []
           },
           {
-            "msg_type_url": "/istchain.hard.v1beta1.MsgWithdraw",
+            "msg_type_url": "/kava.hard.v1beta1.MsgWithdraw",
             "msg_value_type_name": "MsgValueHardWithdraw",
             "value_types": [
               {
@@ -1966,7 +1943,7 @@
             "nested_types": []
           },
           {
-            "msg_type_url": "/istchain.hard.v1beta1.MsgDeposit",
+            "msg_type_url": "/kava.hard.v1beta1.MsgDeposit",
             "msg_value_type_name": "MsgValueHardDeposit",
             "value_types": [
               {
@@ -1981,7 +1958,7 @@
             "nested_types": []
           },
           {
-            "msg_type_url": "/istchain.evmutil.v1beta1.MsgConvertCosmosCoinToERC20",
+            "msg_type_url": "/kava.evmutil.v1beta1.MsgConvertCosmosCoinToERC20",
             "msg_value_type_name": "MsgConvertCosmosCoinToERC20",
             "value_types": [
               {
@@ -2000,7 +1977,7 @@
             "nested_types": []
           },
           {
-            "msg_type_url": "/istchain.evmutil.v1beta1.MsgConvertCosmosCoinFromERC20",
+            "msg_type_url": "/kava.evmutil.v1beta1.MsgConvertCosmosCoinFromERC20",
             "msg_value_type_name": "MsgConvertCosmosCoinFromERC20",
             "value_types": [
               {
@@ -2014,6 +1991,132 @@
               {
                 "name": "amount",
                 "type": "Coin"
+              }
+            ],
+            "nested_types": []
+          },
+          {
+            "msg_type_url": "/kava.cdp.v1beta1.MsgCreateCDP",
+            "msg_value_type_name": "MsgValueCdpCreateCDP",
+            "value_types": [
+              {
+                "name": "sender",
+                "type": "string"
+              },
+              {
+                "name": "collateral",
+                "type": "Coin"
+              },
+              {
+                "name": "principal",
+                "type": "Coin"
+              },
+              {
+                "name": "collateral_type",
+                "type": "string"
+              }
+            ],
+            "nested_types": []
+          },
+          {
+            "msg_type_url": "/kava.cdp.v1beta1.MsgDeposit",
+            "msg_value_type_name": "MsgValueCdpDeposit",
+            "value_types": [
+              {
+                "name": "depositor",
+                "type": "string"
+              },
+              {
+                "name": "owner",
+                "type": "string"
+              },
+              {
+                "name": "collateral",
+                "type": "Coin"
+              },
+              {
+                "name": "collateral_type",
+                "type": "string"
+              }
+            ],
+            "nested_types": []
+          },
+          {
+            "msg_type_url": "/kava.cdp.v1beta1.MsgWithdraw",
+            "msg_value_type_name": "MsgValueCdpWithdraw",
+            "value_types": [
+              {
+                "name": "depositor",
+                "type": "string"
+              },
+              {
+                "name": "owner",
+                "type": "string"
+              },
+              {
+                "name": "collateral",
+                "type": "Coin"
+              },
+              {
+                "name": "collateral_type",
+                "type": "string"
+              }
+            ],
+            "nested_types": []
+          },
+          {
+            "msg_type_url": "/kava.cdp.v1beta1.MsgDrawDebt",
+            "msg_value_type_name": "MsgValueCdpDrawDebt",
+            "value_types": [
+              {
+                "name": "sender",
+                "type": "string"
+              },
+              {
+                "name": "collateral_type",
+                "type": "string"
+              },
+              {
+                "name": "principal",
+                "type": "Coin"
+              }
+            ],
+            "nested_types": []
+          },
+          {
+            "msg_type_url": "/kava.cdp.v1beta1.MsgRepayDebt",
+            "msg_value_type_name": "MsgValueCdpRepayDebt",
+            "value_types": [
+              {
+                "name": "sender",
+                "type": "string"
+              },
+              {
+                "name": "collateral_type",
+                "type": "string"
+              },
+              {
+                "name": "payment",
+                "type": "Coin"
+              }
+            ],
+            "nested_types": []
+          },
+          {
+            "msg_type_url": "/kava.committee.v1beta1.MsgVote",
+            "msg_value_type_name": "MsgValueCommitteeVote",
+            "value_types": [
+              {
+                "name": "proposal_id",
+                "type": "uint64"
+              },
+              {
+                "name": "voter",
+                "type": "string"
+              },
+              {
+                "name": "vote_type",
+                "type": "int32"
               }
             ],
             "nested_types": []
@@ -2033,24 +2136,7 @@
             "decimals": 6
           }
         ],
-        "enabled_conversion_pairs": [
-          {
-            "ist_erc20_address": "0xBb304f44b7EFD865361F2AD973d8ebA433893ABC",
-            "denom": "erc20/multichain/usdc"
-          },
-          {
-            "ist_erc20_address": "0x7a5DBf8e6ac1F6aCCF14f5B4E88b21EAA04c983d",
-            "denom": "erc20/axelar/usdc"
-          },
-          {
-            "ist_erc20_address": "0x7d2Ee2914324d5D4dC33A5c295E720659D5F3fA7",
-            "denom": "erc20/axelar/wbtc"
-          },
-          {
-            "ist_erc20_address": "0x5d6D67a665C9F169B0f9436E05B11108C1606043",
-            "denom": "erc20/axelar/eth"
-          }
-        ]
+        "enabled_conversion_pairs": []
       }
     },
     "feemarket": {
@@ -2073,7 +2159,7 @@
               {
                 "@type": "/cosmos.staking.v1beta1.MsgCreateValidator",
                 "description": {
-                  "moniker": "istchain-protonet-validator-0",
+                  "moniker": "kava-testnet-11-validator-0",
                   "identity": "",
                   "website": "",
                   "security_contact": "",
@@ -2085,19 +2171,19 @@
                   "max_change_rate": "0.010000000000000000"
                 },
                 "min_self_delegation": "1",
-                "delegator_address": "ist14w4avgdvqrlpww6l5dhgj4egfn6ln7gmxhytjv",
-                "validator_address": "istvaloper14w4avgdvqrlpww6l5dhgj4egfn6ln7gmtp7r2m",
+                "delegator_address": "kava1xcgtffvv2yeqmgs3yz4gv29kgjrj8usxw9ehkk",
+                "validator_address": "kavavaloper1xcgtffvv2yeqmgs3yz4gv29kgjrj8usxrnrlwp",
                 "pubkey": {
                   "@type": "/cosmos.crypto.ed25519.PubKey",
-                  "key": "SzSj9ej4GZAopruFI2pltVGj4fMq7m0JQePS9lELUiA="
+                  "key": "e//2Cz3zvPXpYe2XJi1b8W7QdTc7Dmc0gCc0P8n78Ns="
                 },
                 "value": {
-                  "denom": "uist",
+                  "denom": "ukava",
                   "amount": "500000000"
                 }
               }
             ],
-            "memo": "eb90b49b002177a8393688ae104ee7070776ecb5@10.6.2.44:26656",
+            "memo": "5d70bdd3d34d362f9336de830a190260728d24b9@10.6.5.194:26656",
             "timeout_height": "0",
             "extension_options": [],
             "non_critical_extension_options": []
@@ -2107,7 +2193,7 @@
               {
                 "public_key": {
                   "@type": "/cosmos.crypto.secp256k1.PubKey",
-                  "key": "AidonN+Oz5lw/Ir+RQ7kGPDThMbEDJe3gHipix8Lp3Ve"
+                  "key": "A1IlO4CrOkrGOZrNuIa8stpPI8jJ9pSOEjaw+i+vNFO/"
                 },
                 "mode_info": {
                   "single": {
@@ -2122,11 +2208,71 @@
               "gas_limit": "200000",
               "payer": "",
               "granter": ""
-            },
-            "tip": null
+            }
           },
           "signatures": [
-            "VxM2ul5bT0qU4ZPxcT6jhs8byiKSwPIU49Lnq4OuyQ91mhHGSrxWfEkhuNsEyhZijwZhLOxe4vt4EdnfT6bUMw=="
+            "uKIm+0WmrUv17T5k3POBye9ijJxW5uo9ZGL+gCR1TcI7QcVIf2tzBYeJTTXgcGkuI+YTKfwPxV0Vf3tZ88e1/g=="
+          ]
+        },
+        {
+          "body": {
+            "messages": [
+              {
+                "@type": "/cosmos.staking.v1beta1.MsgCreateValidator",
+                "description": {
+                  "moniker": "kava-testnet-11-validator-1",
+                  "identity": "",
+                  "website": "",
+                  "security_contact": "",
+                  "details": ""
+                },
+                "commission": {
+                  "rate": "0.100000000000000000",
+                  "max_rate": "0.200000000000000000",
+                  "max_change_rate": "0.010000000000000000"
+                },
+                "min_self_delegation": "1",
+                "delegator_address": "kava1w66m9hdzwgd6uc8g93zqkcumgwzrpcw9e32lf8",
+                "validator_address": "kavavaloper1w66m9hdzwgd6uc8g93zqkcumgwzrpcw958sh3s",
+                "pubkey": {
+                  "@type": "/cosmos.crypto.ed25519.PubKey",
+                  "key": "DcSKRFZOtEnpW9M0sD8VVYh+aQF1P7ri3KSgjGAYHqc="
+                },
+                "value": {
+                  "denom": "ukava",
+                  "amount": "500000000"
+                }
+              }
+            ],
+            "memo": "f37b1480ddf8bc6eae5beb7598a428b3044098a2@10.6.5.170:26656",
+            "timeout_height": "0",
+            "extension_options": [],
+            "non_critical_extension_options": []
+          },
+          "auth_info": {
+            "signer_infos": [
+              {
+                "public_key": {
+                  "@type": "/cosmos.crypto.secp256k1.PubKey",
+                  "key": "AhoAeI9mF6vGRt+FLRAz7JtSNBxesljLVul58zUwa/7h"
+                },
+                "mode_info": {
+                  "single": {
+                    "mode": "SIGN_MODE_DIRECT"
+                  }
+                },
+                "sequence": "0"
+              }
+            ],
+            "fee": {
+              "amount": [],
+              "gas_limit": "200000",
+              "payer": "",
+              "granter": ""
+            }
+          },
+          "signatures": [
+            "lFyP/b/mRAPIV7tDlH8109OBeD+hZWSjUDuqquQ+JRgPXqgTLDVDjhwsIHfeYLyawYUZavWYOBTBEoWP2pfDhA=="
           ]
         }
       ]
@@ -2136,32 +2282,20 @@
       "deposits": [],
       "votes": [],
       "proposals": [],
-      "deposit_params": {
-        "min_deposit": [
-          {
-            "denom": "uist",
-            "amount": "10000000"
-          }
-        ],
-        "max_deposit_period": "172800s"
-      },
+      "deposit_params": null,
       "voting_params": {
-        "voting_period": "600s"
+        "voting_period": "604800s"
       },
-      "tally_params": {
-        "quorum": "0.334000000000000000",
-        "threshold": "0.500000000000000000",
-        "veto_threshold": "0.334000000000000000"
-      },
+      "tally_params": null,
       "params": {
         "min_deposit": [
           {
-            "denom": "uist",
+            "denom": "ukava",
             "amount": "10000000"
           }
         ],
         "max_deposit_period": "172800s",
-        "voting_period": "600s",
+        "voting_period": "604800s",
         "quorum": "0.334000000000000000",
         "threshold": "0.500000000000000000",
         "veto_threshold": "0.334000000000000000",
@@ -2218,6 +2352,60 @@
               "loan_to_value": "0.000000000000000000"
             },
             "spot_market_id": "btc:usd:30",
+            "conversion_factor": "1000000",
+            "interest_rate_model": {
+              "base_rate_apy": "0.000000000000000000",
+              "base_multiplier": "0.050000000000000000",
+              "kink": "0.800000000000000000",
+              "jump_multiplier": "5.000000000000000000"
+            },
+            "reserve_factor": "0.025000000000000000",
+            "keeper_reward_percentage": "0.020000000000000000"
+          },
+          {
+            "denom": "erc20/multichain/wbtc",
+            "borrow_limit": {
+              "has_max_limit": true,
+              "maximum_limit": "0.000000000000000000",
+              "loan_to_value": "0.000000000000000000"
+            },
+            "spot_market_id": "btc:usd:30",
+            "conversion_factor": "1000000",
+            "interest_rate_model": {
+              "base_rate_apy": "0.000000000000000000",
+              "base_multiplier": "0.050000000000000000",
+              "kink": "0.800000000000000000",
+              "jump_multiplier": "5.000000000000000000"
+            },
+            "reserve_factor": "0.025000000000000000",
+            "keeper_reward_percentage": "0.020000000000000000"
+          },
+          {
+            "denom": "erc20/multichain/usdc",
+            "borrow_limit": {
+              "has_max_limit": true,
+              "maximum_limit": "0.000000000000000000",
+              "loan_to_value": "0.000000000000000000"
+            },
+            "spot_market_id": "usdc:usd:30",
+            "conversion_factor": "1000000",
+            "interest_rate_model": {
+              "base_rate_apy": "0.000000000000000000",
+              "base_multiplier": "0.050000000000000000",
+              "kink": "0.800000000000000000",
+              "jump_multiplier": "5.000000000000000000"
+            },
+            "reserve_factor": "0.025000000000000000",
+            "keeper_reward_percentage": "0.020000000000000000"
+          },
+          {
+            "denom": "erc20/multichain/usdt",
+            "borrow_limit": {
+              "has_max_limit": true,
+              "maximum_limit": "0.000000000000000000",
+              "loan_to_value": "0.000000000000000000"
+            },
+            "spot_market_id": "usdt:usd:30",
             "conversion_factor": "1000000",
             "interest_rate_model": {
               "base_rate_apy": "0.000000000000000000",
@@ -2301,13 +2489,13 @@
             "keeper_reward_percentage": "0.020000000000000000"
           },
           {
-            "denom": "uist",
+            "denom": "ukava",
             "borrow_limit": {
               "has_max_limit": true,
               "maximum_limit": "500000000000.000000000000000000",
               "loan_to_value": "0.500000000000000000"
             },
-            "spot_market_id": "ist:usd:30",
+            "spot_market_id": "kava:usd:30",
             "conversion_factor": "1000000",
             "interest_rate_model": {
               "base_rate_apy": "0.000000000000000000",
@@ -2371,6 +2559,42 @@
             },
             "reserve_factor": "0.025000000000000000",
             "keeper_reward_percentage": "0.020000000000000000"
+          },
+          {
+            "denom": "erc20/tether/usdt",
+            "borrow_limit": {
+              "has_max_limit": true,
+              "maximum_limit": "0.000000000000000000",
+              "loan_to_value": "0.000000000000000000"
+            },
+            "spot_market_id": "usdt:usd:30",
+            "conversion_factor": "1000000",
+            "interest_rate_model": {
+              "base_rate_apy": "0.000000000000000000",
+              "base_multiplier": "0.050000000000000000",
+              "kink": "0.800000000000000000",
+              "jump_multiplier": "5.000000000000000000"
+            },
+            "reserve_factor": "0.025000000000000000",
+            "keeper_reward_percentage": "0.020000000000000000"
+          },
+          {
+            "denom": "erc20/bitgo/wbtc",
+            "borrow_limit": {
+              "has_max_limit": true,
+              "maximum_limit": "0.000000000000000000",
+              "loan_to_value": "0.000000000000000000"
+            },
+            "spot_market_id": "btc:usd:30",
+            "conversion_factor": "100000000",
+            "interest_rate_model": {
+              "base_rate_apy": "0.000000000000000000",
+              "base_multiplier": "0.050000000000000000",
+              "kink": "0.800000000000000000",
+              "jump_multiplier": "5.000000000000000000"
+            },
+            "reserve_factor": "0.025000000000000000",
+            "keeper_reward_percentage": "0.020000000000000000"
           }
         ],
         "minimum_borrow_usd_value": "10.000000000000000000"
@@ -2388,7 +2612,10 @@
         "clients_consensus": [],
         "clients_metadata": [],
         "params": {
-          "allowed_clients": ["06-solomachine", "07-tendermint"]
+          "allowed_clients": [
+            "06-solomachine",
+            "07-tendermint"
+          ]
         },
         "create_localhost": false,
         "next_client_sequence": "0"
@@ -2423,7 +2650,7 @@
             "end": "2024-10-16T14:00:00Z",
             "rewards_per_second": [
               {
-                "denom": "uist",
+                "denom": "ukava",
                 "amount": "478377"
               }
             ]
@@ -2435,7 +2662,7 @@
             "end": "2024-10-16T14:00:00Z",
             "rewards_per_second": [
               {
-                "denom": "uist",
+                "denom": "ukava",
                 "amount": "9567"
               }
             ]
@@ -2447,7 +2674,7 @@
             "end": "2024-11-11T15:00:00Z",
             "rewards_per_second": [
               {
-                "denom": "uist",
+                "denom": "ukava",
                 "amount": "4692"
               }
             ]
@@ -2459,7 +2686,7 @@
             "end": "2024-11-11T15:00:00Z",
             "rewards_per_second": [
               {
-                "denom": "uist",
+                "denom": "ukava",
                 "amount": "3049"
               }
             ]
@@ -2471,7 +2698,7 @@
             "end": "2024-11-11T15:00:00Z",
             "rewards_per_second": [
               {
-                "denom": "uist",
+                "denom": "ukava",
                 "amount": "938"
               }
             ]
@@ -2483,7 +2710,7 @@
             "end": "2024-11-11T15:00:00Z",
             "rewards_per_second": [
               {
-                "denom": "uist",
+                "denom": "ukava",
                 "amount": "4692"
               }
             ]
@@ -2495,19 +2722,19 @@
             "end": "2024-11-11T15:00:00Z",
             "rewards_per_second": [
               {
-                "denom": "uist",
+                "denom": "ukava",
                 "amount": "2580"
               }
             ]
           },
           {
             "active": true,
-            "collateral_type": "uist",
+            "collateral_type": "ukava",
             "start": "2022-11-11T15:00:00Z",
             "end": "2024-11-11T15:00:00Z",
             "rewards_per_second": [
               {
-                "denom": "uist",
+                "denom": "ukava",
                 "amount": "938"
               }
             ]
@@ -2519,7 +2746,7 @@
             "end": "2024-11-11T15:00:00Z",
             "rewards_per_second": [
               {
-                "denom": "uist",
+                "denom": "ukava",
                 "amount": "989"
               }
             ]
@@ -2531,7 +2758,67 @@
             "end": "2024-11-11T15:00:00Z",
             "rewards_per_second": [
               {
-                "denom": "uist",
+                "denom": "ukava",
+                "amount": "787"
+              }
+            ]
+          },
+          {
+            "active": true,
+            "collateral_type": "erc20/multichain/usdc",
+            "start": "2022-11-11T15:00:00Z",
+            "end": "2024-11-11T15:00:00Z",
+            "rewards_per_second": [
+              {
+                "denom": "ukava",
+                "amount": "787"
+              }
+            ]
+          },
+          {
+            "active": true,
+            "collateral_type": "erc20/multichain/usdt",
+            "start": "2022-11-11T15:00:00Z",
+            "end": "2024-11-11T15:00:00Z",
+            "rewards_per_second": [
+              {
+                "denom": "ukava",
+                "amount": "787"
+              }
+            ]
+          },
+          {
+            "active": true,
+            "collateral_type": "erc20/multichain/wbtc",
+            "start": "2022-11-11T15:00:00Z",
+            "end": "2024-11-11T15:00:00Z",
+            "rewards_per_second": [
+              {
+                "denom": "ukava",
+                "amount": "787"
+              }
+            ]
+          },
+          {
+            "active": true,
+            "collateral_type": "erc20/tether/usdt",
+            "start": "2023-06-21T15:00:00Z",
+            "end": "2024-06-21T15:00:00Z",
+            "rewards_per_second": [
+              {
+                "denom": "ukava",
+                "amount": "787"
+              }
+            ]
+          },
+          {
+            "active": true,
+            "collateral_type": "erc20/bitgo/wbtc",
+            "start": "2022-11-11T15:00:00Z",
+            "end": "2025-11-11T15:00:00Z",
+            "rewards_per_second": [
+              {
+                "denom": "ukava",
                 "amount": "787"
               }
             ]
@@ -2548,7 +2835,7 @@
             "end": "2025-08-29T15:00:00Z",
             "rewards_per_second": [
               {
-                "denom": "uist",
+                "denom": "ukava",
                 "amount": "2017"
               }
             ]
@@ -2560,7 +2847,7 @@
             "end": "2025-08-29T15:00:00Z",
             "rewards_per_second": [
               {
-                "denom": "uist",
+                "denom": "ukava",
                 "amount": "2459"
               }
             ]
@@ -2572,7 +2859,7 @@
             "end": "2025-08-29T15:00:00Z",
             "rewards_per_second": [
               {
-                "denom": "uist",
+                "denom": "ukava",
                 "amount": "9217"
               }
             ]
@@ -2584,7 +2871,7 @@
             "end": "2025-08-29T15:00:00Z",
             "rewards_per_second": [
               {
-                "denom": "uist",
+                "denom": "ukava",
                 "amount": "1586"
               }
             ]
@@ -2596,7 +2883,7 @@
             "end": "2025-08-29T15:00:00Z",
             "rewards_per_second": [
               {
-                "denom": "uist",
+                "denom": "ukava",
                 "amount": "422"
               }
             ]
@@ -2608,7 +2895,7 @@
             "end": "2025-08-29T15:00:00Z",
             "rewards_per_second": [
               {
-                "denom": "uist",
+                "denom": "ukava",
                 "amount": "1291"
               }
             ]
@@ -2620,7 +2907,7 @@
             "end": "2025-08-29T15:00:00Z",
             "rewards_per_second": [
               {
-                "denom": "uist",
+                "denom": "ukava",
                 "amount": "242"
               }
             ]
@@ -2632,19 +2919,19 @@
             "end": "2025-08-29T15:00:00Z",
             "rewards_per_second": [
               {
-                "denom": "uist",
+                "denom": "ukava",
                 "amount": "649"
               }
             ]
           },
           {
             "active": true,
-            "collateral_type": "uist:usdx",
+            "collateral_type": "ukava:usdx",
             "start": "2022-11-11T15:00:00Z",
             "end": "2025-08-29T15:00:00Z",
             "rewards_per_second": [
               {
-                "denom": "uist",
+                "denom": "ukava",
                 "amount": "3765"
               }
             ]
@@ -2656,7 +2943,7 @@
             "end": "2025-08-29T15:00:00Z",
             "rewards_per_second": [
               {
-                "denom": "uist",
+                "denom": "ukava",
                 "amount": "1187"
               }
             ]
@@ -2665,12 +2952,12 @@
         "earn_reward_periods": [
           {
             "active": true,
-            "collateral_type": "bist",
+            "collateral_type": "bkava",
             "start": "2022-10-26T15:00:00Z",
             "end": "2024-10-26T15:00:00Z",
             "rewards_per_second": [
               {
-                "denom": "uist",
+                "denom": "ukava",
                 "amount": "31891"
               }
             ]
@@ -2682,7 +2969,7 @@
             "end": "2024-12-29T23:00:00Z",
             "rewards_per_second": [
               {
-                "denom": "uist",
+                "denom": "ukava",
                 "amount": "5505"
               }
             ]
@@ -2694,7 +2981,7 @@
             "end": "2024-10-26T15:00:00Z",
             "rewards_per_second": [
               {
-                "denom": "uist",
+                "denom": "ukava",
                 "amount": "5505"
               }
             ]
@@ -2706,7 +2993,7 @@
             "end": "2024-11-11T15:00:00Z",
             "rewards_per_second": [
               {
-                "denom": "uist",
+                "denom": "ukava",
                 "amount": "5505"
               }
             ]
@@ -2732,7 +3019,7 @@
             ]
           },
           {
-            "denom": "uist",
+            "denom": "ukava",
             "multipliers": [
               {
                 "name": "large",
@@ -2788,19 +3075,19 @@
       "swap_claims": [
         {
           "base_claim": {
-            "owner": "ist1ektgdyy0z23qqnd67ns3qvfzgfgjd5xe82lf5c",
+            "owner": "kava1ektgdyy0z23qqnd67ns3qvfzgfgjd5xe82lf5c",
             "reward": []
           },
           "reward_indexes": [
             {
-              "collateral_type": "uist:usdx",
+              "collateral_type": "ukava:usdx",
               "reward_indexes": []
             }
           ]
         },
         {
           "base_claim": {
-            "owner": "ist173w2zz287s36ewnnkf4mjansnthnnsz7rtrxqc",
+            "owner": "kava173w2zz287s36ewnnkf4mjansnthnnsz7rtrxqc",
             "reward": []
           },
           "reward_indexes": [
@@ -2813,7 +3100,7 @@
               "reward_indexes": []
             },
             {
-              "collateral_type": "uist:usdx",
+              "collateral_type": "ukava:usdx",
               "reward_indexes": []
             }
           ]
@@ -2825,8 +3112,8 @@
       "params": {
         "assets": [
           {
-            "owner": "ist1vlpsrmdyuywvaqrv7rx6xga224sqfwz3fyfhwq",
-            "denom": "uist",
+            "owner": "kava1vlpsrmdyuywvaqrv7rx6xga224sqfwz3fyfhwq",
+            "denom": "ukava",
             "blocked_addresses": [],
             "paused": false,
             "blockable": false,
@@ -2837,7 +3124,7 @@
             }
           },
           {
-            "owner": "ist1vlpsrmdyuywvaqrv7rx6xga224sqfwz3fyfhwq",
+            "owner": "kava1vlpsrmdyuywvaqrv7rx6xga224sqfwz3fyfhwq",
             "denom": "erc20/multichain/usdt",
             "blocked_addresses": [],
             "paused": false,
@@ -2849,7 +3136,7 @@
             }
           },
           {
-            "owner": "ist1vlpsrmdyuywvaqrv7rx6xga224sqfwz3fyfhwq",
+            "owner": "kava1vlpsrmdyuywvaqrv7rx6xga224sqfwz3fyfhwq",
             "denom": "usdx",
             "blocked_addresses": [],
             "paused": false,
@@ -2861,7 +3148,7 @@
             }
           },
           {
-            "owner": "ist1vlpsrmdyuywvaqrv7rx6xga224sqfwz3fyfhwq",
+            "owner": "kava1vlpsrmdyuywvaqrv7rx6xga224sqfwz3fyfhwq",
             "denom": "erc20/multichain/usdc",
             "blocked_addresses": [],
             "paused": false,
@@ -2873,7 +3160,7 @@
             }
           },
           {
-            "owner": "ist1vlpsrmdyuywvaqrv7rx6xga224sqfwz3fyfhwq",
+            "owner": "kava1vlpsrmdyuywvaqrv7rx6xga224sqfwz3fyfhwq",
             "denom": "hard",
             "blocked_addresses": [],
             "paused": false,
@@ -2885,7 +3172,7 @@
             }
           },
           {
-            "owner": "ist1vlpsrmdyuywvaqrv7rx6xga224sqfwz3fyfhwq",
+            "owner": "kava1vlpsrmdyuywvaqrv7rx6xga224sqfwz3fyfhwq",
             "denom": "swp",
             "blocked_addresses": [],
             "paused": false,
@@ -2897,7 +3184,7 @@
             }
           },
           {
-            "owner": "ist1vlpsrmdyuywvaqrv7rx6xga224sqfwz3fyfhwq",
+            "owner": "kava1vlpsrmdyuywvaqrv7rx6xga224sqfwz3fyfhwq",
             "denom": "busd",
             "blocked_addresses": [],
             "paused": false,
@@ -2909,7 +3196,7 @@
             }
           },
           {
-            "owner": "ist1vlpsrmdyuywvaqrv7rx6xga224sqfwz3fyfhwq",
+            "owner": "kava1vlpsrmdyuywvaqrv7rx6xga224sqfwz3fyfhwq",
             "denom": "btcb",
             "blocked_addresses": [],
             "paused": false,
@@ -2921,7 +3208,7 @@
             }
           },
           {
-            "owner": "ist1vlpsrmdyuywvaqrv7rx6xga224sqfwz3fyfhwq",
+            "owner": "kava1vlpsrmdyuywvaqrv7rx6xga224sqfwz3fyfhwq",
             "denom": "bnb",
             "blocked_addresses": [],
             "paused": false,
@@ -2933,7 +3220,7 @@
             }
           },
           {
-            "owner": "ist1vlpsrmdyuywvaqrv7rx6xga224sqfwz3fyfhwq",
+            "owner": "kava1vlpsrmdyuywvaqrv7rx6xga224sqfwz3fyfhwq",
             "denom": "xrpb",
             "blocked_addresses": [],
             "paused": false,
@@ -2948,7 +3235,7 @@
       },
       "supplies": []
     },
-    "istdist": {
+    "kavadist": {
       "params": {
         "active": false,
         "periods": []
@@ -2962,7 +3249,7 @@
         "annual_provisions": "0.000000000000000000"
       },
       "params": {
-        "mint_denom": "uist",
+        "mint_denom": "ukava",
         "inflation_rate_change": "0.130000000000000000",
         "inflation_max": "0.750000000000000000",
         "inflation_min": "0.750000000000000000",
@@ -2972,7 +3259,14 @@
     },
     "params": null,
     "packetfowardmiddleware": {
+      "params": {
+        "fee_percentage": "0.000000000000000000"
+      },
       "in_flight_packets": {}
+    },
+    "precisebank": {
+      "balances": [],
+      "remainder": "0"
     },
     "pricefeed": {
       "params": {
@@ -2981,217 +3275,279 @@
             "market_id": "bnb:usd",
             "base_asset": "bnb",
             "quote_asset": "usd",
-            "oracles": ["ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"],
+            "oracles": [
+              "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"
+            ],
             "active": true
           },
           {
             "market_id": "bnb:usd:30",
             "base_asset": "bnb",
             "quote_asset": "usd",
-            "oracles": ["ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"],
+            "oracles": [
+              "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"
+            ],
             "active": true
           },
           {
             "market_id": "btc:usd",
             "base_asset": "btc",
             "quote_asset": "usd",
-            "oracles": ["ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"],
+            "oracles": [
+              "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"
+            ],
             "active": true
           },
           {
             "market_id": "btc:usd:30",
             "base_asset": "btc",
             "quote_asset": "usd",
-            "oracles": ["ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"],
+            "oracles": [
+              "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"
+            ],
             "active": true
           },
           {
             "market_id": "eth:usd",
             "base_asset": "eth",
             "quote_asset": "eth",
-            "oracles": ["ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"],
+            "oracles": [
+              "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"
+            ],
             "active": true
           },
           {
             "market_id": "eth:usd:30",
             "base_asset": "eth",
             "quote_asset": "usd",
-            "oracles": ["ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"],
+            "oracles": [
+              "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"
+            ],
             "active": true
           },
           {
             "market_id": "xrp:usd:30",
             "base_asset": "xrp",
             "quote_asset": "usd",
-            "oracles": ["ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"],
+            "oracles": [
+              "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"
+            ],
             "active": true
           },
           {
             "market_id": "xrp:usd",
             "base_asset": "xrp",
             "quote_asset": "usd",
-            "oracles": ["ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"],
+            "oracles": [
+              "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"
+            ],
             "active": true
           },
           {
             "market_id": "busd:usd",
             "base_asset": "busd",
             "quote_asset": "usd",
-            "oracles": ["ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"],
+            "oracles": [
+              "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"
+            ],
             "active": true
           },
           {
             "market_id": "busd:usd:30",
             "base_asset": "busd",
             "quote_asset": "usd",
-            "oracles": ["ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"],
+            "oracles": [
+              "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"
+            ],
             "active": true
           },
           {
             "market_id": "usdc:usd",
             "base_asset": "usdc",
             "quote_asset": "usd",
-            "oracles": ["ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"],
+            "oracles": [
+              "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"
+            ],
             "active": true
           },
           {
             "market_id": "usdc:usd:30",
             "base_asset": "usdc",
             "quote_asset": "usd",
-            "oracles": ["ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"],
+            "oracles": [
+              "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"
+            ],
             "active": true
           },
           {
             "market_id": "usdt:usd",
             "base_asset": "usdt",
             "quote_asset": "usd",
-            "oracles": ["ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"],
+            "oracles": [
+              "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"
+            ],
             "active": true
           },
           {
             "market_id": "usdt:usd:30",
             "base_asset": "usdt",
             "quote_asset": "usd",
-            "oracles": ["ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"],
+            "oracles": [
+              "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"
+            ],
             "active": true
           },
           {
-            "market_id": "ist:usd",
-            "base_asset": "ist",
+            "market_id": "kava:usd",
+            "base_asset": "kava",
             "quote_asset": "usd",
-            "oracles": ["ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"],
+            "oracles": [
+              "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"
+            ],
             "active": true
           },
           {
-            "market_id": "ist:usd:30",
-            "base_asset": "ist",
+            "market_id": "kava:usd:30",
+            "base_asset": "kava",
             "quote_asset": "usd",
-            "oracles": ["ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"],
+            "oracles": [
+              "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"
+            ],
             "active": true
           },
           {
             "market_id": "hard:usd",
             "base_asset": "hard",
             "quote_asset": "usd",
-            "oracles": ["ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"],
+            "oracles": [
+              "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"
+            ],
             "active": true
           },
           {
             "market_id": "hard:usd:30",
             "base_asset": "hard",
             "quote_asset": "usd",
-            "oracles": ["ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"],
+            "oracles": [
+              "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"
+            ],
             "active": true
           },
           {
             "market_id": "atom:usd",
             "base_asset": "atom",
             "quote_asset": "usd",
-            "oracles": ["ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"],
+            "oracles": [
+              "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"
+            ],
             "active": true
           },
           {
             "market_id": "atom:usd:30",
             "base_asset": "atom",
             "quote_asset": "usd",
-            "oracles": ["ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"],
+            "oracles": [
+              "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"
+            ],
             "active": true
           },
           {
             "market_id": "osmo:usd",
             "base_asset": "osmo",
             "quote_asset": "usd",
-            "oracles": ["ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"],
+            "oracles": [
+              "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"
+            ],
             "active": true
           },
           {
             "market_id": "osmo:usd:30",
             "base_asset": "osmo",
             "quote_asset": "usd",
-            "oracles": ["ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"],
+            "oracles": [
+              "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"
+            ],
             "active": true
           },
           {
             "market_id": "akt:usd",
             "base_asset": "akt",
             "quote_asset": "usd",
-            "oracles": ["ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"],
+            "oracles": [
+              "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"
+            ],
             "active": true
           },
           {
             "market_id": "akt:usd:30",
             "base_asset": "akt",
             "quote_asset": "usd",
-            "oracles": ["ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"],
+            "oracles": [
+              "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"
+            ],
             "active": true
           },
           {
             "market_id": "luna:usd",
             "base_asset": "luna",
             "quote_asset": "usd",
-            "oracles": ["ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"],
+            "oracles": [
+              "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"
+            ],
             "active": true
           },
           {
             "market_id": "luna:usd:30",
             "base_asset": "luna",
             "quote_asset": "usd",
-            "oracles": ["ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"],
+            "oracles": [
+              "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"
+            ],
             "active": true
           },
           {
             "market_id": "usdx:usd",
             "base_asset": "usdx",
             "quote_asset": "usd",
-            "oracles": ["ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"],
+            "oracles": [
+              "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"
+            ],
             "active": true
           },
           {
             "market_id": "usdx:usd:30",
             "base_asset": "usdx",
             "quote_asset": "usd",
-            "oracles": ["ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"],
+            "oracles": [
+              "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"
+            ],
             "active": true
           },
           {
             "market_id": "usdx:usd:720",
             "base_asset": "usdx",
             "quote_asset": "usd",
-            "oracles": ["ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"],
+            "oracles": [
+              "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"
+            ],
             "active": true
           },
           {
             "market_id": "swp:usd",
             "base_asset": "swp",
             "quote_asset": "usd",
-            "oracles": ["ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"],
+            "oracles": [
+              "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"
+            ],
             "active": true
           },
           {
             "market_id": "swp:usd:30",
             "base_asset": "swp",
             "quote_asset": "usd",
-            "oracles": ["ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"],
+            "oracles": [
+              "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h"
+            ],
             "active": true
           }
         ]
@@ -3200,201 +3556,202 @@
         {
           "expiry": "2050-01-01T00:00:00Z",
           "market_id": "bnb:usd",
-          "oracle_address": "ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
+          "oracle_address": "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
           "price": "215.962650000000001782"
         },
         {
           "expiry": "2050-01-01T00:00:00Z",
           "market_id": "bnb:usd:30",
-          "oracle_address": "ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
+          "oracle_address": "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
           "price": "217.962650000000001782"
         },
         {
           "expiry": "2050-01-01T00:00:00Z",
           "market_id": "btc:usd",
-          "oracle_address": "ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
+          "oracle_address": "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
           "price": "29500.962650000000001782"
         },
         {
           "expiry": "2050-01-01T00:00:00Z",
           "market_id": "btc:usd:30",
-          "oracle_address": "ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
+          "oracle_address": "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
           "price": "28500.962650000000001782"
         },
         {
           "expiry": "2050-01-01T00:00:00Z",
           "market_id": "eth:usd",
-          "oracle_address": "ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
+          "oracle_address": "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
           "price": "16250.962650000000001782"
         },
         {
           "expiry": "2050-01-01T00:00:00Z",
           "market_id": "eth:usd:30",
-          "oracle_address": "ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
+          "oracle_address": "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
           "price": "16250.962650000000001782"
         },
         {
           "expiry": "2050-01-01T00:00:00Z",
           "market_id": "akt:usd",
-          "oracle_address": "ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
+          "oracle_address": "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
           "price": "1.962650000000001782"
         },
         {
           "expiry": "2050-01-01T00:00:00Z",
           "market_id": "akt:usd:30",
-          "oracle_address": "ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
+          "oracle_address": "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
           "price": "1.962650000000001782"
         },
         {
           "expiry": "2050-01-01T00:00:00Z",
           "market_id": "osmo:usd",
-          "oracle_address": "ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
+          "oracle_address": "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
           "price": "4.962650000000001782"
         },
         {
           "expiry": "2050-01-01T00:00:00Z",
           "market_id": "osmo:usd:30",
-          "oracle_address": "ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
+          "oracle_address": "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
           "price": "4.962650000000001782"
         },
         {
           "expiry": "2050-01-01T00:00:00Z",
           "market_id": "luna:usd",
-          "oracle_address": "ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
+          "oracle_address": "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
           "price": "92.962650000000001782"
         },
         {
           "expiry": "2050-01-01T00:00:00Z",
           "market_id": "luna:usd:30",
-          "oracle_address": "ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
+          "oracle_address": "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
           "price": "92.962650000000001782"
         },
         {
           "expiry": "2050-01-01T00:00:00Z",
           "market_id": "atom:usd",
-          "oracle_address": "ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
+          "oracle_address": "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
           "price": "24.962650000000001782"
         },
         {
           "expiry": "2050-01-01T00:00:00Z",
           "market_id": "atom:usd:30",
-          "oracle_address": "ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
+          "oracle_address": "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
           "price": "24.962650000000001782"
         },
         {
           "expiry": "2050-01-01T00:00:00Z",
           "market_id": "xrp:usd",
-          "oracle_address": "ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
+          "oracle_address": "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
           "price": "0.552650000000001782"
         },
         {
           "expiry": "2050-01-01T00:00:00Z",
           "market_id": "xrp:usd:30",
-          "oracle_address": "ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
+          "oracle_address": "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
           "price": "0.552650000000001782"
         },
         {
           "expiry": "2050-01-01T00:00:00Z",
           "market_id": "busd:usd",
-          "oracle_address": "ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
+          "oracle_address": "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
           "price": "1.000000000000000000"
         },
         {
           "expiry": "2050-01-01T00:00:00Z",
           "market_id": "busd:usd:30",
-          "oracle_address": "ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
+          "oracle_address": "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
           "price": "1.000000000000000000"
         },
         {
           "expiry": "2050-01-01T00:00:00Z",
           "market_id": "usdx:usd",
-          "oracle_address": "ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
+          "oracle_address": "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
           "price": "1.000000000000000000"
         },
         {
           "expiry": "2050-01-01T00:00:00Z",
           "market_id": "usdx:usd:30",
-          "oracle_address": "ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
+          "oracle_address": "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
           "price": "1.000000000000000000"
         },
         {
           "expiry": "2050-01-01T00:00:00Z",
           "market_id": "usdx:usd:720",
-          "oracle_address": "ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
+          "oracle_address": "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
           "price": "1.000000000000000000"
         },
         {
           "expiry": "2050-01-01T00:00:00Z",
-          "market_id": "ist:usd",
-          "oracle_address": "ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
+          "market_id": "kava:usd",
+          "oracle_address": "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
           "price": "3.000000000000000000"
         },
         {
           "expiry": "2050-01-01T00:00:00Z",
-          "market_id": "ist:usd:30",
-          "oracle_address": "ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
+          "market_id": "kava:usd:30",
+          "oracle_address": "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
           "price": "3.000000000000000000"
         },
         {
           "expiry": "2050-01-01T00:00:00Z",
           "market_id": "hard:usd",
-          "oracle_address": "ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
+          "oracle_address": "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
           "price": "0.500000000000000000"
         },
         {
           "expiry": "2050-01-01T00:00:00Z",
           "market_id": "hard:usd:30",
-          "oracle_address": "ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
+          "oracle_address": "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
           "price": "0.500000000000000000"
         },
         {
           "expiry": "2050-01-01T00:00:00Z",
           "market_id": "swp:usd",
-          "oracle_address": "ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
+          "oracle_address": "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
           "price": "2.150000000000000000"
         },
         {
           "expiry": "2050-01-01T00:00:00Z",
           "market_id": "swp:usd:30",
-          "oracle_address": "ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
+          "oracle_address": "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
           "price": "2.150000000000000000"
         },
         {
           "expiry": "2050-01-01T00:00:00Z",
           "market_id": "usdt:usd",
-          "oracle_address": "ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
+          "oracle_address": "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
           "price": "1.000000000000000000"
         },
         {
           "expiry": "2050-01-01T00:00:00Z",
           "market_id": "usdc:usd",
-          "oracle_address": "ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
+          "oracle_address": "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
           "price": "1.000000000000000000"
         },
         {
           "expiry": "2050-01-01T00:00:00Z",
           "market_id": "usdt:usd:30",
-          "oracle_address": "ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
+          "oracle_address": "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
           "price": "1.000000000000000000"
         },
         {
           "expiry": "2050-01-01T00:00:00Z",
           "market_id": "usdc:usd:30",
-          "oracle_address": "ist1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
+          "oracle_address": "kava1hdn83q3srldcpan4ex2v4npuae8hmnfrps3e6h",
           "price": "1.000000000000000000"
         }
       ]
     },
+    "router": {},
     "savings": {
       "params": {
         "supported_denoms": [
           "usdx",
-          "uist",
+          "ukava",
           "hard",
           "swp",
-          "bist",
-          "bist-istvaloper1xcgtffvv2yeqmgs3yz4gv29kgjrj8usxrnrlwp",
-          "bist-istvaloper1w66m9hdzwgd6uc8g93zqkcumgwzrpcw958sh3s",
+          "bkava",
+          "bkava-kavavaloper1xcgtffvv2yeqmgs3yz4gv29kgjrj8usxrnrlwp",
+          "bkava-kavavaloper1w66m9hdzwgd6uc8g93zqkcumgwzrpcw958sh3s",
           "erc20/multichain/usdc"
         ]
       }
@@ -3416,7 +3773,7 @@
         "max_validators": 100,
         "max_entries": 7,
         "historical_entries": 10000,
-        "bond_denom": "uist",
+        "bond_denom": "ukava",
         "min_commission_rate": "0.000000000000000000"
       },
       "last_total_power": "0",
@@ -3431,7 +3788,7 @@
       "params": {
         "allowed_pools": [
           {
-            "token_a": "uist",
+            "token_a": "ukava",
             "token_b": "usdx"
           },
           {
@@ -3515,10 +3872,10 @@
           "total_shares": "2236067977"
         },
         {
-          "pool_id": "uist:usdx",
+          "pool_id": "ukava:usdx",
           "reserves_a": {
             "amount": "5000000000",
-            "denom": "uist"
+            "denom": "ukava"
           },
           "reserves_b": {
             "amount": "1000000000",
@@ -3529,23 +3886,23 @@
       ],
       "share_records": [
         {
-          "depositor": "ist173w2zz287s36ewnnkf4mjansnthnnsz7rtrxqc",
+          "depositor": "kava173w2zz287s36ewnnkf4mjansnthnnsz7rtrxqc",
           "pool_id": "btcb:usdx",
           "shares_owned": "4472135954"
         },
         {
-          "depositor": "ist173w2zz287s36ewnnkf4mjansnthnnsz7rtrxqc",
+          "depositor": "kava173w2zz287s36ewnnkf4mjansnthnnsz7rtrxqc",
           "pool_id": "hard:usdx",
           "shares_owned": "1000000000"
         },
         {
-          "depositor": "ist173w2zz287s36ewnnkf4mjansnthnnsz7rtrxqc",
+          "depositor": "kava173w2zz287s36ewnnkf4mjansnthnnsz7rtrxqc",
           "pool_id": "swp:usdx",
           "shares_owned": "2236067977"
         },
         {
-          "depositor": "ist173w2zz287s36ewnnkf4mjansnthnnsz7rtrxqc",
-          "pool_id": "uist:usdx",
+          "depositor": "kava173w2zz287s36ewnnkf4mjansnthnnsz7rtrxqc",
+          "pool_id": "ukava:usdx",
           "shares_owned": "2236067977"
         }
       ]
@@ -3556,7 +3913,8 @@
       "params": {
         "send_enabled": true,
         "receive_enabled": true
-      }
+      },
+      "total_escrowed": []
     },
     "upgrade": {},
     "validatorvesting": null,
