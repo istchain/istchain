@@ -11,7 +11,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
 
-	"github.com/istchain/istchain/x/bep3/types"
+	"github.com/kava-labs/kava/x/bep3/types"
 )
 
 type queryServer struct {

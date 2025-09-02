@@ -4,7 +4,7 @@ import (
 	"math/big"
 
 	errorsmod "cosmossdk.io/errors"
-	"github.com/istchain/istchain/x/evmutil/types"
+	"github.com/kava-labs/kava/x/evmutil/types"
 )
 
 var (

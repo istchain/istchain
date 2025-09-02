@@ -11,7 +11,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 
-	"github.com/istchain/istchain/x/bep3/types"
+	"github.com/kava-labs/kava/x/bep3/types"
 )
 
 // Keeper of the bep3 store

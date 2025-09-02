@@ -12,10 +12,10 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/istchain/istchain/app"
-	cdptypes "github.com/istchain/istchain/x/cdp/types"
-	types "github.com/istchain/istchain/x/committee/types"
-	pricefeedtypes "github.com/istchain/istchain/x/pricefeed/types"
+	"github.com/kava-labs/kava/app"
+	cdptypes "github.com/kava-labs/kava/x/cdp/types"
+	types "github.com/kava-labs/kava/x/committee/types"
+	pricefeedtypes "github.com/kava-labs/kava/x/pricefeed/types"
 )
 
 type ParamsChangeTestSuite struct {

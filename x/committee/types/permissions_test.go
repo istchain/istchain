@@ -10,8 +10,8 @@ import (
 	govv1beta1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 	paramsproposal "github.com/cosmos/cosmos-sdk/x/params/types/proposal"
 
-	"github.com/istchain/istchain/x/committee/types"
-	communitytypes "github.com/istchain/istchain/x/community/types"
+	"github.com/kava-labs/kava/x/committee/types"
+	communitytypes "github.com/kava-labs/kava/x/community/types"
 )
 
 func TestPackPermissions_Success(t *testing.T) {
@@ -54,7 +54,7 @@ func TestCommunityCDPRepayDebtPermission_Allows(t *testing.T) {
 				"repay x/community cdp debt",
 				"repays debt on a cdp position",
 				"collateral-type",
-				sdk.NewInt64Coin("uist", 1e10),
+				sdk.NewInt64Coin("ukava", 1e10),
 			),
 			allowed: true,
 		},
@@ -91,7 +91,7 @@ func TestCommunityPoolLendWithdrawPermission_Allows(t *testing.T) {
 			proposal: communitytypes.NewCommunityPoolLendWithdrawProposal(
 				"withdraw lend position",
 				"this fake proposal withdraws a lend position for the community pool",
-				sdk.NewCoins(sdk.NewCoin("uist", sdk.NewInt(1e10))),
+				sdk.NewCoins(sdk.NewCoin("ukava", sdk.NewInt(1e10))),
 			),
 			allowed: true,
 		},
@@ -129,7 +129,7 @@ func TestCommunityCDPWithdrawCollateralPermission_Allows(t *testing.T) {
 				"withdraw x/community cdp collateral",
 				"yes",
 				"collateral-type",
-				sdk.NewInt64Coin("uist", 1e10),
+				sdk.NewInt64Coin("ukava", 1e10),
 			),
 			allowed: true,
 		},

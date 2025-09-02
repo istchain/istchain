@@ -9,7 +9,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/testutil"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/istchain/istchain/x/community/client/utils"
+	"github.com/kava-labs/kava/x/community/client/utils"
 )
 
 func TestParseDepositProposal(t *testing.T) {
@@ -20,7 +20,7 @@ func TestParseDepositProposal(t *testing.T) {
   "description": "Deposit some KAVA from community pool to Lend!",
   "amount": [
     {
-      "denom": "uist",
+      "denom": "ukava",
       "amount": "100000000000"
     }
   ]
@@ -29,7 +29,7 @@ func TestParseDepositProposal(t *testing.T) {
 	proposal, err := utils.ParseCommunityPoolLendDepositProposal(cdc, okJSON.Name())
 	require.NoError(t, err)
 
-	expectedAmount, err := sdk.ParseCoinsNormalized("100000000000uist")
+	expectedAmount, err := sdk.ParseCoinsNormalized("100000000000ukava")
 	require.NoError(t, err)
 
 	require.Equal(t, "Community Pool Lend Deposit", proposal.Title)
@@ -45,7 +45,7 @@ func TestParseWithdrawProposal(t *testing.T) {
   "description": "Withdraw some KAVA from community pool to Lend!",
   "amount": [
     {
-      "denom": "uist",
+      "denom": "ukava",
       "amount": "100000000000"
     }
   ]
@@ -54,7 +54,7 @@ func TestParseWithdrawProposal(t *testing.T) {
 	proposal, err := utils.ParseCommunityPoolLendWithdrawProposal(cdc, okJSON.Name())
 	require.NoError(t, err)
 
-	expectedAmount, err := sdk.ParseCoinsNormalized("100000000000uist")
+	expectedAmount, err := sdk.ParseCoinsNormalized("100000000000ukava")
 	require.NoError(t, err)
 
 	require.Equal(t, "Community Pool Lend Withdraw", proposal.Title)
@@ -76,7 +76,7 @@ func TestParseFileMalformed(t *testing.T) {
 {
 	"title": "I'm malformed b/c there's no closing quote,
 	"description": "A description",
-	"amount": [{"denom": "uist", "amount": "100000000000"}]
+	"amount": [{"denom": "ukava", "amount": "100000000000"}]
 }
 `)
 	_, err := utils.ParseCommunityPoolLendDepositProposal(cdc, malformed.Name())

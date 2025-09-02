@@ -9,10 +9,10 @@ import (
 	vestingtypes "github.com/cosmos/cosmos-sdk/x/auth/vesting/types"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/incentive/testutil"
-	"github.com/istchain/istchain/x/incentive/types"
-	kavadisttypes "github.com/istchain/istchain/x/kavadist/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/incentive/testutil"
+	"github.com/kava-labs/kava/x/incentive/types"
+	kavadisttypes "github.com/kava-labs/kava/x/kavadist/types"
 )
 
 const secondsPerDay = 24 * 60 * 60
@@ -91,7 +91,7 @@ func (suite *HandlerTestSuite) incentiveBuilder() testutil.IncentiveGenesisBuild
 				},
 			},
 			{
-				Denom: "uist",
+				Denom: "ukava",
 				Multipliers: types.Multipliers{
 					types.NewMultiplier("small", 1, d("0.2")),
 					types.NewMultiplier("large", 12, d("1.0")),
@@ -104,16 +104,16 @@ func (suite *HandlerTestSuite) TestPayoutSwapClaimMultiDenom() {
 	userAddr := suite.addrs[0]
 
 	authBulder := suite.authBuilder().
-		WithSimpleAccount(userAddr, cs(c("uist", 1e12), c("busd", 1e12)))
+		WithSimpleAccount(userAddr, cs(c("ukava", 1e12), c("busd", 1e12)))
 
 	incentBuilder := suite.incentiveBuilder().
-		WithSimpleSwapRewardPeriod("busd:uist", cs(c("hard", 1e6), c("swap", 1e6)))
+		WithSimpleSwapRewardPeriod("busd:ukava", cs(c("hard", 1e6), c("swap", 1e6)))
 
 	suite.SetupWithGenState(authBulder, incentBuilder)
 
 	// deposit into a swap pool
 	suite.NoError(
-		suite.DeliverSwapMsgDeposit(userAddr, c("uist", 1e9), c("busd", 1e9), d("1.0")),
+		suite.DeliverSwapMsgDeposit(userAddr, c("ukava", 1e9), c("busd", 1e9), d("1.0")),
 	)
 	// accumulate some swap rewards
 	suite.NextBlockAfter(7 * time.Second)
@@ -150,16 +150,16 @@ func (suite *HandlerTestSuite) TestPayoutSwapClaimSingleDenom() {
 	userAddr := suite.addrs[0]
 
 	authBulder := suite.authBuilder().
-		WithSimpleAccount(userAddr, cs(c("uist", 1e12), c("busd", 1e12)))
+		WithSimpleAccount(userAddr, cs(c("ukava", 1e12), c("busd", 1e12)))
 
 	incentBuilder := suite.incentiveBuilder().
-		WithSimpleSwapRewardPeriod("busd:uist", cs(c("hard", 1e6), c("swap", 1e6)))
+		WithSimpleSwapRewardPeriod("busd:ukava", cs(c("hard", 1e6), c("swap", 1e6)))
 
 	suite.SetupWithGenState(authBulder, incentBuilder)
 
 	// deposit into a swap pool
 	suite.NoError(
-		suite.DeliverSwapMsgDeposit(userAddr, c("uist", 1e9), c("busd", 1e9), d("1.0")),
+		suite.DeliverSwapMsgDeposit(userAddr, c("ukava", 1e9), c("busd", 1e9), d("1.0")),
 	)
 
 	// accumulate some swap rewards

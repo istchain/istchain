@@ -5,8 +5,8 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/istchain/istchain/x/evmutil/keeper"
-	"github.com/istchain/istchain/x/evmutil/types"
+	"github.com/kava-labs/kava/x/evmutil/keeper"
+	"github.com/kava-labs/kava/x/evmutil/types"
 )
 
 // InitGenesis initializes the store state from a genesis state.

@@ -6,9 +6,9 @@ import (
 
 	tmprototypes "github.com/cometbft/cometbft/proto/tendermint/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/hard/keeper"
-	"github.com/istchain/istchain/x/hard/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/hard/keeper"
+	"github.com/kava-labs/kava/x/hard/types"
 	"github.com/stretchr/testify/suite"
 )
 

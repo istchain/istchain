@@ -16,9 +16,9 @@ import (
 
 	abci "github.com/cometbft/cometbft/abci/types"
 
-	"github.com/istchain/istchain/x/earn/client/cli"
-	"github.com/istchain/istchain/x/earn/keeper"
-	"github.com/istchain/istchain/x/earn/types"
+	"github.com/kava-labs/kava/x/earn/client/cli"
+	"github.com/kava-labs/kava/x/earn/keeper"
+	"github.com/kava-labs/kava/x/earn/types"
 )
 
 var (

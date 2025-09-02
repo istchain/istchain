@@ -7,7 +7,7 @@ import (
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/istchain/istchain/x/swap/types"
+	"github.com/kava-labs/kava/x/swap/types"
 )
 
 // Deposit creates a new pool or adds liquidity to an existing pool.  For a pool to be created, a pool
@@ -31,9 +31,9 @@ import (
 // inverse price -- or the price of the other pool asset, appreciates by a larger amount.
 // It's this percent change we calculate and compare to the slippage limit provided.
 //
-// For example, if we have a pool with 100e6 uist and 400e6 usdx.  The uist price is 4 usdx and the
-// usdx price is 0.25 uist.  If a depositor adds liquidity of 4e6 uist and 14e6 usdx, a kava price of
-// 3.50 usdx and a usdx price of 0.29 uist.  This is a -12.5% slippage is the uist price, and a 14.3%
+// For example, if we have a pool with 100e6 ukava and 400e6 usdx.  The ukava price is 4 usdx and the
+// usdx price is 0.25 ukava.  If a depositor adds liquidity of 4e6 ukava and 14e6 usdx, a kava price of
+// 3.50 usdx and a usdx price of 0.29 ukava.  This is a -12.5% slippage is the ukava price, and a 14.3%
 // slippage in the usdx price.
 //
 // These slippages can be calculated by S_B = ((A/B')/(A/B) - 1) and S_A ((B/A')/(B/A) - 1), simplifying to

@@ -18,7 +18,7 @@ const (
 	BaseCommitteeType   = "kava/BaseCommittee"
 	MemberCommitteeType = "kava/MemberCommittee" // Committee is composed of member addresses that vote to enact proposals within their permissions
 	TokenCommitteeType  = "kava/TokenCommittee"  // Committee is composed of token holders with voting power determined by total token balance
-	BondDenom           = "uist"
+	BondDenom           = "ukava"
 )
 
 // Marshal needed for protobuf compatibility.

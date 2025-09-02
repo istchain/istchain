@@ -17,7 +17,7 @@ import (
 	"github.com/evmos/ethermint/x/evm/statedb"
 	"github.com/evmos/ethermint/x/evm/types"
 
-	"github.com/istchain/istchain/x/evmutil/testutil"
+	"github.com/kava-labs/kava/x/evmutil/testutil"
 )
 
 type evmKeeperTestSuite struct {

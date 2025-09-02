@@ -6,8 +6,8 @@ import (
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/istchain/istchain/x/earn/testutil"
-	"github.com/istchain/istchain/x/earn/types"
+	"github.com/kava-labs/kava/x/earn/testutil"
+	"github.com/kava-labs/kava/x/earn/types"
 
 	"github.com/stretchr/testify/suite"
 )

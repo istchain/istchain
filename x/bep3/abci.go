@@ -5,8 +5,8 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/telemetry"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/istchain/istchain/x/bep3/keeper"
-	"github.com/istchain/istchain/x/bep3/types"
+	"github.com/kava-labs/kava/x/bep3/keeper"
+	"github.com/kava-labs/kava/x/bep3/types"
 )
 
 // BeginBlocker on every block expires outdated atomic swaps and removes closed

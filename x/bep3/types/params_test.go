@@ -9,8 +9,8 @@ import (
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/bep3/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/bep3/types"
 )
 
 type ParamsTestSuite struct {

@@ -9,9 +9,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/suite"
 
-	app "github.com/istchain/istchain/app"
-	v015issuance "github.com/istchain/istchain/x/issuance/legacy/v0_15"
-	v016issuance "github.com/istchain/istchain/x/issuance/types"
+	app "github.com/kava-labs/kava/app"
+	v015issuance "github.com/kava-labs/kava/x/issuance/legacy/v0_15"
+	v016issuance "github.com/kava-labs/kava/x/issuance/types"
 )
 
 type migrateTestSuite struct {
@@ -62,7 +62,7 @@ func (s *migrateTestSuite) TestMigrate_JSON() {
 		},
 		"supplies": [
 			{
-				"current_supply": { "denom": "uist", "amount": "100" },
+				"current_supply": { "denom": "ukava", "amount": "100" },
 				"time_elapsed": "3600000000000"
 			},
 			{
@@ -95,7 +95,7 @@ func (s *migrateTestSuite) TestMigrate_JSON() {
 		},
 		"supplies": [
 			{
-				"current_supply": { "denom": "uist", "amount": "100" },
+				"current_supply": { "denom": "ukava", "amount": "100" },
 				"time_elapsed": "3600s"
 			},
 			{
@@ -114,7 +114,7 @@ func (s *migrateTestSuite) TestMigrate_Params() {
 		Assets: v015issuance.Assets{
 			{
 				Owner:            s.addresses[0],
-				Denom:            "uist",
+				Denom:            "ukava",
 				BlockedAddresses: s.addresses[1:2],
 				Paused:           true,
 				Blockable:        true,
@@ -130,7 +130,7 @@ func (s *migrateTestSuite) TestMigrate_Params() {
 		Assets: []v016issuance.Asset{
 			{
 				Owner:            s.addresses[0].String(),
-				Denom:            "uist",
+				Denom:            "ukava",
 				BlockedAddresses: []string{s.addresses[1].String()},
 				Paused:           true,
 				Blockable:        true,
@@ -149,7 +149,7 @@ func (s *migrateTestSuite) TestMigrate_Params() {
 func (s *migrateTestSuite) TestMigrate_Supplies() {
 	s.v15genstate.Supplies = v015issuance.AssetSupplies{
 		{
-			CurrentSupply: sdk.NewCoin("uist", sdkmath.NewInt(100)),
+			CurrentSupply: sdk.NewCoin("ukava", sdkmath.NewInt(100)),
 			TimeElapsed:   time.Duration(1 * time.Hour),
 		},
 		{
@@ -159,7 +159,7 @@ func (s *migrateTestSuite) TestMigrate_Supplies() {
 	}
 	expected := []v016issuance.AssetSupply{
 		{
-			CurrentSupply: sdk.NewCoin("uist", sdkmath.NewInt(100)),
+			CurrentSupply: sdk.NewCoin("ukava", sdkmath.NewInt(100)),
 			TimeElapsed:   time.Duration(1 * time.Hour),
 		},
 		{

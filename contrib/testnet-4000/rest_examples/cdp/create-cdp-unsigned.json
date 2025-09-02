@@ -5,7 +5,7 @@
       {
         "type": "cdp/MsgCreateCDP",
         "value": {
-          "sender": "ist12jk3szk45afmvjc3xc6kvj4e40tuy2m8ckgs03",
+          "sender": "kava12jk3szk45afmvjc3xc6kvj4e40tuy2m8ckgs03",
           "collateral": [
             {
               "denom": "xrp",

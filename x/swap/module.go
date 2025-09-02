@@ -13,9 +13,9 @@ import (
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/spf13/cobra"
 
-	"github.com/istchain/istchain/x/swap/client/cli"
-	"github.com/istchain/istchain/x/swap/keeper"
-	"github.com/istchain/istchain/x/swap/types"
+	"github.com/kava-labs/kava/x/swap/client/cli"
+	"github.com/kava-labs/kava/x/swap/keeper"
+	"github.com/kava-labs/kava/x/swap/types"
 )
 
 var (

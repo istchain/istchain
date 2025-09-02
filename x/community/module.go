@@ -16,9 +16,9 @@ import (
 
 	abci "github.com/cometbft/cometbft/abci/types"
 
-	"github.com/istchain/istchain/x/community/client/cli"
-	"github.com/istchain/istchain/x/community/keeper"
-	"github.com/istchain/istchain/x/community/types"
+	"github.com/kava-labs/kava/x/community/client/cli"
+	"github.com/kava-labs/kava/x/community/keeper"
+	"github.com/kava-labs/kava/x/community/types"
 )
 
 // ConsensusVersion defines the current module consensus version.

@@ -138,9 +138,9 @@ func TestClaims_Validate(t *testing.T) {
 	})
 
 	t.Run("SavingsClaims", func(t *testing.T) {
-		validRewardIndexes := RewardIndexes{}.With("uist", d("0.002"))
+		validRewardIndexes := RewardIndexes{}.With("ukava", d("0.002"))
 		validMultiRewardIndexes := MultiRewardIndexes{}.With("btcb/usdx", validRewardIndexes)
-		invalidRewardIndexes := RewardIndexes{}.With("uist", d("-0.002"))
+		invalidRewardIndexes := RewardIndexes{}.With("ukava", d("-0.002"))
 		invalidMultiRewardIndexes := MultiRewardIndexes{}.With("btcb/usdx", invalidRewardIndexes)
 
 		testCases := []struct {
@@ -771,7 +771,7 @@ func TestMultiRewardIndexes(t *testing.T) {
 
 var normalRewardIndexes = RewardIndexes{
 	NewRewardIndex("hard", sdk.MustNewDecFromStr("0.000001")),
-	NewRewardIndex("uist", sdk.MustNewDecFromStr("0.1")),
+	NewRewardIndex("ukava", sdk.MustNewDecFromStr("0.1")),
 }
 
 var invalidRewardIndexes = RewardIndexes{

@@ -1,10 +1,10 @@
 # IAVL V1
 
-IAVL V1 is an updated data format for the low-level storage of application data in the IstChain blockchain.
+IAVL V1 is an updated data format for the low-level storage of application data in the Kava blockchain.
 The change in format results in much more performant syncing of the chain, and greatly reduces the
-storage footprint required for IstChain nodes.
+storage footprint required for Kava nodes.
 
-As of `v0.27.0`, IAVL V1 is the data storage format for the IstChain blockchain.
+As of `v0.27.0`, IAVL V1 is the data storage format for the Kava blockchain.
 
 # Configuration
 
@@ -12,7 +12,7 @@ As of `v0.27.0`, IAVL V1 is the data storage format for the IstChain blockchain.
 > Nodes running IAVL V1 should set `iavl-disable-fastnode = true` in their `app.toml` file.
 
 > [!IMPORTANT]
-> Before starting istchain on existing IAVL V0 data, please read the note about pruning changes.
+> Before starting kava on existing IAVL V0 data, please read the note about pruning changes.
 
 ### `goleveldb` nodes
 1. Replace or recreate your node data with IAVL V1: see [Data](#data).
@@ -21,12 +21,12 @@ As of `v0.27.0`, IAVL V1 is the data storage format for the IstChain blockchain.
 git checkout v0.27.0
 make install
 ```
-3. Start istchain as usual: `istchain start`
+3. Start kava as usual: `kava start`
 
 ### `rocksdb` nodes
 
 > [!TIP]
-> Since v0.26.2, databases are opened with [opendb](https://github.com/istchain/opendb/) which
+> Since v0.26.2, databases are opened with [opendb](https://github.com/Kava-Labs/opendb/) which
 > makes rocksdb more configurable. For best memory performance, node operators are encouraged to add
 > these settings to their `app.toml` when running with `db_backend = rocksdb`:
 > ```toml
@@ -42,7 +42,7 @@ make install
 git checkout v0.26.2-iavl-v1
 make install COSMOS_BUILD_OPTIONS=rocksdb
 ```
-4. Start istchain with the desired memory allocator: `LD_PRELOAD=/path/to/tcmalloc istchain start`
+4. Start kava with the desired memory allocator: `LD_PRELOAD=/path/to/tcmalloc kava start`
 
 ## Data
 
@@ -53,19 +53,19 @@ built with IAVL V1.
 ### Validators & Pruning nodes
 
 For nodes with minimal historical state, we recommend bootstrapping your node with statesync.
-For an example of how to setup a node with statesync, see [here](https://www.polkachu.com/state_sync/istchain).
+For an example of how to setup a node with statesync, see [here](https://www.polkachu.com/state_sync/kava).
 
-A public RPC server is available at `https://rpc.istchain.io:443`.
+A public RPC server is available at `https://rpc.kava.io:443`.
 
 ### Full-archive node
 
-For nodes that need complete historical data, a full archive IAVL v1 snapshot is avaiable at https://quicksync.io/istchain.
+For nodes that need complete historical data, a full archive IAVL v1 snapshot is avaiable at https://quicksync.io/kava.
 
 In addition to the most recent version on this file, the Release Notes for
-[`v0.26.2-iavl-v1`](https://github.com/istchain/istchain/releases/tag/v0.26.2-iavl-v1) will contain
+[`v0.26.2-iavl-v1`](https://github.com/Kava-Labs/kava/releases/tag/v0.26.2-iavl-v1) will contain
 links to data when they are available.
 
-Node operators can expect a more performant istchain process that uses less than half the data storage
+Node operators can expect a more performant kava process that uses less than half the data storage
 required of IAVL V0.
 
 ## Default memory allocator
@@ -79,7 +79,7 @@ To update your node to use `tcmalloc`:
       * package manager: `apt-get install google-perftools`
       * [gperftools Releases](https://github.com/gperftools/gperftools/releases)
     * from source: see [tcmalloc Quickstart](https://google.github.io/tcmalloc/quickstart.html)
-2. whenever running istchain, do so with the new memory allocator: `LD_PRELOAD=/path/to/tcmalloc istchain start`
+2. whenever running kava, do so with the new memory allocator: `LD_PRELOAD=/path/to/tcmalloc kava start`
     * replace `/path/to/tcmalloc` above with correct path
 
 ## IAVL V1 Pruning Changes
@@ -98,7 +98,7 @@ For optimal performance, node operators are encouraged to reinitialize their nod
 data.
 
 **Example:**
-A node is started with `pruning = "nothing"` on IAVL V0 (any release prior to `istchain@v0.26.2-iavl-v1`).
+A node is started with `pruning = "nothing"` on IAVL V0 (any release prior to `kava@v0.26.2-iavl-v1`).
 
 The node runs for awhile, is stopped, and then switched to `pruning = "everything"`.
 

@@ -10,7 +10,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/istchain/istchain/x/earn/types"
+	"github.com/kava-labs/kava/x/earn/types"
 )
 
 type queryServer struct {
@@ -62,13 +62,13 @@ func (s queryServer) Vaults(
 
 	var vaultRecordsErr error
 
-	// Iterate over vault records instead of AllowedVaults to get all bist-*
+	// Iterate over vault records instead of AllowedVaults to get all bkava-*
 	// vaults
 	s.keeper.IterateVaultRecords(sdkCtx, func(record types.VaultRecord) bool {
-		// Check if bist, use allowed vault
+		// Check if bkava, use allowed vault
 		allowedVaultDenom := record.TotalShares.Denom
-		if strings.HasPrefix(record.TotalShares.Denom, bistPrefix) {
-			allowedVaultDenom = bistDenom
+		if strings.HasPrefix(record.TotalShares.Denom, bkavaPrefix) {
+			allowedVaultDenom = bkavaDenom
 		}
 
 		allowedVault, found := allowedVaultsMap[allowedVaultDenom]
@@ -155,12 +155,12 @@ func (s queryServer) Vault(
 		return nil, status.Errorf(codes.NotFound, "vault not found with specified denom")
 	}
 
-	// Handle bist separately to get total of **all** bist vaults
-	if req.Denom == bistDenom {
+	// Handle bkava separately to get total of **all** bkava vaults
+	if req.Denom == bkavaDenom {
 		return s.getAggregateBkavaVault(sdkCtx, allowedVault)
 	}
 
-	// Must be req.Denom and not allowedVault.Denom to get full "bist" denom
+	// Must be req.Denom and not allowedVault.Denom to get full "bkava" denom
 	vaultRecord, found := s.keeper.GetVaultRecord(sdkCtx, req.Denom)
 	if !found {
 		// No supply yet, no error just set it to zero
@@ -173,7 +173,7 @@ func (s queryServer) Vault(
 	}
 
 	vault := types.VaultResponse{
-		// VaultRecord denom instead of AllowedVault.Denom for full bist denom
+		// VaultRecord denom instead of AllowedVault.Denom for full bkava denom
 		Denom:             vaultRecord.TotalShares.Denom,
 		Strategies:        allowedVault.Strategies,
 		IsPrivateVault:    allowedVault.IsPrivateVault,
@@ -187,7 +187,7 @@ func (s queryServer) Vault(
 	}, nil
 }
 
-// getAggregateBkavaVault returns a VaultResponse of the total of all bist
+// getAggregateBkavaVault returns a VaultResponse of the total of all bkava
 // vaults.
 func (s queryServer) getAggregateBkavaVault(
 	ctx sdk.Context,
@@ -197,8 +197,8 @@ func (s queryServer) getAggregateBkavaVault(
 
 	var iterErr error
 	s.keeper.IterateVaultRecords(ctx, func(record types.VaultRecord) (stop bool) {
-		// Skip non bist vaults
-		if !strings.HasPrefix(record.TotalShares.Denom, bistPrefix) {
+		// Skip non bkava vaults
+		if !strings.HasPrefix(record.TotalShares.Denom, bkavaPrefix) {
 			return false
 		}
 
@@ -224,7 +224,7 @@ func (s queryServer) getAggregateBkavaVault(
 
 	return &types.QueryVaultResponse{
 		Vault: types.VaultResponse{
-			Denom:             bistDenom,
+			Denom:             bkavaDenom,
 			Strategies:        allowedVault.Strategies,
 			IsPrivateVault:    allowedVault.IsPrivateVault,
 			AllowedDepositors: addressSliceToStringSlice(allowedVault.AllowedDepositors),
@@ -250,8 +250,8 @@ func (s queryServer) Deposits(
 
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
 
-	// bist aggregate total
-	if req.Denom == bistDenom {
+	// bkava aggregate total
+	if req.Denom == bkavaDenom {
 		return s.getOneAccountBkavaVaultDeposit(sdkCtx, req)
 	}
 
@@ -273,7 +273,7 @@ func (s queryServer) TotalSupply(
 	totalSupply := sdk.NewCoins()
 	liquidStakedDerivatives := sdk.NewCoins()
 
-	// allowed vaults param contains info on allowed strategies, but bist is aggregated
+	// allowed vaults param contains info on allowed strategies, but bkava is aggregated
 	allowedVaults := s.keeper.GetAllowedVaults(sdkCtx)
 	allowedVaultByDenom := make(map[string]types.AllowedVault)
 	for _, av := range allowedVaults {
@@ -284,11 +284,11 @@ func (s queryServer) TotalSupply(
 	// iterate actual records to properly enumerate all denoms
 	s.keeper.IterateVaultRecords(sdkCtx, func(vault types.VaultRecord) (stop bool) {
 		isLiquidStakingDenom := false
-		// find allowed vault to get parameters. handle translating bist denoms to allowed vault denom
+		// find allowed vault to get parameters. handle translating bkava denoms to allowed vault denom
 		allowedVaultDenom := vault.TotalShares.Denom
-		if strings.HasPrefix(vault.TotalShares.Denom, bistPrefix) {
+		if strings.HasPrefix(vault.TotalShares.Denom, bkavaPrefix) {
 			isLiquidStakingDenom = true
-			allowedVaultDenom = bistDenom
+			allowedVaultDenom = bkavaDenom
 		}
 		allowedVault, found := allowedVaultByDenom[allowedVaultDenom]
 		if !found {
@@ -318,7 +318,7 @@ func (s queryServer) TotalSupply(
 		return false
 	})
 
-	// determine underlying value of bist denoms
+	// determine underlying value of bkava denoms
 	if len(liquidStakedDerivatives) > 0 {
 		underlyingValue, err := s.keeper.liquidKeeper.GetStakedTokensForDerivatives(
 			sdkCtx,
@@ -327,7 +327,7 @@ func (s queryServer) TotalSupply(
 		if err != nil {
 			return nil, err
 		}
-		totalSupply = totalSupply.Add(sdk.NewCoin(bistDenom, underlyingValue.Amount))
+		totalSupply = totalSupply.Add(sdk.NewCoin(bkavaDenom, underlyingValue.Amount))
 	}
 
 	return &types.QueryTotalSupplyResponse{
@@ -378,13 +378,13 @@ func (s queryServer) getOneAccountOneVaultDeposit(
 			)
 		}
 
-		uistValue, err := s.keeper.liquidKeeper.GetStakedTokensForDerivatives(ctx, sdk.NewCoins(value))
+		ukavaValue, err := s.keeper.liquidKeeper.GetStakedTokensForDerivatives(ctx, sdk.NewCoins(value))
 		if err != nil {
 			// This should "never" happen if IsDerivativeDenom is true
 			panic("Error getting uist value for " + req.Denom)
 		}
 
-		value = uistValue
+		value = ukavaValue
 	}
 
 	return &types.QueryDepositsResponse{
@@ -402,7 +402,7 @@ func (s queryServer) getOneAccountOneVaultDeposit(
 	}, nil
 }
 
-// getOneAccountBkavaVaultDeposit returns deposits for the aggregated bist vault
+// getOneAccountBkavaVaultDeposit returns deposits for the aggregated bkava vault
 // and a specific account
 func (s queryServer) getOneAccountBkavaVaultDeposit(
 	ctx sdk.Context,
@@ -428,13 +428,13 @@ func (s queryServer) getOneAccountBkavaVaultDeposit(
 		}, nil
 	}
 
-	// Get all account deposit values to add up bist
+	// Get all account deposit values to add up bkava
 	totalAccountValue, err := getAccountTotalValue(ctx, s.keeper, depositor, shareRecord.Shares)
 	if err != nil {
 		return nil, err
 	}
 
-	// Remove non-bist coins, GetStakedTokensForDerivatives expects only bist
+	// Remove non-bkava coins, GetStakedTokensForDerivatives expects only bkava
 	totalBkavaValue := sdk.NewCoins()
 	for _, coin := range totalAccountValue {
 		if s.keeper.liquidKeeper.IsDerivativeDenom(ctx, coin.Denom) {
@@ -442,7 +442,7 @@ func (s queryServer) getOneAccountBkavaVaultDeposit(
 		}
 	}
 
-	// Use account value with only the aggregate bist converted to underlying staked tokens
+	// Use account value with only the aggregate bkava converted to underlying staked tokens
 	stakedValue, err := s.keeper.liquidKeeper.GetStakedTokensForDerivatives(ctx, totalBkavaValue)
 	if err != nil {
 		return nil, err
@@ -489,29 +489,29 @@ func (s queryServer) getOneAccountAllDeposits(
 	}
 
 	if req.ValueInStakedTokens {
-		// Plain slice to not sum uist amounts together. This is not a valid
+		// Plain slice to not sum ukava amounts together. This is not a valid
 		// sdk.Coin due to multiple coins of the same denom, but we need them to
 		// be separate in the response to not be an aggregate amount.
 		var valueInStakedTokens []sdk.Coin
 
 		for _, coin := range value {
-			// Skip non-bist coins
+			// Skip non-bkava coins
 			if !s.keeper.liquidKeeper.IsDerivativeDenom(ctx, coin.Denom) {
 				continue
 			}
 
 			// Derivative coins are converted to underlying staked tokens
-			uistValue, err := s.keeper.liquidKeeper.GetStakedTokensForDerivatives(ctx, sdk.NewCoins(coin))
+			ukavaValue, err := s.keeper.liquidKeeper.GetStakedTokensForDerivatives(ctx, sdk.NewCoins(coin))
 			if err != nil {
 				// This should "never" happen if IsDerivativeDenom is true
 				panic("Error getting uist value for " + coin.Denom)
 			}
-			valueInStakedTokens = append(valueInStakedTokens, uistValue)
+			valueInStakedTokens = append(valueInStakedTokens, ukavaValue)
 		}
 
 		var filteredShares types.VaultShares
 		for _, share := range accountShare.Shares {
-			// Remove non-bist coins from shares as they are used to
+			// Remove non-bkava coins from shares as they are used to
 			// determine which value is mapped to which denom
 			// These should be in the same order as valueInStakedTokens
 			if !s.keeper.liquidKeeper.IsDerivativeDenom(ctx, share.Denom) {

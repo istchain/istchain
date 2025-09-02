@@ -1,9 +1,12 @@
 ################################################################################
 ###                             Project Info                                 ###
 ################################################################################
-PROJECT_NAME := istchain# unique namespace for project
+PROJECT_NAME := istchain # unique namespace for project (was: kava)
 
 GO_BIN ?= go
+# Source entry directory under ./cmd/. If you have not renamed cmd/kava -> cmd/istchain yet,
+# keep CMD=kava. If you already renamed, build with `make build CMD=istchain`.
+CMD ?= kava
 
 GIT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
 GIT_COMMIT := $(shell git rev-parse HEAD)
@@ -37,7 +40,7 @@ print-git-info:
 
 .PHONY: print-version
 print-version:
-	@echo "istchain $(VERSION)\ntendermint $(TENDERMINT_VERSION)\ncosmos $(COSMOS_SDK_VERSION)"
+	@echo "$(PROJECT_NAME) $(VERSION)\ntendermint $(TENDERMINT_VERSION)\ncosmos $(COSMOS_SDK_VERSION)"
 
 ################################################################################
 ###                             Project Settings                             ###
@@ -45,7 +48,7 @@ print-version:
 LEDGER_ENABLED ?= true
 DOCKER:=docker
 DOCKER_BUF := $(DOCKER) run --rm -v $(CURDIR):/workspace --workdir /workspace bufbuild/buf
-HTTPS_GIT := https://github.com/istchain/istchain.git
+HTTPS_GIT := https://github.com/Kava-Labs/kava.git
 
 ################################################################################
 ###                             Machine Info                                 ###
@@ -144,8 +147,8 @@ build_tags_comma_sep := $(subst $(whitespace),$(comma),$(build_tags))
 
 # process linker flags
 
-ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=istchain \
-	-X github.com/cosmos/cosmos-sdk/version.AppName=istchain \
+ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=$(PROJECT_NAME) \
+		  -X github.com/cosmos/cosmos-sdk/version.AppName=$(PROJECT_NAME) \
 		  -X github.com/cosmos/cosmos-sdk/version.Version=$(VERSION_NUMBER) \
 		  -X github.com/cosmos/cosmos-sdk/version.Commit=$(GIT_COMMIT) \
 		  -X "github.com/cosmos/cosmos-sdk/version.BuildTags=$(build_tags_comma_sep)" \
@@ -190,15 +193,15 @@ all: install
 
 build: go.sum
 ifeq ($(OS), Windows_NT)
-	$(GO_BIN) build -mod=readonly $(BUILD_FLAGS) -o out/$(shell $(GO_BIN) env GOOS)/istchain.exe ./cmd/istchain
+	$(GO_BIN) build -mod=readonly $(BUILD_FLAGS) -o out/$(shell $(GO_BIN) env GOOS)/$(PROJECT_NAME).exe ./cmd/$(CMD)
 else
-	$(GO_BIN) build -mod=readonly $(BUILD_FLAGS) -o out/$(shell $(GO_BIN) env GOOS)/istchain ./cmd/istchain
+	$(GO_BIN) build -mod=readonly $(BUILD_FLAGS) -o out/$(shell $(GO_BIN) env GOOS)/$(PROJECT_NAME) ./cmd/$(CMD)
 endif
 
 build-linux: go.sum
-	LEDGER_ENABLED=false GOOS=linux GOARCH=amd64 $(MAKE) build
+	LEDGER_ENABLED=false GOOS=linux GOARCH=amd64 $(MAKE) build CMD=$(CMD)
 
-# build on rocksdb-backed istchain on macOS with shared libs from brew
+# build on rocksdb-backed kava on macOS with shared libs from brew
 # this assumes you are on macOS & these deps have been installed with brew:
 # rocksdb, snappy, lz4, and zstd
 # use like `make build-rocksdb-brew COSMOS_BUILD_OPTIONS=rocksdb`
@@ -207,7 +210,7 @@ build-rocksdb-brew:
 	export CGO_LDFLAGS := -L$(shell brew --prefix rocksdb)/lib -lrocksdb -lstdc++ -lm -lz -L$(shell brew --prefix snappy)/lib -L$(shell brew --prefix lz4)/lib -L$(shell brew --prefix zstd)/lib
 
 install: go.sum
-	$(GO_BIN) install -mod=readonly $(BUILD_FLAGS) ./cmd/istchain
+	$(GO_BIN) install -mod=readonly $(BUILD_FLAGS) ./cmd/$(CMD)
 
 ########################################
 ### Tools & dependencies
@@ -229,33 +232,33 @@ go.sum: go.mod
 # Set to exclude riot links as they trigger false positives
 link-check:
 	@$(GO_BIN) get -u github.com/raviqqe/liche@f57a5d1c5be4856454cb26de155a65a4fd856ee3
-	liche -r . --exclude "^http://127.*|^https://riot.im/app*|^http://istchain-testnet*|^https://testnet-dex*|^https://istchain3.data.istchain.io*|^https://ipfs.io*|^https://apps.apple.com*|^https://istchain.quicksync.io*"
+	liche -r . --exclude "^http://127.*|^https://riot.im/app*|^http://kava-testnet*|^https://testnet-dex*|^https://kava3.data.kava.io*|^https://ipfs.io*|^https://apps.apple.com*|^https://kava.quicksync.io*"
 
 format:
 	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -name '*.pb.go' | xargs gofmt -w -s
 	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -name '*.pb.go' | xargs misspell -w
 	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -name '*.pb.go' | xargs goimports -w -local github.com/tendermint
 	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -name '*.pb.go' | xargs goimports -w -local github.com/cosmos/cosmos-sdk
-	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -name '*.pb.go' | xargs goimports -w -local github.com/istchain/istchain
+	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -name '*.pb.go' | xargs goimports -w -local github.com/kava-labs/kava
 .PHONY: format
 
 ###############################################################################
 ###                                Localnet                                 ###
 ###############################################################################
 
-# Build docker image and tag as istchain/istchain:local
+# Build docker image and tag as kava/kava:local
 docker-build:
-	DOCKER_BUILDKIT=1 $(DOCKER) build -t istchain/istchain:local --load .
+	DOCKER_BUILDKIT=1 $(DOCKER) build -t kava/kava:local --load .
 
 docker-build-rocksdb:
-	DOCKER_BUILDKIT=1 $(DOCKER) build -f Dockerfile-rocksdb -t istchain/istchain:local .
+	DOCKER_BUILDKIT=1 $(DOCKER) build -f Dockerfile-rocksdb -t kava/kava:local .
 
-build-docker-local-istchain:
+build-docker-local-kava:
 	@$(MAKE) -C networks/local
 
 # Run a 4-node testnet locally
 localnet-start: build-linux localnet-stop
-	@if ! [ -f build/node0/istd/config/genesis.json ]; then docker run --rm -v $(CURDIR)/build:/istd:Z istchain/istchainnode testnet --v 4 -o . --starting-ip-address 192.168.10.2 --keyring-backend=test ; fi
+	@if ! [ -f build/node0/kvd/config/genesis.json ]; then docker run --rm -v $(CURDIR)/build:/kvd:Z kava/kavanode testnet --v 4 -o . --starting-ip-address 192.168.10.2 --keyring-backend=test ; fi
 	$(DOCKER) compose up -d
 
 localnet-stop:
@@ -264,7 +267,7 @@ localnet-stop:
 # Launch a new single validator chain
 start:
 	./contrib/devnet/init-new-chain.sh
-	istchain start
+	$(PROJECT_NAME) start
 
 #proto-format:
 #@echo "Formatting Protobuf files"
@@ -304,7 +307,7 @@ test-e2e: docker-build
 # run interchaintest tests (./tests/e2e-ibc)
 # Use -count=1 to prevent caching, in case docker-build changes
 test-ibc: docker-build
-	cd tests/e2e-ibc && ISTCHAIN_TAG=local $(GO_BIN) test -failfast -timeout 10m -count=1 .
+	cd tests/e2e-ibc && KAVA_TAG=local $(GO_BIN) test -failfast -timeout 10m -count=1 .
 .PHONY: test-ibc
 
 test:
@@ -324,15 +327,15 @@ test-migrate:
 # This submits an AWS Batch job to run a lot of sims, each within a docker image. Results are uploaded to S3
 start-remote-sims:
 	# build the image used for running sims in, and tag it
-	docker build -f simulations/Dockerfile -t istchain/istchain-sim:master .
+	docker build -f simulations/Dockerfile -t kava/kava-sim:master .
 	# push that image to the hub
-	docker push istchain/istchain-sim:master
+	docker push kava/kava-sim:master
 	# submit an array job on AWS Batch, using 1000 seeds, spot instances
 	aws batch submit-job \
 		-—job-name "master-$(VERSION)" \
 		-—job-queue "simulation-1-queue-spot" \
 		-—array-properties size=1000 \
-		-—job-definition istchain-sim-master \
+		-—job-definition kava-sim-master \
 		-—container-override environment=[{SIM_NAME=master-$(VERSION)}]
 
 update-kvtool:

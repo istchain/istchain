@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/istchain/istchain/app"
+	"github.com/kava-labs/kava/app"
 )
 
 func TestMain(m *testing.M) {

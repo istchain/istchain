@@ -4,14 +4,14 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/istchain/istchain/x/earn/types"
+	"github.com/kava-labs/kava/x/earn/types"
 	"github.com/stretchr/testify/suite"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 var (
-	testDenom1 = "uist"
+	testDenom1 = "ukava"
 	testDenom2 = "usdx"
 )
 

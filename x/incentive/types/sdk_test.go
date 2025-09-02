@@ -7,7 +7,7 @@ import (
 
 	vestingtypes "github.com/cosmos/cosmos-sdk/x/auth/vesting/types"
 
-	"github.com/istchain/istchain/x/incentive/types"
+	"github.com/kava-labs/kava/x/incentive/types"
 )
 
 func TestGetTotalVestingPeriodLength(t *testing.T) {

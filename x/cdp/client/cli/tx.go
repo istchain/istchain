@@ -12,7 +12,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/version"
 
-	"github.com/istchain/istchain/x/cdp/types"
+	"github.com/kava-labs/kava/x/cdp/types"
 )
 
 // GetTxCmd returns the transaction commands for this module

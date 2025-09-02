@@ -7,9 +7,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/earn/testutil"
-	"github.com/istchain/istchain/x/earn/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/earn/testutil"
+	"github.com/kava-labs/kava/x/earn/types"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -169,15 +169,15 @@ func (suite *depositTestSuite) TestDeposit_PrivateVault() {
 }
 
 func (suite *depositTestSuite) TestDeposit_bKava() {
-	vaultDenom := "bist"
-	coinDenom := testutil.TestBistDenoms[0]
+	vaultDenom := "bkava"
+	coinDenom := testutil.TestBkavaDenoms[0]
 
 	startBalance := sdk.NewInt64Coin(coinDenom, 1000)
 	depositAmount := sdk.NewInt64Coin(coinDenom, 100)
 
 	acc1 := suite.CreateAccount(sdk.NewCoins(startBalance), 0)
 
-	// vault denom is only "bist" which has it's own special handler
+	// vault denom is only "bkava" which has it's own special handler
 	suite.CreateVault(
 		vaultDenom,
 		types.StrategyTypes{types.STRATEGY_TYPE_SAVINGS},
@@ -188,6 +188,6 @@ func (suite *depositTestSuite) TestDeposit_bKava() {
 	err := suite.Keeper.Deposit(suite.Ctx, acc1.GetAddress(), depositAmount, types.STRATEGY_TYPE_SAVINGS)
 	suite.Require().NoError(
 		err,
-		"should be able to deposit bist derivative denom in bist vault",
+		"should be able to deposit bkava derivative denom in bkava vault",
 	)
 }

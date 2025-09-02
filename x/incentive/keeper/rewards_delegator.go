@@ -6,7 +6,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/istchain/istchain/x/incentive/types"
+	"github.com/kava-labs/kava/x/incentive/types"
 )
 
 // AccumulateDelegatorRewards calculates new rewards to distribute this block and updates the global indexes to reflect this.
@@ -157,7 +157,7 @@ func (k Keeper) GetTotalDelegated(ctx sdk.Context, delegator sdk.AccAddress, val
 // SimulateDelegatorSynchronization calculates a user's outstanding delegator rewards by simulating reward synchronization
 func (k Keeper) SimulateDelegatorSynchronization(ctx sdk.Context, claim types.DelegatorClaim) types.DelegatorClaim {
 	for _, ri := range claim.RewardIndexes {
-		// For each Delegator reward index (there's only one: the bond denom 'uist')
+		// For each Delegator reward index (there's only one: the bond denom 'ukava')
 		globalRewardIndexes, foundGlobalRewardIndexes := k.GetDelegatorRewardIndexes(ctx, ri.CollateralType)
 		if !foundGlobalRewardIndexes {
 			continue

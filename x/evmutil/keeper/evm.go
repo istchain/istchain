@@ -28,7 +28,7 @@ import (
 	"github.com/evmos/ethermint/server/config"
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
 
-	"github.com/istchain/istchain/x/evmutil/types"
+	"github.com/kava-labs/kava/x/evmutil/types"
 )
 
 // CallEVM performs a smart contract method call using given args

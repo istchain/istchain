@@ -16,9 +16,9 @@ import (
 
 	abci "github.com/cometbft/cometbft/abci/types"
 
-	"github.com/istchain/istchain/x/pricefeed/client/cli"
-	"github.com/istchain/istchain/x/pricefeed/keeper"
-	"github.com/istchain/istchain/x/pricefeed/types"
+	"github.com/kava-labs/kava/x/pricefeed/client/cli"
+	"github.com/kava-labs/kava/x/pricefeed/keeper"
+	"github.com/kava-labs/kava/x/pricefeed/types"
 )
 
 var (

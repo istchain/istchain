@@ -12,10 +12,10 @@ import (
 	tmtime "github.com/cometbft/cometbft/types/time"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/hard"
-	"github.com/istchain/istchain/x/hard/keeper"
-	"github.com/istchain/istchain/x/hard/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/hard"
+	"github.com/kava-labs/kava/x/hard/keeper"
+	"github.com/kava-labs/kava/x/hard/types"
 )
 
 type GenesisTestSuite struct {
@@ -44,7 +44,7 @@ func (suite *GenesisTestSuite) Test_InitExportGenesis() {
 	params := types.NewParams(
 		types.MoneyMarkets{
 			types.NewMoneyMarket(
-				"uist",
+				"ukava",
 				types.NewBorrowLimit(
 					false,
 					sdk.NewDec(1e15),
@@ -68,10 +68,10 @@ func (suite *GenesisTestSuite) Test_InitExportGenesis() {
 	deposits := types.Deposits{
 		types.NewDeposit(
 			suite.addrs[0],
-			sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(1e8))), // 100 uist
+			sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(1e8))), // 100 ukava
 			types.SupplyInterestFactors{
 				{
-					Denom: "uist",
+					Denom: "ukava",
 					Value: sdk.NewDec(1),
 				},
 			},
@@ -86,10 +86,10 @@ func (suite *GenesisTestSuite) Test_InitExportGenesis() {
 	borrows := types.Borrows{
 		types.NewBorrow(
 			suite.addrs[1],
-			sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(1e7))), // 10 uist
+			sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(1e7))), // 10 ukava
 			types.BorrowInterestFactors{
 				{
-					Denom: "uist",
+					Denom: "ukava",
 					Value: sdk.NewDec(1),
 				},
 			},
@@ -104,7 +104,7 @@ func (suite *GenesisTestSuite) Test_InitExportGenesis() {
 	supplyInterestFactor := sdk.MustNewDecFromStr("1.0001")
 	borrowInterestFactor := sdk.MustNewDecFromStr("1.1234")
 	accuralTimes := types.GenesisAccumulationTimes{
-		types.NewGenesisAccumulationTime("uist", suite.genTime, supplyInterestFactor, borrowInterestFactor),
+		types.NewGenesisAccumulationTime("ukava", suite.genTime, supplyInterestFactor, borrowInterestFactor),
 	}
 
 	hardGenesis := types.NewGenesisState(

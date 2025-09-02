@@ -63,9 +63,9 @@ Ref: https://keepachangelog.com/en/1.0.0/
 
 ## [v0.26.2-iavl-v1]
 
-This is the first release for IstChain on IAVL V1.
+This is the first release for Kava on IAVL V1.
 
-IAVL V1 is a new format for the low-level data storage used by the IstChain blockchain.
+IAVL V1 is a new format for the low-level data storage used by the Kava blockchain.
 Using IAVL V1 brings performance speedups for syncing and massively reduces the data stored on disk
 (~2.4x less data storage required for a full-archive node).
 
@@ -86,7 +86,7 @@ For more details see the [IAVL V1 migration guide](/migrate/v0_26/iavl-v1.md).
 ### Features
 
 - (deps) Upgrade to IAVL V1
-  - For backwards compatibility with v0 state, a patched version of IAVL v1 is used, available [here](https://github.com/istchain/iavl/tree/v1.2.0-istchain.2).
+  - For backwards compatibility with v0 state, a patched version of IAVL v1 is used, available [here](https://github.com/Kava-Labs/iavl/tree/v1.2.0-kava.2).
   - The patched version includes the following changes:
     - Initial version of new modules is 1, not the current height. This matches the behavior of v0
     and prevents app hash mismatches during the v0.25 & v0.26 upgrade blocks that added modules.
@@ -107,7 +107,7 @@ For more details see the [IAVL V1 migration guide](/migrate/v0_26/iavl-v1.md).
 ### Features
 - (cli) [#1954] Add `--unsafe-remove-modules` parameter flag to `rollback`
 - (opendb) [#1973] Support custom configurations for each database
-  see https://github.com/istchain/opendb/blob/a2f11f6d/README.md#individual-database-configuration
+  see https://github.com/Kava-Labs/opendb/blob/a2f11f6d/README.md#individual-database-configuration
 
 ### Improvements
 - (rocksdb) [#1903] Bump cometbft-db dependency for use with rocksdb v8.10.0
@@ -262,7 +262,7 @@ For more details see the [IAVL V1 migration guide](/migrate/v0_26/iavl-v1.md).
 ## [v0.13.0]
 
 - Hard Protocol - Introduces borrowing functionality to HARD protocol. See full
-  [spec](https://github.com/istchain/istchain/tree/master/x/hard/spec)
+  [spec](https://github.com/Kava-Labs/kava/tree/master/x/hard/spec)
 
 ### Breaking changes
 
@@ -339,9 +339,9 @@ For more details see the [IAVL V1 migration guide](/migrate/v0_26/iavl-v1.md).
 ## [v0.8.1] kava-3 Patch Release
 
 This version mitigates a memory leak in tendermint that was found prior to
-launching istchain-3. It is fully compatible with v0.8.0 and is intended to replace
-that version as the canonical software version for upgrading the IstChain mainnet
-from istchain-2 to istchain-3. Note that there are no breaking changes between the
+launching kava-3. It is fully compatible with v0.8.0 and is intended to replace
+that version as the canonical software version for upgrading the Kava mainnet
+from kava-2 to kava-3. Note that there are no breaking changes between the
 versions, but a safety check was added to this version to prevent starting the
 node with an unsafe configuration.
 
@@ -354,31 +354,31 @@ being started with the `pruning="syncable"` configuration. Until a patch for
 tendermint is released, the ONLY pruning strategies that are safe to run are
 `everything` (an archival node) or `nothing` (only the most recent state is
 kept). It is strongly recommended that validators use `pruning="nothing"` for
-istchain-3. It is expected that a patch to tendermint will be released in a
+kava-3. It is expected that a patch to tendermint will be released in a
 non-breaking manner and that nodes will be able to update seamlessly after the
-launch of istchain-3.
+launch of kava-3.
 
-The steps for upgrading to istchain-3 can be found
-[here](https://github.com/istchain/istchain/blob/v0.10.0/contrib/istchain-3/migration.md).
+The steps for upgrading to kava-3 can be found
+[here](https://github.com/Kava-Labs/kava/blob/v0.10.0/contrib/kava-3/migration.md).
 Please note the additional section on
-[pruning](https://github.com/istchain/istchain/blob/v0.10.0/contrib/istchain-3/migration.md#Pruning).
+[pruning](https://github.com/Kava-Labs/kava/blob/v0.10.0/contrib/kava-3/migration.md#Pruning).
 
-## [v0.8.0] istchain-3 Release
+## [v0.8.0] kava-3 Release
 
 This version is intended to be the canonical software version for upgrading the
-IstChain mainnet from istchain-2 to istchain-3. As a result, no subsequent versions of IstChain
-will be released until istchain-3 launches unless necessary due to critical
+Kava mainnet from kava-2 to kava-3. As a result, no subsequent versions of Kava
+will be released until kava-3 launches unless necessary due to critical
 state-machine faults that require a new version to launch successfully.
 
 ### Migration
 
-The steps for upgrading to istchain-3 can be found
-[here](https://github.com/istchain/istchain/blob/v0.10.0/contrib/istchain-3/migration.md)
+The steps for upgrading to kava-3 can be found
+[here](https://github.com/Kava-Labs/kava/blob/v0.10.0/contrib/kava-3/migration.md)
 
 ### Features
 
 This is the first release that includes all the modules which comprise the
-[CDP system](https://docs.istchain.io/).
+[CDP system](https://docs.kava.io/).
 
 ### State Machine Breaking Changes
 
@@ -413,108 +413,108 @@ the [changelog](https://github.com/cosmos/cosmos-sdk/blob/v0.38.4/CHANGELOG.md).
 
 ### Improvements
 
-- [#257](https://github.com/istchain/istchain/pulls/257) Include scripts to run
+- [#257](https://github.com/Kava-Labs/kava/pulls/257) Include scripts to run
   large-scale simulations remotely using aws-batch
 
 
-[ethermint#82]: https://github.com/istchain/ethermint/pull/82
-[ethermint#77]: https://github.com/istchain/ethermint/pull/77
-[ethermint#75]: https://github.com/istchain/ethermint/pull/75
-[#2064]: https://github.com/istchain/istchain/pull/2064
-[#2062]: https://github.com/istchain/istchain/pull/2062
-[#2047]: https://github.com/istchain/istchain/pull/2047
-[#2017]: https://github.com/istchain/istchain/pull/2017
-[#1973]: https://github.com/istchain/istchain/pull/1973
-[#1967]: https://github.com/istchain/istchain/pull/1967
-[#1954]: https://github.com/istchain/istchain/pull/1954
-[#1922]: https://github.com/istchain/istchain/pull/1922
-[#1903]: https://github.com/istchain/istchain/pull/1903
-[#1851]: https://github.com/istchain/istchain/pull/1851
-[#1846]: https://github.com/istchain/istchain/pull/1846
-[#1848]: https://github.com/istchain/istchain/pull/1848
-[#1839]: https://github.com/istchain/istchain/pull/1839
-[#1836]: https://github.com/istchain/istchain/pull/1836
-[#1832]: https://github.com/istchain/istchain/pull/1832
-[#1822]: https://github.com/istchain/istchain/pull/1822
-[#1811]: https://github.com/istchain/istchain/pull/1811
-[#1804]: https://github.com/istchain/istchain/pull/1804
-[#1785]: https://github.com/istchain/istchain/pull/1785
-[#1784]: https://github.com/istchain/istchain/pull/1784
-[#1770]: https://github.com/istchain/istchain/pull/1770
-[#1755]: https://github.com/istchain/istchain/pull/1755
-[#1761]: https://github.com/istchain/istchain/pull/1761
-[#1752]: https://github.com/istchain/istchain/pull/1752
-[#1751]: https://github.com/istchain/istchain/pull/1751
-[#1745]: https://github.com/istchain/istchain/pull/1745
-[#1729]: https://github.com/istchain/istchain/pull/1729
-[#1707]: https://github.com/istchain/istchain/pull/1707
-[#1706]: https://github.com/istchain/istchain/pull/1706
-[#1704]: https://github.com/istchain/istchain/pull/1704
-[#1668]: https://github.com/istchain/istchain/pull/1668
-[#1669]: https://github.com/istchain/istchain/pull/1669
-[#1655]: https://github.com/istchain/istchain/pull/1655
-[#1624]: https://github.com/istchain/istchain/pull/1624
-[#1631]: https://github.com/istchain/istchain/pull/1631
-[#1622]: https://github.com/istchain/istchain/pull/1622
-[#1614]: https://github.com/istchain/istchain/pull/1614
-[#1610]: https://github.com/istchain/istchain/pull/1610
-[#1609]: https://github.com/istchain/istchain/pull/1609
-[#1605]: https://github.com/istchain/istchain/pull/1605
-[#1604]: https://github.com/istchain/istchain/pull/1604
-[#1603]: https://github.com/istchain/istchain/pull/1603
-[#1598]: https://github.com/istchain/istchain/pull/1598
-[#1596]: https://github.com/istchain/istchain/pull/1596
-[#1591]: https://github.com/istchain/istchain/pull/1591
-[#1590]: https://github.com/istchain/istchain/pull/1590
-[#1568]: https://github.com/istchain/istchain/pull/1568
-[#1567]: https://github.com/istchain/istchain/pull/1567
-[#1566]: https://github.com/istchain/istchain/pull/1566
-[#1565]: https://github.com/istchain/istchain/pull/1565
-[#1563]: https://github.com/istchain/istchain/pull/1563
-[#1562]: https://github.com/istchain/istchain/pull/1562
-[#1550]: https://github.com/istchain/istchain/pull/1550
-[#1544]: https://github.com/istchain/istchain/pull/1544
-[#1477]: https://github.com/istchain/istchain/pull/1477
-[#1512]: https://github.com/istchain/istchain/pull/1512
-[#1519]: https://github.com/istchain/istchain/pull/1519
-[#1106]: https://github.com/istchain/istchain/pull/1106
-[#1152]: https://github.com/istchain/istchain/pull/1152
-[#1542]: https://github.com/istchain/istchain/pull/1542
-[#253]: https://github.com/istchain/istchain/pull/253
-[#260]: https://github.com/istchain/istchain/pull/260
-[#266]: https://github.com/istchain/istchain/pull/266
-[#364]: https://github.com/istchain/istchain/pull/364
-[#590]: https://github.com/istchain/istchain/pull/590
-[#591]: https://github.com/istchain/istchain/pull/591
-[#596]: https://github.com/istchain/istchain/pull/596
-[#598]: https://github.com/istchain/istchain/pull/598
-[#625]: https://github.com/istchain/istchain/pull/625
-[#701]: https://github.com/istchain/istchain/pull/701
-[#750]: https://github.com/istchain/istchain/pull/750
-[#751]: https://github.com/istchain/istchain/pull/751
-[#780]: https://github.com/istchain/istchain/pull/780
-[unreleased]: https://github.com/istchain/istchain/compare/v0.26.2-iavl-v1...release/v0.26.x-iavl-v1
-[v0.28.0]: https://github.com/istchain/istchain/compare/v0.27.1...v0.28.0
-[v0.27.1]: https://github.com/istchain/istchain/compare/v0.27.0...v0.27.1
-[v0.27.0]: https://github.com/istchain/istchain/compare/v0.26.2-iavl-v1...v0.27.0
-[v0.26.2-iavl-v1]: https://github.com/istchain/istchain/compare/v0.26.2...v0.26.2-iavl-v1
-[v0.26.2]: https://github.com/istchain/istchain/compare/v0.26.1...v0.26.2
-[v0.26.1]: https://github.com/istchain/istchain/compare/v0.26.0...v0.26.1
-[v0.26.0]: https://github.com/istchain/istchain/compare/v0.25.0...v0.26.0
-[v0.25.0]: https://github.com/istchain/istchain/compare/v0.24.3...v0.25.0
-[v0.24.3]: https://github.com/istchain/istchain/compare/v0.24.1...v0.24.3
-[v0.24.1]: https://github.com/istchain/istchain/compare/v0.24.0...v0.24.1
-[v0.24.0]: https://github.com/istchain/istchain/compare/v0.23.2...v0.24.0
-[v0.23.2]: https://github.com/istchain/istchain/compare/v0.23.1...v0.23.2
-[v0.23.0]: https://github.com/istchain/istchain/compare/v0.21.1...v0.23.0
-[v0.16.1]: https://github.com/istchain/istchain/compare/v0.16.0...v0.16.1
-[v0.16.0]: https://github.com/istchain/istchain/compare/v0.15.2...v0.16.0
-[v0.13.0]: https://github.com/istchain/istchain/compare/v0.12.4...v0.13.0
-[v0.12.0]: https://github.com/istchain/istchain/compare/v0.11.1...v0.12.0
-[v0.11.0]: https://github.com/istchain/istchain/compare/v0.10.0...v0.11.0
-[v0.8.1]: https://github.com/istchain/istchain/compare/v0.8.0...v0.8.1
-[v0.8.0]: https://github.com/istchain/istchain/compare/v0.7.0...v0.8.0
-[v0.3.5]: https://github.com/istchain/istchain/compare/v0.3.4...v0.3.5
-[v0.3.2]: https://github.com/istchain/istchain/compare/v0.3.1...v0.3.2
-[v0.3.1]: https://github.com/istchain/istchain/compare/v0.3.0...v0.3.1
-[v0.3.0]: https://github.com/istchain/istchain/compare/v0.2.0...v0.3.0
+[ethermint#82]: https://github.com/Kava-Labs/ethermint/pull/82
+[ethermint#77]: https://github.com/Kava-Labs/ethermint/pull/77
+[ethermint#75]: https://github.com/Kava-Labs/ethermint/pull/75
+[#2064]: https://github.com/Kava-Labs/kava/pull/2064
+[#2062]: https://github.com/Kava-Labs/kava/pull/2062
+[#2047]: https://github.com/Kava-Labs/kava/pull/2047
+[#2017]: https://github.com/Kava-Labs/kava/pull/2017
+[#1973]: https://github.com/Kava-Labs/kava/pull/1973
+[#1967]: https://github.com/Kava-Labs/kava/pull/1967
+[#1954]: https://github.com/Kava-Labs/kava/pull/1954
+[#1922]: https://github.com/Kava-Labs/kava/pull/1922
+[#1903]: https://github.com/Kava-Labs/kava/pull/1903
+[#1851]: https://github.com/Kava-Labs/kava/pull/1851
+[#1846]: https://github.com/Kava-Labs/kava/pull/1846
+[#1848]: https://github.com/Kava-Labs/kava/pull/1848
+[#1839]: https://github.com/Kava-Labs/kava/pull/1839
+[#1836]: https://github.com/Kava-Labs/kava/pull/1836
+[#1832]: https://github.com/Kava-Labs/kava/pull/1832
+[#1822]: https://github.com/Kava-Labs/kava/pull/1822
+[#1811]: https://github.com/Kava-Labs/kava/pull/1811
+[#1804]: https://github.com/Kava-Labs/kava/pull/1804
+[#1785]: https://github.com/Kava-Labs/kava/pull/1785
+[#1784]: https://github.com/Kava-Labs/kava/pull/1784
+[#1770]: https://github.com/Kava-Labs/kava/pull/1770
+[#1755]: https://github.com/Kava-Labs/kava/pull/1755
+[#1761]: https://github.com/Kava-Labs/kava/pull/1761
+[#1752]: https://github.com/Kava-Labs/kava/pull/1752
+[#1751]: https://github.com/Kava-Labs/kava/pull/1751
+[#1745]: https://github.com/Kava-Labs/kava/pull/1745
+[#1729]: https://github.com/Kava-Labs/kava/pull/1729
+[#1707]: https://github.com/Kava-Labs/kava/pull/1707
+[#1706]: https://github.com/Kava-Labs/kava/pull/1706
+[#1704]: https://github.com/Kava-Labs/kava/pull/1704
+[#1668]: https://github.com/Kava-Labs/kava/pull/1668
+[#1669]: https://github.com/Kava-Labs/kava/pull/1669
+[#1655]: https://github.com/Kava-Labs/kava/pull/1655
+[#1624]: https://github.com/Kava-Labs/kava/pull/1624
+[#1631]: https://github.com/Kava-Labs/kava/pull/1631
+[#1622]: https://github.com/Kava-Labs/kava/pull/1622
+[#1614]: https://github.com/Kava-Labs/kava/pull/1614
+[#1610]: https://github.com/Kava-Labs/kava/pull/1610
+[#1609]: https://github.com/Kava-Labs/kava/pull/1609
+[#1605]: https://github.com/Kava-Labs/kava/pull/1605
+[#1604]: https://github.com/Kava-Labs/kava/pull/1604
+[#1603]: https://github.com/Kava-Labs/kava/pull/1603
+[#1598]: https://github.com/Kava-Labs/kava/pull/1598
+[#1596]: https://github.com/Kava-Labs/kava/pull/1596
+[#1591]: https://github.com/Kava-Labs/kava/pull/1591
+[#1590]: https://github.com/Kava-Labs/kava/pull/1590
+[#1568]: https://github.com/Kava-Labs/kava/pull/1568
+[#1567]: https://github.com/Kava-Labs/kava/pull/1567
+[#1566]: https://github.com/Kava-Labs/kava/pull/1566
+[#1565]: https://github.com/Kava-Labs/kava/pull/1565
+[#1563]: https://github.com/Kava-Labs/kava/pull/1563
+[#1562]: https://github.com/Kava-Labs/kava/pull/1562
+[#1550]: https://github.com/Kava-Labs/kava/pull/1550
+[#1544]: https://github.com/Kava-Labs/kava/pull/1544
+[#1477]: https://github.com/Kava-Labs/kava/pull/1477
+[#1512]: https://github.com/Kava-Labs/kava/pull/1512
+[#1519]: https://github.com/Kava-Labs/kava/pull/1519
+[#1106]: https://github.com/Kava-Labs/kava/pull/1106
+[#1152]: https://github.com/Kava-Labs/kava/pull/1152
+[#1542]: https://github.com/Kava-Labs/kava/pull/1542
+[#253]: https://github.com/Kava-Labs/kava/pull/253
+[#260]: https://github.com/Kava-Labs/kava/pull/260
+[#266]: https://github.com/Kava-Labs/kava/pull/266
+[#364]: https://github.com/Kava-Labs/kava/pull/364
+[#590]: https://github.com/Kava-Labs/kava/pull/590
+[#591]: https://github.com/Kava-Labs/kava/pull/591
+[#596]: https://github.com/Kava-Labs/kava/pull/596
+[#598]: https://github.com/Kava-Labs/kava/pull/598
+[#625]: https://github.com/Kava-Labs/kava/pull/625
+[#701]: https://github.com/Kava-Labs/kava/pull/701
+[#750]: https://github.com/Kava-Labs/kava/pull/750
+[#751]: https://github.com/Kava-Labs/kava/pull/751
+[#780]: https://github.com/Kava-Labs/kava/pull/780
+[unreleased]: https://github.com/Kava-Labs/kava/compare/v0.26.2-iavl-v1...release/v0.26.x-iavl-v1
+[v0.28.0]: https://github.com/Kava-Labs/kava/compare/v0.27.1...v0.28.0
+[v0.27.1]: https://github.com/Kava-Labs/kava/compare/v0.27.0...v0.27.1
+[v0.27.0]: https://github.com/Kava-Labs/kava/compare/v0.26.2-iavl-v1...v0.27.0
+[v0.26.2-iavl-v1]: https://github.com/Kava-Labs/kava/compare/v0.26.2...v0.26.2-iavl-v1
+[v0.26.2]: https://github.com/Kava-Labs/kava/compare/v0.26.1...v0.26.2
+[v0.26.1]: https://github.com/Kava-Labs/kava/compare/v0.26.0...v0.26.1
+[v0.26.0]: https://github.com/Kava-Labs/kava/compare/v0.25.0...v0.26.0
+[v0.25.0]: https://github.com/Kava-Labs/kava/compare/v0.24.3...v0.25.0
+[v0.24.3]: https://github.com/Kava-Labs/kava/compare/v0.24.1...v0.24.3
+[v0.24.1]: https://github.com/Kava-Labs/kava/compare/v0.24.0...v0.24.1
+[v0.24.0]: https://github.com/Kava-Labs/kava/compare/v0.23.2...v0.24.0
+[v0.23.2]: https://github.com/Kava-Labs/kava/compare/v0.23.1...v0.23.2
+[v0.23.0]: https://github.com/Kava-Labs/kava/compare/v0.21.1...v0.23.0
+[v0.16.1]: https://github.com/Kava-Labs/kava/compare/v0.16.0...v0.16.1
+[v0.16.0]: https://github.com/Kava-Labs/kava/compare/v0.15.2...v0.16.0
+[v0.13.0]: https://github.com/Kava-Labs/kava/compare/v0.12.4...v0.13.0
+[v0.12.0]: https://github.com/Kava-Labs/kava/compare/v0.11.1...v0.12.0
+[v0.11.0]: https://github.com/Kava-Labs/kava/compare/v0.10.0...v0.11.0
+[v0.8.1]: https://github.com/Kava-Labs/kava/compare/v0.8.0...v0.8.1
+[v0.8.0]: https://github.com/Kava-Labs/kava/compare/v0.7.0...v0.8.0
+[v0.3.5]: https://github.com/Kava-Labs/kava/compare/v0.3.4...v0.3.5
+[v0.3.2]: https://github.com/Kava-Labs/kava/compare/v0.3.1...v0.3.2
+[v0.3.1]: https://github.com/Kava-Labs/kava/compare/v0.3.0...v0.3.1
+[v0.3.0]: https://github.com/Kava-Labs/kava/compare/v0.2.0...v0.3.0

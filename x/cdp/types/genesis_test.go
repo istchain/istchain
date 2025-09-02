@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	sdkmath "cosmossdk.io/math"
-	"github.com/istchain/istchain/x/cdp/types"
+	"github.com/kava-labs/kava/x/cdp/types"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

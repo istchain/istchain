@@ -43,7 +43,7 @@
     ],
     "deposit": [
       {
-        "denom": "uist",
+        "denom": "ukava",
         "amount": "1000000"
       }
     ]

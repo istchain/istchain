@@ -20,7 +20,7 @@
         "keeper_reward_percentage": "0.050000000000000000"
       },
       {
-        "denom": "ukava",
+        "denom": "uist",
         "borrow_limit": {
           "has_max_limit": false,
           "maximum_limit": "100000000000.000000000000000000",

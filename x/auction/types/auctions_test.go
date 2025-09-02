@@ -14,19 +14,19 @@ const (
 	TestInitiatorModuleName = "liquidator"
 	TestLotDenom            = "usdx"
 	TestLotAmount           = 100
-	TestBidDenom            = "ist"
+	TestBidDenom            = "kava"
 	TestBidAmount           = 20
 	TestDebtDenom           = "debt"
 	TestDebtAmount1         = 20
 	TestDebtAmount2         = 15
 	TestExtraEndTime        = 10000
 	TestAuctionID           = 9999123
-	testAccAddress1         = "istchain1qcfdf69js922qrdr4yaww3ax7gjml6pd39p8lj"
-	testAccAddress2         = "istchain1pdfav2cjhry9k79nu6r8kgknnjtq6a7rcr0qlr"
+	testAccAddress1         = "kava1qcfdf69js922qrdr4yaww3ax7gjml6pd39p8lj"
+	testAccAddress2         = "kava1pdfav2cjhry9k79nu6r8kgknnjtq6a7rcr0qlr"
 )
 
 func init() {
-	sdk.GetConfig().SetBech32PrefixForAccount("istchain", "istchain"+sdk.PrefixPublic)
+	sdk.GetConfig().SetBech32PrefixForAccount("kava", "kava"+sdk.PrefixPublic)
 }
 
 func d(amount string) sdk.Dec               { return sdk.MustNewDecFromStr(amount) }

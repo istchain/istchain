@@ -9,9 +9,9 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/testutil"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/istchain/istchain/app"
-	v2 "github.com/istchain/istchain/x/community/migrations/v2"
-	"github.com/istchain/istchain/x/community/types"
+	"github.com/kava-labs/kava/app"
+	v2 "github.com/kava-labs/kava/x/community/migrations/v2"
+	"github.com/kava-labs/kava/x/community/types"
 )
 
 func TestMigrateStore(t *testing.T) {

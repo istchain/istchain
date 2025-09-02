@@ -10,9 +10,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/suite"
 
-	app "github.com/istchain/istchain/app"
-	v015swap "github.com/istchain/istchain/x/swap/legacy/v0_15"
-	v016swap "github.com/istchain/istchain/x/swap/types"
+	app "github.com/kava-labs/kava/app"
+	v015swap "github.com/kava-labs/kava/x/swap/legacy/v0_15"
+	v016swap "github.com/kava-labs/kava/x/swap/types"
 )
 
 type migrateTestSuite struct {
@@ -91,7 +91,7 @@ func (s *migrateTestSuite) TestMigrate_PoolRecords() {
 		{
 			PoolID:      "pool-2",
 			ReservesA:   sdk.NewCoin("usdx", sdkmath.NewInt(500)),
-			ReservesB:   sdk.NewCoin("uist", sdkmath.NewInt(500)),
+			ReservesB:   sdk.NewCoin("ukava", sdkmath.NewInt(500)),
 			TotalShares: sdkmath.NewInt(1000),
 		},
 	}
@@ -105,7 +105,7 @@ func (s *migrateTestSuite) TestMigrate_PoolRecords() {
 		{
 			PoolID:      "pool-2",
 			ReservesA:   sdk.NewCoin("usdx", sdkmath.NewInt(500)),
-			ReservesB:   sdk.NewCoin("uist", sdkmath.NewInt(500)),
+			ReservesB:   sdk.NewCoin("ukava", sdkmath.NewInt(500)),
 			TotalShares: sdkmath.NewInt(1000),
 		},
 	}

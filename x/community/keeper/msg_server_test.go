@@ -9,10 +9,10 @@ import (
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/community/keeper"
-	"github.com/istchain/istchain/x/community/testutil"
-	"github.com/istchain/istchain/x/community/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/community/keeper"
+	"github.com/kava-labs/kava/x/community/testutil"
+	"github.com/kava-labs/kava/x/community/types"
 )
 
 type msgServerTestSuite struct {
@@ -34,9 +34,9 @@ func TestMsgServerTestSuite(t *testing.T) {
 }
 
 func (suite *msgServerTestSuite) TestMsgFundCommunityPool() {
-	singleCoin := sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(2e6)))
+	singleCoin := sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(2e6)))
 	multipleCoins := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(3e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(3e6)),
 		sdk.NewCoin("usdx", sdkmath.NewInt(1e7)),
 	)
 	testCases := []struct {

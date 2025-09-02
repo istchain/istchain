@@ -1,8 +1,8 @@
 package v0_16
 
 import (
-	v015swap "github.com/istchain/istchain/x/swap/legacy/v0_15"
-	v016swap "github.com/istchain/istchain/x/swap/types"
+	v015swap "github.com/kava-labs/kava/x/swap/legacy/v0_15"
+	v016swap "github.com/kava-labs/kava/x/swap/types"
 )
 
 func migrateParams(params v015swap.Params) v016swap.Params {

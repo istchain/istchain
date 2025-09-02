@@ -9,9 +9,9 @@ import (
 
 	tmtime "github.com/cometbft/cometbft/types/time"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/cdp/types"
-	pricefeedtypes "github.com/istchain/istchain/x/pricefeed/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/cdp/types"
+	pricefeedtypes "github.com/kava-labs/kava/x/pricefeed/types"
 )
 
 // Avoid cluttering test cases with long function names

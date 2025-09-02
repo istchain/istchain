@@ -5,7 +5,7 @@ import (
 	"math/big"
 	"testing"
 
-	types "github.com/istchain/istchain/x/swap/types"
+	types "github.com/kava-labs/kava/x/swap/types"
 
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"

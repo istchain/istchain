@@ -3,13 +3,13 @@ package keeper
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	liquidtypes "github.com/istchain/istchain/x/liquid/types"
-	"github.com/istchain/istchain/x/savings/types"
+	liquidtypes "github.com/kava-labs/kava/x/liquid/types"
+	"github.com/kava-labs/kava/x/savings/types"
 )
 
 const (
-	bistDenom  = "bist"
-	bistPrefix = bistDenom + "-"
+	bkavaDenom  = "bkava"
+	bkavaPrefix = bkavaDenom + "-"
 )
 
 // GetParams returns the params from the store

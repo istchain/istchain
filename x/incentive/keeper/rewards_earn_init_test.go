@@ -6,7 +6,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/istchain/istchain/x/incentive/types"
+	"github.com/kava-labs/kava/x/incentive/types"
 )
 
 // InitializeEarnRewardTests runs unit tests for the keeper.InitializeEarnReward method

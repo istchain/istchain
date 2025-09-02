@@ -11,8 +11,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/istchain/istchain/x/committee/testutil"
-	"github.com/istchain/istchain/x/committee/types"
+	"github.com/kava-labs/kava/x/committee/testutil"
+	"github.com/kava-labs/kava/x/committee/types"
 )
 
 func TestBaseCommittee(t *testing.T) {

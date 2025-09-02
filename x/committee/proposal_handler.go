@@ -5,8 +5,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	govv1beta1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
-	"github.com/istchain/istchain/x/committee/keeper"
-	"github.com/istchain/istchain/x/committee/types"
+	"github.com/kava-labs/kava/x/committee/keeper"
+	"github.com/kava-labs/kava/x/committee/types"
 )
 
 func NewProposalHandler(k keeper.Keeper) govv1beta1.Handler {

@@ -9,7 +9,7 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
 
-	"github.com/istchain/istchain/x/evmutil/types"
+	"github.com/kava-labs/kava/x/evmutil/types"
 )
 
 const (
@@ -17,10 +17,10 @@ const (
 	EvmDenom = "akava"
 
 	// CosmosDenom is the gas denom used by the kava app
-	CosmosDenom = "uist"
+	CosmosDenom = "ukava"
 )
 
-// ConversionMultiplier is the conversion multiplier between akava and uist
+// ConversionMultiplier is the conversion multiplier between akava and ukava
 var ConversionMultiplier = sdkmath.NewInt(1_000_000_000_000)
 
 var _ evmtypes.BankKeeper = EvmBankKeeper{}
@@ -29,7 +29,7 @@ var _ evmtypes.BankKeeper = EvmBankKeeper{}
 // of the 18 decimal akava coin on the evm.
 // x/evm consumes gas and send coins by minting and burning akava coins in its module
 // account and then sending the funds to the target account.
-// This keeper uses both the uist coin and a separate akava balance to manage the
+// This keeper uses both the ukava coin and a separate akava balance to manage the
 // extra precision needed by the evm.
 type EvmBankKeeper struct {
 	akavaKeeper Keeper
@@ -52,9 +52,9 @@ func (k EvmBankKeeper) GetBalance(ctx sdk.Context, addr sdk.AccAddress, denom st
 	}
 
 	spendableCoins := k.bk.SpendableCoins(ctx, addr)
-	uist := spendableCoins.AmountOf(CosmosDenom)
+	ukava := spendableCoins.AmountOf(CosmosDenom)
 	akava := k.akavaKeeper.GetBalance(ctx, addr)
-	total := uist.Mul(ConversionMultiplier).Add(akava)
+	total := ukava.Mul(ConversionMultiplier).Add(akava)
 	return sdk.NewCoin(EvmDenom, total)
 }
 
@@ -70,13 +70,13 @@ func (k EvmBankKeeper) SendCoins(ctx sdk.Context, senderAddr sdk.AccAddress, rec
 // It will panic if the module account does not exist. An error is returned if the recipient
 // address is black-listed or if sending the tokens fails.
 func (k EvmBankKeeper) SendCoinsFromModuleToAccount(ctx sdk.Context, senderModule string, recipientAddr sdk.AccAddress, amt sdk.Coins) error {
-	uist, akava, err := SplitAkavaCoins(amt)
+	ukava, akava, err := SplitAkavaCoins(amt)
 	if err != nil {
 		return err
 	}
 
-	if uist.Amount.IsPositive() {
-		if err := k.bk.SendCoinsFromModuleToAccount(ctx, senderModule, recipientAddr, sdk.NewCoins(uist)); err != nil {
+	if ukava.Amount.IsPositive() {
+		if err := k.bk.SendCoinsFromModuleToAccount(ctx, senderModule, recipientAddr, sdk.NewCoins(ukava)); err != nil {
 			return err
 		}
 	}
@@ -96,13 +96,13 @@ func (k EvmBankKeeper) SendCoinsFromModuleToAccount(ctx sdk.Context, senderModul
 // SendCoinsFromAccountToModule transfers akava coins from an AccAddress to a ModuleAccount.
 // It will panic if the module account does not exist.
 func (k EvmBankKeeper) SendCoinsFromAccountToModule(ctx sdk.Context, senderAddr sdk.AccAddress, recipientModule string, amt sdk.Coins) error {
-	uist, akavaNeeded, err := SplitAkavaCoins(amt)
+	ukava, akavaNeeded, err := SplitAkavaCoins(amt)
 	if err != nil {
 		return err
 	}
 
-	if uist.IsPositive() {
-		if err := k.bk.SendCoinsFromAccountToModule(ctx, senderAddr, recipientModule, sdk.NewCoins(uist)); err != nil {
+	if ukava.IsPositive() {
+		if err := k.bk.SendCoinsFromAccountToModule(ctx, senderAddr, recipientModule, sdk.NewCoins(ukava)); err != nil {
 			return err
 		}
 	}
@@ -119,16 +119,16 @@ func (k EvmBankKeeper) SendCoinsFromAccountToModule(ctx sdk.Context, senderAddr 
 	return k.ConvertAkavaToUkava(ctx, recipientAddr)
 }
 
-// MintCoins mints akava coins by minting the equivalent uist coins and any remaining akava coins.
+// MintCoins mints akava coins by minting the equivalent ukava coins and any remaining akava coins.
 // It will panic if the module account does not exist or is unauthorized.
 func (k EvmBankKeeper) MintCoins(ctx sdk.Context, moduleName string, amt sdk.Coins) error {
-	uist, akava, err := SplitAkavaCoins(amt)
+	ukava, akava, err := SplitAkavaCoins(amt)
 	if err != nil {
 		return err
 	}
 
-	if uist.IsPositive() {
-		if err := k.bk.MintCoins(ctx, moduleName, sdk.NewCoins(uist)); err != nil {
+	if ukava.IsPositive() {
+		if err := k.bk.MintCoins(ctx, moduleName, sdk.NewCoins(ukava)); err != nil {
 			return err
 		}
 	}
@@ -141,16 +141,16 @@ func (k EvmBankKeeper) MintCoins(ctx sdk.Context, moduleName string, amt sdk.Coi
 	return k.ConvertAkavaToUkava(ctx, recipientAddr)
 }
 
-// BurnCoins burns akava coins by burning the equivalent uist coins and any remaining akava coins.
+// BurnCoins burns akava coins by burning the equivalent ukava coins and any remaining akava coins.
 // It will panic if the module account does not exist or is unauthorized.
 func (k EvmBankKeeper) BurnCoins(ctx sdk.Context, moduleName string, amt sdk.Coins) error {
-	uist, akava, err := SplitAkavaCoins(amt)
+	ukava, akava, err := SplitAkavaCoins(amt)
 	if err != nil {
 		return err
 	}
 
-	if uist.IsPositive() {
-		if err := k.bk.BurnCoins(ctx, moduleName, sdk.NewCoins(uist)); err != nil {
+	if ukava.IsPositive() {
+		if err := k.bk.BurnCoins(ctx, moduleName, sdk.NewCoins(ukava)); err != nil {
 			return err
 		}
 	}
@@ -173,7 +173,7 @@ func (k EvmBankKeeper) IsSendEnabledCoins(ctx sdk.Context, coins ...sdk.Coin) er
 	panic("not implemented")
 }
 
-// ConvertOneUkavaToAkavaIfNeeded converts 1 uist to akava for an address if
+// ConvertOneUkavaToAkavaIfNeeded converts 1 ukava to akava for an address if
 // its akava balance is smaller than the akavaNeeded amount.
 func (k EvmBankKeeper) ConvertOneUkavaToAkavaIfNeeded(ctx sdk.Context, addr sdk.AccAddress, akavaNeeded sdkmath.Int) error {
 	akavaBal := k.akavaKeeper.GetBalance(ctx, addr)
@@ -181,12 +181,12 @@ func (k EvmBankKeeper) ConvertOneUkavaToAkavaIfNeeded(ctx sdk.Context, addr sdk.
 		return nil
 	}
 
-	uistToStore := sdk.NewCoins(sdk.NewCoin(CosmosDenom, sdk.OneInt()))
-	if err := k.bk.SendCoinsFromAccountToModule(ctx, addr, types.ModuleName, uistToStore); err != nil {
+	ukavaToStore := sdk.NewCoins(sdk.NewCoin(CosmosDenom, sdk.OneInt()))
+	if err := k.bk.SendCoinsFromAccountToModule(ctx, addr, types.ModuleName, ukavaToStore); err != nil {
 		return err
 	}
 
-	// add 1uist equivalent of akava to addr
+	// add 1ukava equivalent of akava to addr
 	akavaToReceive := ConversionMultiplier
 	if err := k.akavaKeeper.AddBalance(ctx, addr, akavaToReceive); err != nil {
 		return err
@@ -195,29 +195,29 @@ func (k EvmBankKeeper) ConvertOneUkavaToAkavaIfNeeded(ctx sdk.Context, addr sdk.
 	return nil
 }
 
-// ConvertAkavaToUkava converts all available akava to uist for a given AccAddress.
+// ConvertAkavaToUkava converts all available akava to ukava for a given AccAddress.
 func (k EvmBankKeeper) ConvertAkavaToUkava(ctx sdk.Context, addr sdk.AccAddress) error {
 	totalAkava := k.akavaKeeper.GetBalance(ctx, addr)
-	uist, _, err := SplitAkavaCoins(sdk.NewCoins(sdk.NewCoin(EvmDenom, totalAkava)))
+	ukava, _, err := SplitAkavaCoins(sdk.NewCoins(sdk.NewCoin(EvmDenom, totalAkava)))
 	if err != nil {
 		return err
 	}
 
-	// do nothing if account does not have enough akava for a single uist
-	uistToReceive := uist.Amount
-	if !uistToReceive.IsPositive() {
+	// do nothing if account does not have enough akava for a single ukava
+	ukavaToReceive := ukava.Amount
+	if !ukavaToReceive.IsPositive() {
 		return nil
 	}
 
-	// remove akava used for converting to uist
-	akavaToBurn := uistToReceive.Mul(ConversionMultiplier)
+	// remove akava used for converting to ukava
+	akavaToBurn := ukavaToReceive.Mul(ConversionMultiplier)
 	finalBal := totalAkava.Sub(akavaToBurn)
 	if err := k.akavaKeeper.SetBalance(ctx, addr, finalBal); err != nil {
 		return err
 	}
 
 	fromAddr := k.GetModuleAddress(types.ModuleName)
-	if err := k.bk.SendCoins(ctx, fromAddr, addr, sdk.NewCoins(uist)); err != nil {
+	if err := k.bk.SendCoins(ctx, fromAddr, addr, sdk.NewCoins(ukava)); err != nil {
 		return err
 	}
 
@@ -232,18 +232,18 @@ func (k EvmBankKeeper) GetModuleAddress(moduleName string) sdk.AccAddress {
 	return addr
 }
 
-// SplitAkavaCoins splits akava coins to the equivalent uist coins and any remaining akava balance.
+// SplitAkavaCoins splits akava coins to the equivalent ukava coins and any remaining akava balance.
 // An error will be returned if the coins are not valid or if the coins are not the akava denom.
 func SplitAkavaCoins(coins sdk.Coins) (sdk.Coin, sdkmath.Int, error) {
 	akava := sdk.ZeroInt()
-	uist := sdk.NewCoin(CosmosDenom, sdk.ZeroInt())
+	ukava := sdk.NewCoin(CosmosDenom, sdk.ZeroInt())
 
 	if len(coins) == 0 {
-		return uist, akava, nil
+		return ukava, akava, nil
 	}
 
 	if err := ValidateEvmCoins(coins); err != nil {
-		return uist, akava, err
+		return ukava, akava, err
 	}
 
 	// note: we should always have len(coins) == 1 here since coins cannot have dup denoms after we validate.
@@ -252,12 +252,12 @@ func SplitAkavaCoins(coins sdk.Coins) (sdk.Coin, sdkmath.Int, error) {
 	if remainingBalance.IsPositive() {
 		akava = remainingBalance
 	}
-	uistAmount := coin.Amount.Quo(ConversionMultiplier)
-	if uistAmount.IsPositive() {
-		uist = sdk.NewCoin(CosmosDenom, uistAmount)
+	ukavaAmount := coin.Amount.Quo(ConversionMultiplier)
+	if ukavaAmount.IsPositive() {
+		ukava = sdk.NewCoin(CosmosDenom, ukavaAmount)
 	}
 
-	return uist, akava, nil
+	return ukava, akava, nil
 }
 
 // ValidateEvmCoins validates the coins from evm is valid and is the EvmDenom (akava).

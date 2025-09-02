@@ -11,9 +11,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/validator-vesting/keeper"
-	"github.com/istchain/istchain/x/validator-vesting/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/validator-vesting/keeper"
+	"github.com/kava-labs/kava/x/validator-vesting/types"
 )
 
 type grpcQueryTestSuite struct {
@@ -52,7 +52,7 @@ func TestGrpcQueryTestSuite(t *testing.T) {
 
 func (suite *grpcQueryTestSuite) TestCirculatingSupply() {
 	suite.Run("vesting period supply", func() {
-		suite.bk.SetSupply(suite.ctx, "uist", sdkmath.NewInt(2_500_000_000_000))
+		suite.bk.SetSupply(suite.ctx, "ukava", sdkmath.NewInt(2_500_000_000_000))
 		lastVestingPeriod := time.Date(2022, 8, 5, 24, 0, 0, 0, time.UTC)
 		queryClient := suite.queryClientWithBlockTime(lastVestingPeriod)
 		res, err := queryClient.CirculatingSupply(context.Background(), &types.QueryCirculatingSupplyRequest{})
@@ -61,7 +61,7 @@ func (suite *grpcQueryTestSuite) TestCirculatingSupply() {
 	})
 
 	suite.Run("supply after last vesting period", func() {
-		suite.bk.SetSupply(suite.ctx, "uist", sdkmath.NewInt(100_000_000))
+		suite.bk.SetSupply(suite.ctx, "ukava", sdkmath.NewInt(100_000_000))
 		res, err := suite.queryClient.CirculatingSupply(context.Background(), &types.QueryCirculatingSupplyRequest{})
 		suite.Require().NoError(err)
 		suite.Require().Equal(sdkmath.NewInt(100), res.Amount)
@@ -69,7 +69,7 @@ func (suite *grpcQueryTestSuite) TestCirculatingSupply() {
 }
 
 func (suite *grpcQueryTestSuite) TestTotalSupply() {
-	suite.bk.SetSupply(suite.ctx, "uist", sdkmath.NewInt(100_000_000))
+	suite.bk.SetSupply(suite.ctx, "ukava", sdkmath.NewInt(100_000_000))
 	res, err := suite.queryClient.TotalSupply(context.Background(), &types.QueryTotalSupplyRequest{})
 	suite.Require().NoError(err)
 	suite.Require().Equal(sdkmath.NewInt(100), res.Amount)

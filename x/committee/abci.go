@@ -8,8 +8,8 @@ import (
 
 	abci "github.com/cometbft/cometbft/abci/types"
 
-	"github.com/istchain/istchain/x/committee/keeper"
-	"github.com/istchain/istchain/x/committee/types"
+	"github.com/kava-labs/kava/x/committee/keeper"
+	"github.com/kava-labs/kava/x/committee/types"
 )
 
 // BeginBlocker runs at the start of every block.

@@ -4,9 +4,9 @@ import (
 	"testing"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/istchain/istchain/x/community"
-	"github.com/istchain/istchain/x/community/keeper"
-	"github.com/istchain/istchain/x/community/testutil"
+	"github.com/kava-labs/kava/x/community"
+	"github.com/kava-labs/kava/x/community/keeper"
+	"github.com/kava-labs/kava/x/community/testutil"
 	"github.com/stretchr/testify/suite"
 )
 

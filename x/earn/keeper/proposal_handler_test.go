@@ -5,9 +5,9 @@ import (
 
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/istchain/istchain/x/earn/keeper"
-	"github.com/istchain/istchain/x/earn/testutil"
-	"github.com/istchain/istchain/x/earn/types"
+	"github.com/kava-labs/kava/x/earn/keeper"
+	"github.com/kava-labs/kava/x/earn/testutil"
+	"github.com/kava-labs/kava/x/earn/types"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -28,13 +28,13 @@ func (suite *proposalTestSuite) TestCommunityDepositProposal() {
 	distKeeper := suite.App.GetDistrKeeper()
 	ctx := suite.Ctx
 	macc := distKeeper.GetDistributionAccount(ctx)
-	fundAmount := sdk.NewCoins(sdk.NewInt64Coin("uist", 100000000))
-	depositAmount := sdk.NewCoin("uist", sdkmath.NewInt(10000000))
+	fundAmount := sdk.NewCoins(sdk.NewInt64Coin("ukava", 100000000))
+	depositAmount := sdk.NewCoin("ukava", sdkmath.NewInt(10000000))
 	suite.Require().NoError(suite.App.FundModuleAccount(ctx, macc.GetName(), fundAmount))
 	feePool := distKeeper.GetFeePool(ctx)
 	feePool.CommunityPool = sdk.NewDecCoinsFromCoins(fundAmount...)
 	distKeeper.SetFeePool(ctx, feePool)
-	suite.CreateVault("uist", types.StrategyTypes{types.STRATEGY_TYPE_SAVINGS}, false, nil)
+	suite.CreateVault("ukava", types.StrategyTypes{types.STRATEGY_TYPE_SAVINGS}, false, nil)
 	prop := types.NewCommunityPoolDepositProposal("test title",
 		"desc", depositAmount)
 	err := keeper.HandleCommunityPoolDepositProposal(ctx, suite.Keeper, prop)
@@ -52,14 +52,14 @@ func (suite *proposalTestSuite) TestCommunityWithdrawProposal() {
 	distKeeper := suite.App.GetDistrKeeper()
 	ctx := suite.Ctx
 	macc := distKeeper.GetDistributionAccount(ctx)
-	fundAmount := sdk.NewCoins(sdk.NewInt64Coin("uist", 100000000))
-	depositAmount := sdk.NewCoin("uist", sdkmath.NewInt(10000000))
+	fundAmount := sdk.NewCoins(sdk.NewInt64Coin("ukava", 100000000))
+	depositAmount := sdk.NewCoin("ukava", sdkmath.NewInt(10000000))
 	suite.Require().NoError(suite.App.FundModuleAccount(ctx, macc.GetName(), fundAmount))
 	feePool := distKeeper.GetFeePool(ctx)
 	feePool.CommunityPool = sdk.NewDecCoinsFromCoins(fundAmount...)
 	distKeeper.SetFeePool(ctx, feePool)
 	// TODO update to STRATEGY_TYPE_SAVINGS once implemented
-	suite.CreateVault("uist", types.StrategyTypes{types.STRATEGY_TYPE_SAVINGS}, false, nil)
+	suite.CreateVault("ukava", types.StrategyTypes{types.STRATEGY_TYPE_SAVINGS}, false, nil)
 	deposit := types.NewCommunityPoolDepositProposal("test title",
 		"desc", depositAmount)
 	err := keeper.HandleCommunityPoolDepositProposal(ctx, suite.Keeper, deposit)

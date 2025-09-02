@@ -13,7 +13,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/istchain/istchain/x/evmutil/types"
+	"github.com/kava-labs/kava/x/evmutil/types"
 )
 
 const (
@@ -68,10 +68,10 @@ func (k Keeper) DeployTestMintableERC20Contract(
 	return types.NewInternalEVMAddress(contractAddr), nil
 }
 
-// DeployIstWrappedCosmosCoinERC20Contract validates token details and then deploys an ERC20
+// DeployKavaWrappedCosmosCoinERC20Contract validates token details and then deploys an ERC20
 // contract with the token metadata.
 // This method does NOT check if a token for the provided SdkDenom has already been deployed.
-func (k Keeper) DeployIstWrappedCosmosCoinERC20Contract(
+func (k Keeper) DeployKavaWrappedCosmosCoinERC20Contract(
 	ctx sdk.Context,
 	token types.AllowedCosmosCoinERC20Token,
 ) (types.InternalEVMAddress, error) {
@@ -126,7 +126,7 @@ func (k *Keeper) GetOrDeployCosmosCoinERC20Contract(
 	}
 
 	// deploy a new contract
-	contractAddress, err := k.DeployIstWrappedCosmosCoinERC20Contract(ctx, tokenInfo)
+	contractAddress, err := k.DeployKavaWrappedCosmosCoinERC20Contract(ctx, tokenInfo)
 	if err != nil {
 		return contractAddress, err
 	}

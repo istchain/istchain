@@ -10,8 +10,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	govv1beta1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 
-	"github.com/istchain/istchain/x/committee/testutil"
-	"github.com/istchain/istchain/x/committee/types"
+	"github.com/kava-labs/kava/x/committee/testutil"
+	"github.com/kava-labs/kava/x/committee/types"
 )
 
 func TestGenesisState_Validate(t *testing.T) {

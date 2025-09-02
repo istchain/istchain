@@ -1,7 +1,7 @@
 package keeper
 
 import (
-	"github.com/istchain/istchain/x/savings/types"
+	"github.com/kava-labs/kava/x/savings/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )

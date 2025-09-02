@@ -9,9 +9,9 @@ import (
 	sdkmath "cosmossdk.io/math"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 
-	"github.com/istchain/istchain/x/community"
-	"github.com/istchain/istchain/x/community/testutil"
-	"github.com/istchain/istchain/x/community/types"
+	"github.com/kava-labs/kava/x/community"
+	"github.com/kava-labs/kava/x/community/testutil"
+	"github.com/kava-labs/kava/x/community/types"
 )
 
 type genesisTestSuite struct {

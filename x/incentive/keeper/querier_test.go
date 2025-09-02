@@ -7,11 +7,11 @@ import (
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
-	pricefeedtypes "github.com/istchain/istchain/x/pricefeed/types"
+	pricefeedtypes "github.com/kava-labs/kava/x/pricefeed/types"
 
-	earntypes "github.com/istchain/istchain/x/earn/types"
-	"github.com/istchain/istchain/x/incentive/keeper"
-	"github.com/istchain/istchain/x/incentive/types"
+	earntypes "github.com/kava-labs/kava/x/earn/types"
+	"github.com/kava-labs/kava/x/incentive/keeper"
+	"github.com/kava-labs/kava/x/incentive/types"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -35,7 +35,7 @@ func (suite *QuerierTestSuite) TestGetStakingAPR() {
 	usdcSupply := int64(2_500_000_000000)
 
 	earnKeeper := newFakeEarnKeeper().
-		addVault("bist-asdf", earntypes.NewVaultShare("bist-asdf", sdk.NewDec(liquidStakedTokens))).
+		addVault("bkava-asdf", earntypes.NewVaultShare("bkava-asdf", sdk.NewDec(liquidStakedTokens))).
 		addVault(usdcDenom, earntypes.NewVaultShare(usdcDenom, sdk.NewDec(usdcSupply)))
 
 	suite.keeper = suite.NewTestKeeper(&fakeParamSubspace{}).
@@ -54,7 +54,7 @@ func (suite *QuerierTestSuite) TestGetStakingAPR() {
 		).
 		WithEarnKeeper(earnKeeper).
 		WithLiquidKeeper(
-			newFakeLiquidKeeper().addDerivative(suite.ctx, "bist-asdf", sdkmath.NewInt(liquidStakedTokens)),
+			newFakeLiquidKeeper().addDerivative(suite.ctx, "bkava-asdf", sdkmath.NewInt(liquidStakedTokens)),
 		).
 		WithPricefeedKeeper(
 			newFakePricefeedKeeper().
@@ -82,11 +82,11 @@ func (suite *QuerierTestSuite) TestGetStakingAPR() {
 		EarnRewardPeriods: types.MultiRewardPeriods{
 			{
 				Active:         true,
-				CollateralType: "bist",
+				CollateralType: "bkava",
 				Start:          suite.ctx.BlockTime().Add(-time.Hour),
 				End:            suite.ctx.BlockTime().Add(time.Hour),
 				RewardsPerSecond: sdk.NewCoins(
-					sdk.NewCoin("uist", sdkmath.NewInt(190258)),
+					sdk.NewCoin("ukava", sdkmath.NewInt(190258)),
 				),
 			},
 			{
@@ -95,7 +95,7 @@ func (suite *QuerierTestSuite) TestGetStakingAPR() {
 				Start:          suite.ctx.BlockTime().Add(-time.Hour),
 				End:            suite.ctx.BlockTime().Add(time.Hour),
 				RewardsPerSecond: sdk.NewCoins(
-					sdk.NewCoin("uist", sdkmath.NewInt(5284)),
+					sdk.NewCoin("ukava", sdkmath.NewInt(5284)),
 				),
 			},
 		},

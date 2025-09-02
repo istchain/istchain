@@ -15,12 +15,12 @@ import (
 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
 	tmtime "github.com/cometbft/cometbft/types/time"
 
-	"github.com/istchain/istchain/app"
-	auctiontypes "github.com/istchain/istchain/x/auction/types"
-	"github.com/istchain/istchain/x/cdp"
-	"github.com/istchain/istchain/x/cdp/keeper"
-	"github.com/istchain/istchain/x/cdp/types"
-	pricefeedtypes "github.com/istchain/istchain/x/pricefeed/types"
+	"github.com/kava-labs/kava/app"
+	auctiontypes "github.com/kava-labs/kava/x/auction/types"
+	"github.com/kava-labs/kava/x/cdp"
+	"github.com/kava-labs/kava/x/cdp/keeper"
+	"github.com/kava-labs/kava/x/cdp/types"
+	pricefeedtypes "github.com/kava-labs/kava/x/pricefeed/types"
 )
 
 type ModuleTestSuite struct {

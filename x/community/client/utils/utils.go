@@ -5,7 +5,7 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/codec"
 
-	"github.com/istchain/istchain/x/community/types"
+	"github.com/kava-labs/kava/x/community/types"
 )
 
 // ParseCommunityPoolLendDepositProposal reads a JSON file and parses it to a CommunityPoolLendDepositProposal

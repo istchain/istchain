@@ -1,8 +1,8 @@
-FROM istchain/rocksdb:v9.3.1-go1.22 AS istchain-builder
+FROM kava/rocksdb:v9.3.1-go1.22 AS kava-builder
 
 RUN apt-get update
 
-WORKDIR /root/istchain
+WORKDIR /root/kava
 # Copy dependency files first to facilitate dependency caching
 COPY ./go.mod ./
 COPY ./go.sum ./
@@ -15,13 +15,13 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
 # Add source files
 COPY . .
 
-ARG istchain_database_backend=rocksdb
-ENV ISTCHAIN_DATABASE_BACKEND=$istchain_database_backend
+ARG kava_database_backend=rocksdb
+ENV KAVA_DATABASE_BACKEND=$kava_database_backend
 
 # Mount go build and mod caches as container caches, persisted between builder invocations
 RUN --mount=type=cache,target=/root/.cache/go-build \
     --mount=type=cache,target=/go/pkg/mod \
-    make install COSMOS_BUILD_OPTIONS=$ISTCHAIN_DATABASE_BACKEND
+    make install COSMOS_BUILD_OPTIONS=$KAVA_DATABASE_BACKEND
 
 
 FROM ubuntu:22.04
@@ -31,10 +31,10 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # copy rocksdb shared objects
-COPY --from=istchain-builder /usr/local/lib/ /usr/local/lib/
+COPY --from=kava-builder /usr/local/lib/ /usr/local/lib/
 RUN ldconfig
 
-# copy istchain binary
-COPY --from=istchain-builder /go/bin/istchain /bin/istchain
+# copy kava binary
+COPY --from=kava-builder /go/bin/kava /bin/kava
 
-CMD ["istchain"]
+CMD ["kava"]

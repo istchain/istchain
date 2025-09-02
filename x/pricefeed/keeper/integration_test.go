@@ -5,8 +5,8 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/pricefeed/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/pricefeed/types"
 )
 
 func NewPricefeedGenStateMulti() app.GenesisState {

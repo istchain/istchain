@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/istchain/istchain/x/community/types"
+	"github.com/kava-labs/kava/x/community/types"
 )
 
 func TestDefaultGenesisState(t *testing.T) {

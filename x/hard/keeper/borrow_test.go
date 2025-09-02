@@ -9,11 +9,11 @@ import (
 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
 	tmtime "github.com/cometbft/cometbft/types/time"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/hard"
-	"github.com/istchain/istchain/x/hard/keeper"
-	"github.com/istchain/istchain/x/hard/types"
-	pricefeedtypes "github.com/istchain/istchain/x/pricefeed/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/hard"
+	"github.com/kava-labs/kava/x/hard/keeper"
+	"github.com/kava-labs/kava/x/hard/types"
+	pricefeedtypes "github.com/kava-labs/kava/x/pricefeed/types"
 )
 
 const (
@@ -69,20 +69,20 @@ func (suite *KeeperTestSuite) TestBorrow() {
 				priceBNB:           sdk.MustNewDecFromStr("0.00"),
 				loanToValueBNB:     sdk.MustNewDecFromStr("0.01"),
 				borrower:           sdk.AccAddress(crypto.AddressHash([]byte("test"))),
-				depositCoins:       []sdk.Coin{sdk.NewCoin("uist", sdkmath.NewInt(100*KAVA_CF))},
+				depositCoins:       []sdk.Coin{sdk.NewCoin("ukava", sdkmath.NewInt(100*KAVA_CF))},
 				initialBorrowCoins: sdk.NewCoins(),
 			},
 			expected: []expected{
 				{
-					expectedAccountBalance:    sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(20*KAVA_CF)), sdk.NewCoin("btcb", sdkmath.NewInt(100*BTCB_CF)), sdk.NewCoin("bnb", sdkmath.NewInt(100*BNB_CF)), sdk.NewCoin("xyz", sdkmath.NewInt(1))),
-					expectedModAccountBalance: sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(1080*KAVA_CF)), sdk.NewCoin("usdx", sdkmath.NewInt(200*USDX_CF)), sdk.NewCoin("busd", sdkmath.NewInt(100*BUSD_CF))),
+					expectedAccountBalance:    sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(20*KAVA_CF)), sdk.NewCoin("btcb", sdkmath.NewInt(100*BTCB_CF)), sdk.NewCoin("bnb", sdkmath.NewInt(100*BNB_CF)), sdk.NewCoin("xyz", sdkmath.NewInt(1))),
+					expectedModAccountBalance: sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(1080*KAVA_CF)), sdk.NewCoin("usdx", sdkmath.NewInt(200*USDX_CF)), sdk.NewCoin("busd", sdkmath.NewInt(100*BUSD_CF))),
 
 					expectPass: true,
 				},
 			},
 			borrows: []borrowArgs{
 				{
-					borrowCoins: sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(20*KAVA_CF))),
+					borrowCoins: sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(20*KAVA_CF))),
 					wantErr:     "",
 				},
 			},
@@ -98,7 +98,7 @@ func (suite *KeeperTestSuite) TestBorrow() {
 				priceBNB:           sdk.MustNewDecFromStr("0.00"),
 				loanToValueBNB:     sdk.MustNewDecFromStr("0.01"),
 				borrower:           sdk.AccAddress(crypto.AddressHash([]byte("test"))),
-				depositCoins:       []sdk.Coin{sdk.NewCoin("uist", sdkmath.NewInt(20*KAVA_CF))}, // 20 KAVA x $5.00 price = $100
+				depositCoins:       []sdk.Coin{sdk.NewCoin("ukava", sdkmath.NewInt(20*KAVA_CF))}, // 20 KAVA x $5.00 price = $100
 				initialBorrowCoins: sdk.NewCoins(),
 			},
 			expected: []expected{
@@ -128,13 +128,13 @@ func (suite *KeeperTestSuite) TestBorrow() {
 				priceBNB:           sdk.MustNewDecFromStr("0.00"),
 				loanToValueBNB:     sdk.MustNewDecFromStr("0.01"),
 				borrower:           sdk.AccAddress(crypto.AddressHash([]byte("test"))),
-				depositCoins:       sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(50*KAVA_CF)), sdk.NewCoin("btcb", sdkmath.NewInt(0.1*BTCB_CF))),
+				depositCoins:       sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(50*KAVA_CF)), sdk.NewCoin("btcb", sdkmath.NewInt(0.1*BTCB_CF))),
 				initialBorrowCoins: sdk.NewCoins(),
 			},
 			expected: []expected{
 				{
-					expectedAccountBalance:    sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(50*KAVA_CF)), sdk.NewCoin("btcb", sdkmath.NewInt(99.9*BTCB_CF)), sdk.NewCoin("usdx", sdkmath.NewInt(180*USDX_CF)), sdk.NewCoin("bnb", sdkmath.NewInt(100*BNB_CF)), sdk.NewCoin("xyz", sdkmath.NewInt(1))),
-					expectedModAccountBalance: sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(1050*KAVA_CF)), sdk.NewCoin("usdx", sdkmath.NewInt(20*USDX_CF)), sdk.NewCoin("btcb", sdkmath.NewInt(0.1*BTCB_CF)), sdk.NewCoin("busd", sdkmath.NewInt(100*BUSD_CF))),
+					expectedAccountBalance:    sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(50*KAVA_CF)), sdk.NewCoin("btcb", sdkmath.NewInt(99.9*BTCB_CF)), sdk.NewCoin("usdx", sdkmath.NewInt(180*USDX_CF)), sdk.NewCoin("bnb", sdkmath.NewInt(100*BNB_CF)), sdk.NewCoin("xyz", sdkmath.NewInt(1))),
+					expectedModAccountBalance: sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(1050*KAVA_CF)), sdk.NewCoin("usdx", sdkmath.NewInt(20*USDX_CF)), sdk.NewCoin("btcb", sdkmath.NewInt(0.1*BTCB_CF)), sdk.NewCoin("busd", sdkmath.NewInt(100*BUSD_CF))),
 
 					expectPass: true,
 
@@ -159,7 +159,7 @@ func (suite *KeeperTestSuite) TestBorrow() {
 				priceBNB:           sdk.MustNewDecFromStr("0.00"),
 				loanToValueBNB:     sdk.MustNewDecFromStr("0.01"),
 				borrower:           sdk.AccAddress(crypto.AddressHash([]byte("test"))),
-				depositCoins:       sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(50*KAVA_CF)), sdk.NewCoin("btcb", sdkmath.NewInt(0.1*BTCB_CF))),
+				depositCoins:       sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(50*KAVA_CF)), sdk.NewCoin("btcb", sdkmath.NewInt(0.1*BTCB_CF))),
 				initialBorrowCoins: sdk.NewCoins(),
 			},
 			expected: []expected{
@@ -189,13 +189,13 @@ func (suite *KeeperTestSuite) TestBorrow() {
 				priceBNB:           sdk.MustNewDecFromStr("5.00"),
 				loanToValueBNB:     sdk.MustNewDecFromStr("0.8"),
 				borrower:           sdk.AccAddress(crypto.AddressHash([]byte("test"))),
-				depositCoins:       sdk.NewCoins(sdk.NewCoin("bnb", sdkmath.NewInt(30*BNB_CF)), sdk.NewCoin("uist", sdkmath.NewInt(50*KAVA_CF))), // (50 KAVA x $2.00 price = $100) + (30 BNB x $5.00 price = $150) = $250
+				depositCoins:       sdk.NewCoins(sdk.NewCoin("bnb", sdkmath.NewInt(30*BNB_CF)), sdk.NewCoin("ukava", sdkmath.NewInt(50*KAVA_CF))), // (50 KAVA x $2.00 price = $100) + (30 BNB x $5.00 price = $150) = $250
 				initialBorrowCoins: sdk.NewCoins(sdk.NewCoin("usdx", sdkmath.NewInt(99*USDX_CF)), sdk.NewCoin("busd", sdkmath.NewInt(100*BUSD_CF))),
 			},
 			expected: []expected{
 				{
-					expectedAccountBalance:    sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(50*KAVA_CF)), sdk.NewCoin("btcb", sdkmath.NewInt(100*BTCB_CF)), sdk.NewCoin("usdx", sdkmath.NewInt(100*USDX_CF)), sdk.NewCoin("busd", sdkmath.NewInt(100*BUSD_CF)), sdk.NewCoin("bnb", sdkmath.NewInt(70*BNB_CF)), sdk.NewCoin("xyz", sdkmath.NewInt(1))),
-					expectedModAccountBalance: sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(1050*KAVA_CF)), sdk.NewCoin("bnb", sdkmath.NewInt(30*BUSD_CF)), sdk.NewCoin("usdx", sdkmath.NewInt(100*USDX_CF))),
+					expectedAccountBalance:    sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(50*KAVA_CF)), sdk.NewCoin("btcb", sdkmath.NewInt(100*BTCB_CF)), sdk.NewCoin("usdx", sdkmath.NewInt(100*USDX_CF)), sdk.NewCoin("busd", sdkmath.NewInt(100*BUSD_CF)), sdk.NewCoin("bnb", sdkmath.NewInt(70*BNB_CF)), sdk.NewCoin("xyz", sdkmath.NewInt(1))),
+					expectedModAccountBalance: sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(1050*KAVA_CF)), sdk.NewCoin("bnb", sdkmath.NewInt(30*BUSD_CF)), sdk.NewCoin("usdx", sdkmath.NewInt(100*USDX_CF))),
 
 					expectPass: true,
 				},
@@ -218,7 +218,7 @@ func (suite *KeeperTestSuite) TestBorrow() {
 				priceBNB:           sdk.MustNewDecFromStr("5.00"),
 				loanToValueBNB:     sdk.MustNewDecFromStr("0.8"),
 				borrower:           sdk.AccAddress(crypto.AddressHash([]byte("test"))),
-				depositCoins:       sdk.NewCoins(sdk.NewCoin("bnb", sdkmath.NewInt(30*BNB_CF)), sdk.NewCoin("uist", sdkmath.NewInt(50*KAVA_CF))), // (50 KAVA x $2.00 price = $100) + (30 BNB x $5.00 price = $150) = $250
+				depositCoins:       sdk.NewCoins(sdk.NewCoin("bnb", sdkmath.NewInt(30*BNB_CF)), sdk.NewCoin("ukava", sdkmath.NewInt(50*KAVA_CF))), // (50 KAVA x $2.00 price = $100) + (30 BNB x $5.00 price = $150) = $250
 				initialBorrowCoins: sdk.NewCoins(sdk.NewCoin("usdx", sdkmath.NewInt(100*USDX_CF)), sdk.NewCoin("busd", sdkmath.NewInt(100*BUSD_CF))),
 			},
 			expected: []expected{
@@ -247,13 +247,13 @@ func (suite *KeeperTestSuite) TestBorrow() {
 				priceBNB:           sdk.MustNewDecFromStr("0.00"),
 				loanToValueBNB:     sdk.MustNewDecFromStr("0.01"),
 				borrower:           sdk.AccAddress(crypto.AddressHash([]byte("test"))),
-				depositCoins:       sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(100*KAVA_CF))),
+				depositCoins:       sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(100*KAVA_CF))),
 				initialBorrowCoins: sdk.NewCoins(),
 			},
 			expected: []expected{
 				{
-					expectedAccountBalance:    sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(20*KAVA_CF)), sdk.NewCoin("btcb", sdkmath.NewInt(100*BTCB_CF)), sdk.NewCoin("bnb", sdkmath.NewInt(100*BNB_CF)), sdk.NewCoin("xyz", sdkmath.NewInt(1))),
-					expectedModAccountBalance: sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(1080*KAVA_CF)), sdk.NewCoin("usdx", sdkmath.NewInt(200*USDX_CF)), sdk.NewCoin("busd", sdkmath.NewInt(100*BUSD_CF))),
+					expectedAccountBalance:    sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(20*KAVA_CF)), sdk.NewCoin("btcb", sdkmath.NewInt(100*BTCB_CF)), sdk.NewCoin("bnb", sdkmath.NewInt(100*BNB_CF)), sdk.NewCoin("xyz", sdkmath.NewInt(1))),
+					expectedModAccountBalance: sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(1080*KAVA_CF)), sdk.NewCoin("usdx", sdkmath.NewInt(200*USDX_CF)), sdk.NewCoin("busd", sdkmath.NewInt(100*BUSD_CF))),
 
 					expectPass: false,
 					contains:   "no price found for market",
@@ -277,7 +277,7 @@ func (suite *KeeperTestSuite) TestBorrow() {
 				priceBNB:           sdk.MustNewDecFromStr("0.00"),
 				loanToValueBNB:     sdk.MustNewDecFromStr("0.01"),
 				borrower:           sdk.AccAddress(crypto.AddressHash([]byte("test"))),
-				depositCoins:       sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(100*KAVA_CF))),
+				depositCoins:       sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(100*KAVA_CF))),
 				initialBorrowCoins: sdk.NewCoins(),
 			},
 			expected: []expected{
@@ -306,7 +306,7 @@ func (suite *KeeperTestSuite) TestBorrow() {
 				priceBNB:           sdk.MustNewDecFromStr("0.00"),
 				loanToValueBNB:     sdk.MustNewDecFromStr("0.01"),
 				borrower:           sdk.AccAddress(crypto.AddressHash([]byte("test"))),
-				depositCoins:       sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(50*KAVA_CF))),
+				depositCoins:       sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(50*KAVA_CF))),
 				initialBorrowCoins: sdk.NewCoins(),
 			},
 			expected: []expected{
@@ -335,7 +335,7 @@ func (suite *KeeperTestSuite) TestBorrow() {
 				priceBNB:           sdk.MustNewDecFromStr("0.00"),
 				loanToValueBNB:     sdk.MustNewDecFromStr("0.01"),
 				borrower:           sdk.AccAddress(crypto.AddressHash([]byte("test"))),
-				depositCoins:       sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(50*KAVA_CF))),
+				depositCoins:       sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(50*KAVA_CF))),
 				initialBorrowCoins: sdk.NewCoins(),
 			},
 			expected: []expected{
@@ -364,7 +364,7 @@ func (suite *KeeperTestSuite) TestBorrow() {
 				priceBNB:           sdk.MustNewDecFromStr("0.00"),
 				loanToValueBNB:     sdk.MustNewDecFromStr("0.01"),
 				borrower:           sdk.AccAddress(crypto.AddressHash([]byte("test"))),
-				depositCoins:       sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(50*KAVA_CF))),
+				depositCoins:       sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(50*KAVA_CF))),
 				initialBorrowCoins: sdk.NewCoins(),
 			},
 			expected: []expected{
@@ -377,7 +377,7 @@ func (suite *KeeperTestSuite) TestBorrow() {
 			},
 			borrows: []borrowArgs{
 				{
-					borrowCoins: sdk.NewCoins(sdk.NewCoin("usdx", sdkmath.NewInt(5*USDX_CF)), sdk.NewCoin("uist", sdkmath.NewInt(2*USDX_CF))),
+					borrowCoins: sdk.NewCoins(sdk.NewCoin("usdx", sdkmath.NewInt(5*USDX_CF)), sdk.NewCoin("ukava", sdkmath.NewInt(2*USDX_CF))),
 					wantErr:     "",
 				},
 			},
@@ -393,35 +393,35 @@ func (suite *KeeperTestSuite) TestBorrow() {
 				priceBNB:           sdk.MustNewDecFromStr("0.00"),
 				loanToValueBNB:     sdk.MustNewDecFromStr("0.01"),
 				borrower:           sdk.AccAddress(crypto.AddressHash([]byte("test"))),
-				depositCoins:       []sdk.Coin{sdk.NewCoin("uist", sdkmath.NewInt(100*KAVA_CF))},
+				depositCoins:       []sdk.Coin{sdk.NewCoin("ukava", sdkmath.NewInt(100*KAVA_CF))},
 				initialBorrowCoins: sdk.NewCoins(),
 			},
 			expected: []expected{
 				{
-					expectedAccountBalance:    sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(20*KAVA_CF)), sdk.NewCoin("btcb", sdkmath.NewInt(100*BTCB_CF)), sdk.NewCoin("bnb", sdkmath.NewInt(100*BNB_CF)), sdk.NewCoin("xyz", sdkmath.NewInt(1))),
-					expectedModAccountBalance: sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(1080*KAVA_CF)), sdk.NewCoin("usdx", sdkmath.NewInt(200*USDX_CF)), sdk.NewCoin("busd", sdkmath.NewInt(100*BUSD_CF))),
+					expectedAccountBalance:    sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(20*KAVA_CF)), sdk.NewCoin("btcb", sdkmath.NewInt(100*BTCB_CF)), sdk.NewCoin("bnb", sdkmath.NewInt(100*BNB_CF)), sdk.NewCoin("xyz", sdkmath.NewInt(1))),
+					expectedModAccountBalance: sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(1080*KAVA_CF)), sdk.NewCoin("usdx", sdkmath.NewInt(200*USDX_CF)), sdk.NewCoin("busd", sdkmath.NewInt(100*BUSD_CF))),
 
 					expectPass: true,
 				},
 				{
-					expectedAccountBalance:    sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(40*KAVA_CF)), sdk.NewCoin("btcb", sdkmath.NewInt(100*BTCB_CF)), sdk.NewCoin("bnb", sdkmath.NewInt(100*BNB_CF)), sdk.NewCoin("xyz", sdkmath.NewInt(1))),
-					expectedModAccountBalance: sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(1060*KAVA_CF)), sdk.NewCoin("usdx", sdkmath.NewInt(200*USDX_CF)), sdk.NewCoin("busd", sdkmath.NewInt(100*BUSD_CF))),
+					expectedAccountBalance:    sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(40*KAVA_CF)), sdk.NewCoin("btcb", sdkmath.NewInt(100*BTCB_CF)), sdk.NewCoin("bnb", sdkmath.NewInt(100*BNB_CF)), sdk.NewCoin("xyz", sdkmath.NewInt(1))),
+					expectedModAccountBalance: sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(1060*KAVA_CF)), sdk.NewCoin("usdx", sdkmath.NewInt(200*USDX_CF)), sdk.NewCoin("busd", sdkmath.NewInt(100*BUSD_CF))),
 					expectPass:                true,
 				},
 			},
 			borrows: []borrowArgs{
 				{
-					borrowCoins: sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(20*KAVA_CF))),
+					borrowCoins: sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(20*KAVA_CF))),
 					wantErr:     "",
 				},
 				{
-					borrowCoins: sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(20*KAVA_CF))),
+					borrowCoins: sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(20*KAVA_CF))),
 					wantErr:     "",
 				},
 			},
 		},
 		{
-			name: "valid borrow followed by protocol reserves exceed available cash for busd when borrowing from uist",
+			name: "valid borrow followed by protocol reserves exceed available cash for busd when borrowing from ukava",
 			setup: setupArgs{
 				usdxBorrowLimit:    sdk.MustNewDecFromStr("100000000000"),
 				priceKAVA:          sdk.MustNewDecFromStr("5.00"),
@@ -431,19 +431,19 @@ func (suite *KeeperTestSuite) TestBorrow() {
 				priceBNB:           sdk.MustNewDecFromStr("5.00"),
 				loanToValueBNB:     sdk.MustNewDecFromStr("0.8"),
 				borrower:           sdk.AccAddress(crypto.AddressHash([]byte("test"))),
-				depositCoins:       sdk.NewCoins(sdk.NewCoin("bnb", sdkmath.NewInt(30*BNB_CF)), sdk.NewCoin("uist", sdkmath.NewInt(50*KAVA_CF))),
+				depositCoins:       sdk.NewCoins(sdk.NewCoin("bnb", sdkmath.NewInt(30*BNB_CF)), sdk.NewCoin("ukava", sdkmath.NewInt(50*KAVA_CF))),
 				initialBorrowCoins: sdk.NewCoins(sdk.NewCoin("usdx", sdkmath.NewInt(99*USDX_CF)), sdk.NewCoin("busd", sdkmath.NewInt(100*BUSD_CF))),
 			},
 			expected: []expected{
 				{
-					expectedAccountBalance:    sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(50*KAVA_CF)), sdk.NewCoin("btcb", sdkmath.NewInt(100*BTCB_CF)), sdk.NewCoin("usdx", sdkmath.NewInt(100*USDX_CF)), sdk.NewCoin("busd", sdkmath.NewInt(100*BUSD_CF)), sdk.NewCoin("bnb", sdkmath.NewInt(70*BNB_CF)), sdk.NewCoin("xyz", sdkmath.NewInt(1))),
-					expectedModAccountBalance: sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(1050*KAVA_CF)), sdk.NewCoin("bnb", sdkmath.NewInt(30*BUSD_CF)), sdk.NewCoin("usdx", sdkmath.NewInt(100*USDX_CF))),
+					expectedAccountBalance:    sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(50*KAVA_CF)), sdk.NewCoin("btcb", sdkmath.NewInt(100*BTCB_CF)), sdk.NewCoin("usdx", sdkmath.NewInt(100*USDX_CF)), sdk.NewCoin("busd", sdkmath.NewInt(100*BUSD_CF)), sdk.NewCoin("bnb", sdkmath.NewInt(70*BNB_CF)), sdk.NewCoin("xyz", sdkmath.NewInt(1))),
+					expectedModAccountBalance: sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(1050*KAVA_CF)), sdk.NewCoin("bnb", sdkmath.NewInt(30*BUSD_CF)), sdk.NewCoin("usdx", sdkmath.NewInt(100*USDX_CF))),
 
 					expectPass: true,
 				},
 				{
 					expectedAccountBalance: sdk.NewCoins(
-						sdk.NewCoin("uist", sdkmath.NewInt(51*KAVA_CF)), // now should be 1 uist more
+						sdk.NewCoin("ukava", sdkmath.NewInt(51*KAVA_CF)), // now should be 1 ukava more
 						sdk.NewCoin("btcb", sdkmath.NewInt(100*BTCB_CF)),
 						sdk.NewCoin("usdx", sdkmath.NewInt(100*USDX_CF)),
 						sdk.NewCoin("busd", sdkmath.NewInt(100*BUSD_CF)),
@@ -451,7 +451,7 @@ func (suite *KeeperTestSuite) TestBorrow() {
 						sdk.NewCoin("xyz", sdkmath.NewInt(1)),
 					),
 					expectedModAccountBalance: sdk.NewCoins(
-						sdk.NewCoin("uist", sdkmath.NewInt(1049*KAVA_CF)), // now should be 1 uist less
+						sdk.NewCoin("ukava", sdkmath.NewInt(1049*KAVA_CF)), // now should be 1 ukava less
 						sdk.NewCoin("bnb", sdkmath.NewInt(30*BUSD_CF)),
 						sdk.NewCoin("usdx", sdkmath.NewInt(100*USDX_CF)),
 					),
@@ -464,7 +464,7 @@ func (suite *KeeperTestSuite) TestBorrow() {
 					wantErr:     "",
 				},
 				{
-					borrowCoins: sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(1*KAVA_CF))),
+					borrowCoins: sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(1*KAVA_CF))),
 					wantErr:     "",
 				},
 			},
@@ -480,13 +480,13 @@ func (suite *KeeperTestSuite) TestBorrow() {
 				priceBNB:           sdk.MustNewDecFromStr("5.00"),
 				loanToValueBNB:     sdk.MustNewDecFromStr("0.8"),
 				borrower:           sdk.AccAddress(crypto.AddressHash([]byte("test"))),
-				depositCoins:       sdk.NewCoins(sdk.NewCoin("bnb", sdkmath.NewInt(30*BNB_CF)), sdk.NewCoin("uist", sdkmath.NewInt(50*KAVA_CF))),
+				depositCoins:       sdk.NewCoins(sdk.NewCoin("bnb", sdkmath.NewInt(30*BNB_CF)), sdk.NewCoin("ukava", sdkmath.NewInt(50*KAVA_CF))),
 				initialBorrowCoins: sdk.NewCoins(sdk.NewCoin("usdx", sdkmath.NewInt(99*USDX_CF)), sdk.NewCoin("busd", sdkmath.NewInt(100*BUSD_CF))),
 			},
 			expected: []expected{
 				{
-					expectedAccountBalance:    sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(50*KAVA_CF)), sdk.NewCoin("btcb", sdkmath.NewInt(100*BTCB_CF)), sdk.NewCoin("usdx", sdkmath.NewInt(100*USDX_CF)), sdk.NewCoin("busd", sdkmath.NewInt(100*BUSD_CF)), sdk.NewCoin("bnb", sdkmath.NewInt(70*BNB_CF)), sdk.NewCoin("xyz", sdkmath.NewInt(1))),
-					expectedModAccountBalance: sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(1050*KAVA_CF)), sdk.NewCoin("bnb", sdkmath.NewInt(30*BUSD_CF)), sdk.NewCoin("usdx", sdkmath.NewInt(100*USDX_CF))),
+					expectedAccountBalance:    sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(50*KAVA_CF)), sdk.NewCoin("btcb", sdkmath.NewInt(100*BTCB_CF)), sdk.NewCoin("usdx", sdkmath.NewInt(100*USDX_CF)), sdk.NewCoin("busd", sdkmath.NewInt(100*BUSD_CF)), sdk.NewCoin("bnb", sdkmath.NewInt(70*BNB_CF)), sdk.NewCoin("xyz", sdkmath.NewInt(1))),
+					expectedModAccountBalance: sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(1050*KAVA_CF)), sdk.NewCoin("bnb", sdkmath.NewInt(30*BUSD_CF)), sdk.NewCoin("usdx", sdkmath.NewInt(100*USDX_CF))),
 
 					expectPass: true,
 				},
@@ -520,7 +520,7 @@ func (suite *KeeperTestSuite) TestBorrow() {
 				tApp.AppCodec(),
 				[]sdk.Coins{
 					sdk.NewCoins(
-						sdk.NewCoin("uist", sdkmath.NewInt(100*KAVA_CF)),
+						sdk.NewCoin("ukava", sdkmath.NewInt(100*KAVA_CF)),
 						sdk.NewCoin("btcb", sdkmath.NewInt(100*BTCB_CF)),
 						sdk.NewCoin("bnb", sdkmath.NewInt(100*BNB_CF)),
 						sdk.NewCoin("xyz", sdkmath.NewInt(1)),
@@ -534,7 +534,7 @@ func (suite *KeeperTestSuite) TestBorrow() {
 				types.MoneyMarkets{
 					types.NewMoneyMarket("usdx", types.NewBorrowLimit(true, tc.setup.usdxBorrowLimit, sdk.MustNewDecFromStr("1")), "usdx:usd", sdkmath.NewInt(USDX_CF), types.NewInterestRateModel(sdk.MustNewDecFromStr("0.05"), sdk.MustNewDecFromStr("2"), sdk.MustNewDecFromStr("0.8"), sdk.MustNewDecFromStr("10")), sdk.MustNewDecFromStr("0.05"), sdk.ZeroDec()),
 					types.NewMoneyMarket("busd", types.NewBorrowLimit(false, sdk.NewDec(100000000*BUSD_CF), sdk.MustNewDecFromStr("1")), "busd:usd", sdkmath.NewInt(BUSD_CF), types.NewInterestRateModel(sdk.MustNewDecFromStr("0.05"), sdk.MustNewDecFromStr("2"), sdk.MustNewDecFromStr("0.8"), sdk.MustNewDecFromStr("10")), sdk.MustNewDecFromStr("0.05"), sdk.ZeroDec()),
-					types.NewMoneyMarket("uist", types.NewBorrowLimit(false, sdk.NewDec(100000000*KAVA_CF), tc.setup.loanToValueKAVA), "kava:usd", sdkmath.NewInt(KAVA_CF), types.NewInterestRateModel(sdk.MustNewDecFromStr("0.05"), sdk.MustNewDecFromStr("2"), sdk.MustNewDecFromStr("0.8"), sdk.MustNewDecFromStr("10")), sdk.MustNewDecFromStr("0.99"), sdk.ZeroDec()),
+					types.NewMoneyMarket("ukava", types.NewBorrowLimit(false, sdk.NewDec(100000000*KAVA_CF), tc.setup.loanToValueKAVA), "kava:usd", sdkmath.NewInt(KAVA_CF), types.NewInterestRateModel(sdk.MustNewDecFromStr("0.05"), sdk.MustNewDecFromStr("2"), sdk.MustNewDecFromStr("0.8"), sdk.MustNewDecFromStr("10")), sdk.MustNewDecFromStr("0.99"), sdk.ZeroDec()),
 					types.NewMoneyMarket("btcb", types.NewBorrowLimit(false, sdk.NewDec(100000000*BTCB_CF), tc.setup.loanToValueBTCB), "btcb:usd", sdkmath.NewInt(BTCB_CF), types.NewInterestRateModel(sdk.MustNewDecFromStr("0.05"), sdk.MustNewDecFromStr("2"), sdk.MustNewDecFromStr("0.8"), sdk.MustNewDecFromStr("10")), sdk.MustNewDecFromStr("0.05"), sdk.ZeroDec()),
 					types.NewMoneyMarket("bnb", types.NewBorrowLimit(false, sdk.NewDec(100000000*BNB_CF), tc.setup.loanToValueBNB), "bnb:usd", sdkmath.NewInt(BNB_CF), types.NewInterestRateModel(sdk.MustNewDecFromStr("0.05"), sdk.MustNewDecFromStr("2"), sdk.MustNewDecFromStr("0.8"), sdk.MustNewDecFromStr("10")), sdk.MustNewDecFromStr("0.05"), sdk.ZeroDec()),
 					types.NewMoneyMarket("xyz", types.NewBorrowLimit(false, sdk.NewDec(1), tc.setup.loanToValueBNB), "xyz:usd", sdkmath.NewInt(1), types.NewInterestRateModel(sdk.MustNewDecFromStr("0.05"), sdk.MustNewDecFromStr("2"), sdk.MustNewDecFromStr("0.8"), sdk.MustNewDecFromStr("10")), sdk.MustNewDecFromStr("0.05"), sdk.ZeroDec()),
@@ -597,7 +597,7 @@ func (suite *KeeperTestSuite) TestBorrow() {
 			// Mint coins to hard module account
 			bankKeeper := tApp.GetBankKeeper()
 			hardMaccCoins := sdk.NewCoins(
-				sdk.NewCoin("uist", sdkmath.NewInt(1000*KAVA_CF)),
+				sdk.NewCoin("ukava", sdkmath.NewInt(1000*KAVA_CF)),
 				sdk.NewCoin("usdx", sdkmath.NewInt(200*USDX_CF)),
 				sdk.NewCoin("busd", sdkmath.NewInt(100*BUSD_CF)),
 			)
@@ -656,7 +656,7 @@ func (suite *KeeperTestSuite) TestValidateBorrow() {
 	_, addrs := app.GeneratePrivKeyAddressPairs(5)
 	borrower := addrs[0]
 	initialBorrowerBalance := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(1000*KAVA_CF)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(1000*KAVA_CF)),
 		sdk.NewCoin("usdx", sdkmath.NewInt(1000*KAVA_CF)),
 	)
 
@@ -684,7 +684,7 @@ func (suite *KeeperTestSuite) TestValidateBorrow() {
 					model,                          // Interest Rate Model
 					sdk.MustNewDecFromStr("1.0"),   // Reserve Factor (high)
 					sdk.MustNewDecFromStr("0.05")), // Keeper Reward Percent
-				types.NewMoneyMarket("uist",
+				types.NewMoneyMarket("ukava",
 					types.NewBorrowLimit(false, sdk.NewDec(100000000*KAVA_CF), sdk.MustNewDecFromStr("0.8")), // Borrow Limit
 					"kava:usd",                     // Market ID
 					sdkmath.NewInt(KAVA_CF),        // Conversion Factor
@@ -745,13 +745,13 @@ func (suite *KeeperTestSuite) TestValidateBorrow() {
 
 	// Setup borrower with some collateral to borrow against, and some reserve in the protocol.
 	depositCoins := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(100*KAVA_CF)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(100*KAVA_CF)),
 		sdk.NewCoin("usdx", sdkmath.NewInt(100*USDX_CF)),
 	)
 	err = suite.keeper.Deposit(suite.ctx, borrower, depositCoins)
 	suite.Require().NoError(err)
 
-	initialBorrowCoins := sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(70*KAVA_CF)))
+	initialBorrowCoins := sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(70*KAVA_CF)))
 	err = suite.keeper.Borrow(suite.ctx, borrower, initialBorrowCoins)
 	suite.Require().NoError(err)
 
@@ -759,7 +759,7 @@ func (suite *KeeperTestSuite) TestValidateBorrow() {
 	suite.ctx = suite.ctx.WithBlockTime(runAtTime)
 	hard.BeginBlocker(suite.ctx, suite.keeper)
 
-	repayCoins := sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(100*KAVA_CF))) // repay everything including accumulated interest
+	repayCoins := sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(100*KAVA_CF))) // repay everything including accumulated interest
 	err = suite.keeper.Repay(suite.ctx, borrower, borrower, repayCoins)
 	suite.Require().NoError(err)
 
@@ -773,7 +773,7 @@ func (suite *KeeperTestSuite) TestValidateBorrow() {
 	err = suite.keeper.Borrow(
 		suite.ctx,
 		borrower,
-		sdk.NewCoins(sdk.NewCoin("uist", availableToBorrow.AmountOf("uist").Add(sdk.OneInt()))),
+		sdk.NewCoins(sdk.NewCoin("ukava", availableToBorrow.AmountOf("ukava").Add(sdk.OneInt()))),
 	)
 	suite.Require().Error(err)
 
@@ -781,7 +781,7 @@ func (suite *KeeperTestSuite) TestValidateBorrow() {
 	err = suite.keeper.Borrow(
 		suite.ctx,
 		borrower,
-		sdk.NewCoins(sdk.NewCoin("uist", availableToBorrow.AmountOf("uist"))),
+		sdk.NewCoins(sdk.NewCoin("ukava", availableToBorrow.AmountOf("ukava"))),
 	)
 	suite.Require().NoError(err)
 
@@ -789,7 +789,7 @@ func (suite *KeeperTestSuite) TestValidateBorrow() {
 	err = suite.keeper.Borrow(
 		suite.ctx,
 		borrower,
-		sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(2*USDX_CF))),
+		sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(2*USDX_CF))),
 	)
 	suite.Require().Error(err)
 	suite.Require().ErrorContains(err, "available to borrow: exceeds module account balance")
@@ -797,11 +797,11 @@ func (suite *KeeperTestSuite) TestValidateBorrow() {
 	suite.ctx = suite.ctx.WithBlockTime(suite.ctx.BlockTime().Add(blockDuration))
 	hard.BeginBlocker(suite.ctx, suite.keeper)
 
-	// Should error since uist has become insolvent at this point
+	// Should error since ukava has become insolvent at this point
 	err = suite.keeper.Borrow(
 		suite.ctx,
 		borrower,
-		sdk.NewCoins(sdk.NewCoin("uist", availableToBorrow.AmountOf("uist"))),
+		sdk.NewCoins(sdk.NewCoin("ukava", availableToBorrow.AmountOf("ukava"))),
 	)
 	suite.Require().Error(err)
 	suite.Require().ErrorContains(err, "protocol reserves exceed available cash")
@@ -831,40 +831,40 @@ func (suite *KeeperTestSuite) TestFilterCoinsByDenoms() {
 			name: "more coins than filtered coins",
 			args: args{
 				coins: sdk.NewCoins(
-					sdk.NewCoin("uist", sdkmath.NewInt(1000*KAVA_CF)),
+					sdk.NewCoin("ukava", sdkmath.NewInt(1000*KAVA_CF)),
 					sdk.NewCoin("usdx", sdkmath.NewInt(200*USDX_CF)),
 					sdk.NewCoin("busd", sdkmath.NewInt(100*BUSD_CF)),
 				),
 				filterByCoins: sdk.NewCoins(
 					sdk.NewCoin("usdx", sdkmath.NewInt(25*USDX_CF)),
-					sdk.NewCoin("uist", sdkmath.NewInt(25*KAVA_CF)),
+					sdk.NewCoin("ukava", sdkmath.NewInt(25*KAVA_CF)),
 				),
 			},
 			want: sdk.NewCoins(
 				sdk.NewCoin("usdx", sdkmath.NewInt(200*USDX_CF)),
-				sdk.NewCoin("uist", sdkmath.NewInt(1000*KAVA_CF)),
+				sdk.NewCoin("ukava", sdkmath.NewInt(1000*KAVA_CF)),
 			),
 		},
 		{
 			name: "less coins than filtered coins",
 			args: args{
 				coins: sdk.NewCoins(
-					sdk.NewCoin("uist", sdkmath.NewInt(1000*KAVA_CF)),
+					sdk.NewCoin("ukava", sdkmath.NewInt(1000*KAVA_CF)),
 				),
 				filterByCoins: sdk.NewCoins(
 					sdk.NewCoin("usdx", sdkmath.NewInt(25*USDX_CF)),
-					sdk.NewCoin("uist", sdkmath.NewInt(25*KAVA_CF)),
+					sdk.NewCoin("ukava", sdkmath.NewInt(25*KAVA_CF)),
 				),
 			},
 			want: sdk.NewCoins(
-				sdk.NewCoin("uist", sdkmath.NewInt(1000*KAVA_CF)),
+				sdk.NewCoin("ukava", sdkmath.NewInt(1000*KAVA_CF)),
 			),
 		},
 		{
 			name: "no filter coins ",
 			args: args{
 				coins: sdk.NewCoins(
-					sdk.NewCoin("uist", sdkmath.NewInt(1000*KAVA_CF)),
+					sdk.NewCoin("ukava", sdkmath.NewInt(1000*KAVA_CF)),
 				),
 				filterByCoins: sdk.NewCoins(),
 			},

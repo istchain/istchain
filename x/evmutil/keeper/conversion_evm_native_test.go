@@ -9,8 +9,8 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/istchain/istchain/x/evmutil/testutil"
-	"github.com/istchain/istchain/x/evmutil/types"
+	"github.com/kava-labs/kava/x/evmutil/testutil"
+	"github.com/kava-labs/kava/x/evmutil/types"
 )
 
 type ConversionTestSuite struct {

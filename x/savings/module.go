@@ -16,9 +16,9 @@ import (
 
 	abci "github.com/cometbft/cometbft/abci/types"
 
-	"github.com/istchain/istchain/x/savings/client/cli"
-	"github.com/istchain/istchain/x/savings/keeper"
-	"github.com/istchain/istchain/x/savings/types"
+	"github.com/kava-labs/kava/x/savings/client/cli"
+	"github.com/kava-labs/kava/x/savings/keeper"
+	"github.com/kava-labs/kava/x/savings/types"
 )
 
 var (

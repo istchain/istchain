@@ -7,8 +7,8 @@ import (
 	"github.com/stretchr/testify/require"
 
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/community/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/community/types"
 )
 
 func TestItCreatesModuleAccountOnInitBlock(t *testing.T) {

@@ -13,7 +13,7 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/cosmos/cosmos-sdk/version"
 
-	"github.com/istchain/istchain/x/router/types"
+	"github.com/kava-labs/kava/x/router/types"
 )
 
 // GetTxCmd returns the transaction commands for this module
@@ -48,7 +48,7 @@ func getCmdMintDeposit() *cobra.Command {
 		Short: "mints staking derivative from a delegation and deposits them to earn",
 		Args:  cobra.ExactArgs(2),
 		Example: fmt.Sprintf(
-			`%s tx %s mint-deposit kavavaloper16lnfpgn6llvn4fstg5nfrljj6aaxyee9z59jqd 10000000uist --from <key>`, version.AppName, types.ModuleName,
+			`%s tx %s mint-deposit kavavaloper16lnfpgn6llvn4fstg5nfrljj6aaxyee9z59jqd 10000000ukava --from <key>`, version.AppName, types.ModuleName,
 		),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
@@ -81,7 +81,7 @@ func getCmdDelegateMintDeposit() *cobra.Command {
 		Short: "delegates tokens, mints staking derivative from a them, and deposits them to earn",
 		Args:  cobra.ExactArgs(2),
 		Example: fmt.Sprintf(
-			`%s tx %s delegate-mint-deposit kavavaloper16lnfpgn6llvn4fstg5nfrljj6aaxyee9z59jqd 10000000uist --from <key>`, version.AppName, types.ModuleName,
+			`%s tx %s delegate-mint-deposit kavavaloper16lnfpgn6llvn4fstg5nfrljj6aaxyee9z59jqd 10000000ukava --from <key>`, version.AppName, types.ModuleName,
 		),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
@@ -113,7 +113,7 @@ func getCmdWithdrawBurn() *cobra.Command {
 		Use:   "withdraw-burn [validator-addr] [amount]",
 		Short: "withdraws staking derivatives from earn and burns them to redeem a delegation",
 		Example: fmt.Sprintf(
-			`%s tx %s withdraw-burn kavavaloper16lnfpgn6llvn4fstg5nfrljj6aaxyee9z59jqd 10000000uist --from <key>`, version.AppName, types.ModuleName,
+			`%s tx %s withdraw-burn kavavaloper16lnfpgn6llvn4fstg5nfrljj6aaxyee9z59jqd 10000000ukava --from <key>`, version.AppName, types.ModuleName,
 		),
 		Args: cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -146,7 +146,7 @@ func getCmdWithdrawBurnUndelegate() *cobra.Command {
 		Use:   "withdraw-burn-undelegate [validator-addr] [amount]",
 		Short: "withdraws staking derivatives from earn, burns them to redeem a delegation, then unstakes the delegation",
 		Example: fmt.Sprintf(
-			`%s tx %s withdraw-burn-undelegate kavavaloper16lnfpgn6llvn4fstg5nfrljj6aaxyee9z59jqd 10000000uist --from <key>`, version.AppName, types.ModuleName,
+			`%s tx %s withdraw-burn-undelegate kavavaloper16lnfpgn6llvn4fstg5nfrljj6aaxyee9z59jqd 10000000ukava --from <key>`, version.AppName, types.ModuleName,
 		),
 		Args: cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {

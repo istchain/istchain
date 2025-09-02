@@ -5,7 +5,7 @@ import (
 
 	"github.com/go-kit/kit/metrics"
 	"github.com/go-kit/kit/metrics/prometheus"
-	"github.com/istchain/istchain/x/metrics/types"
+	"github.com/kava-labs/kava/x/metrics/types"
 	"github.com/stretchr/testify/require"
 )
 

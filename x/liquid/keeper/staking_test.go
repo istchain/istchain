@@ -10,8 +10,8 @@ import (
 	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/liquid/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/liquid/types"
 )
 
 var (

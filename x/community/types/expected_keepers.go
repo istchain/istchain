@@ -6,7 +6,7 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	distrtypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
-	kavadisttypes "github.com/istchain/istchain/x/kavadist/types"
+	kavadisttypes "github.com/kava-labs/kava/x/kavadist/types"
 )
 
 // AccountKeeper defines the contract required for account APIs.

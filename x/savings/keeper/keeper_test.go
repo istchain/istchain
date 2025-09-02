@@ -16,9 +16,9 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
 	"github.com/cosmos/cosmos-sdk/crypto/keys/ed25519"
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/savings/keeper"
-	"github.com/istchain/istchain/x/savings/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/savings/keeper"
+	"github.com/kava-labs/kava/x/savings/types"
 )
 
 // Test suite used for all keeper tests
@@ -46,7 +46,7 @@ func (suite *KeeperTestSuite) SetupTest() {
 	suite.addrs = addrs
 
 	stakingParams := stakingtypes.DefaultParams()
-	stakingParams.BondDenom = "uist"
+	stakingParams.BondDenom = "ukava"
 	suite.app.GetStakingKeeper().SetParams(suite.ctx, stakingParams)
 }
 
@@ -163,7 +163,7 @@ func (suite *KeeperTestSuite) deliverMsgCreateValidator(ctx sdk.Context, address
 // New validators are unbonded until the end blocker is run.
 func (suite *KeeperTestSuite) CreateNewUnbondedValidator(addr sdk.ValAddress, selfDelegation sdkmath.Int) stakingtypes.Validator {
 	// Create a validator
-	err := suite.deliverMsgCreateValidator(suite.ctx, addr, sdk.NewCoin("uist", selfDelegation))
+	err := suite.deliverMsgCreateValidator(suite.ctx, addr, sdk.NewCoin("ukava", selfDelegation))
 	suite.Require().NoError(err)
 
 	// New validators are created in an unbonded state. Note if the end blocker is run later this validator could become bonded.

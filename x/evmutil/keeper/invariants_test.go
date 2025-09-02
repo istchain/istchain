@@ -11,10 +11,10 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/evmutil/keeper"
-	"github.com/istchain/istchain/x/evmutil/testutil"
-	"github.com/istchain/istchain/x/evmutil/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/evmutil/keeper"
+	"github.com/kava-labs/kava/x/evmutil/testutil"
+	"github.com/kava-labs/kava/x/evmutil/types"
 )
 
 type invariantTestSuite struct {
@@ -46,10 +46,10 @@ func (suite *invariantTestSuite) SetupValidState() {
 			keeper.ConversionMultiplier.QuoRaw(2),
 		))
 	}
-	suite.FundModuleAccountWithIst(
+	suite.FundModuleAccountWithKava(
 		types.ModuleName,
 		sdk.NewCoins(
-			sdk.NewCoin("uist", sdkmath.NewInt(2)), // ( sum of all minor balances ) / conversion multiplier
+			sdk.NewCoin("ukava", sdkmath.NewInt(2)), // ( sum of all minor balances ) / conversion multiplier
 		),
 	)
 
@@ -159,7 +159,7 @@ func (suite *invariantTestSuite) TestSmallBalances() {
 
 	// increase minor balance at least above conversion multiplier
 	suite.Keeper.AddBalance(suite.Ctx, suite.Addrs[0], keeper.ConversionMultiplier)
-	// add same number of uist to avoid breaking other invariants
+	// add same number of ukava to avoid breaking other invariants
 	amt := sdk.NewCoins(sdk.NewInt64Coin(keeper.CosmosDenom, 1))
 	suite.Require().NoError(
 		suite.App.FundModuleAccount(suite.Ctx, types.ModuleName, amt),

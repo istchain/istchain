@@ -7,8 +7,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/earn/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/earn/types"
 )
 
 func TestVaultRecordValidate(t *testing.T) {
@@ -29,7 +29,7 @@ func TestVaultRecordValidate(t *testing.T) {
 					TotalShares: types.NewVaultShare("usdx", sdk.NewDec(0)),
 				},
 				{
-					TotalShares: types.NewVaultShare("uist", sdk.NewDec(5)),
+					TotalShares: types.NewVaultShare("ukava", sdk.NewDec(5)),
 				},
 			},
 			errArgs: errArgs{
@@ -117,7 +117,7 @@ func TestVaultShareRecordsValidate(t *testing.T) {
 					Depositor: addrs[1],
 					Shares: types.NewVaultShares(
 						types.NewVaultShare("usdx", sdk.NewDec(0)),
-						types.NewVaultShare("uist", sdk.NewDec(5)),
+						types.NewVaultShare("ukava", sdk.NewDec(5)),
 					),
 				},
 			},
@@ -138,7 +138,7 @@ func TestVaultShareRecordsValidate(t *testing.T) {
 					Depositor: addrs[0],
 					Shares: types.NewVaultShares(
 						types.NewVaultShare("usdx", sdk.NewDec(0)),
-						types.NewVaultShare("uist", sdk.NewDec(5)),
+						types.NewVaultShare("ukava", sdk.NewDec(5)),
 					),
 				},
 			},
@@ -377,7 +377,7 @@ func TestNewVaultShareRecord(t *testing.T) {
 
 	shares := types.NewVaultShares(
 		types.NewVaultShare("usdx", sdk.NewDec(0)),
-		types.NewVaultShare("uist", sdk.NewDec(5)),
+		types.NewVaultShare("ukava", sdk.NewDec(5)),
 	)
 
 	shareRecord := types.NewVaultShareRecord(addrs[0], shares)

@@ -6,9 +6,9 @@ import (
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	earntypes "github.com/istchain/istchain/x/earn/types"
-	"github.com/istchain/istchain/x/incentive/types"
-	liquidtypes "github.com/istchain/istchain/x/liquid/types"
+	earntypes "github.com/kava-labs/kava/x/earn/types"
+	"github.com/kava-labs/kava/x/incentive/types"
+	liquidtypes "github.com/kava-labs/kava/x/liquid/types"
 )
 
 const (
@@ -31,14 +31,14 @@ func GetStakingAPR(ctx sdk.Context, k Keeper, params types.Params) (sdk.Dec, err
 			Quo(sdk.NewDecFromInt(circulatingSupply.Amount)))
 
 	// Get incentive APR
-	bistRewardPeriod, found := params.EarnRewardPeriods.GetMultiRewardPeriod(liquidtypes.DefaultDerivativeDenom)
+	bkavaRewardPeriod, found := params.EarnRewardPeriods.GetMultiRewardPeriod(liquidtypes.DefaultDerivativeDenom)
 	if !found {
-		// No incentive rewards for bist, only staking rewards
+		// No incentive rewards for bkava, only staking rewards
 		return stakingAPR, nil
 	}
 
-	// Total amount of bist in earn vaults, this may be lower than total bank
-	// supply of bist as some bist may not be deposited in earn vaults
+	// Total amount of bkava in earn vaults, this may be lower than total bank
+	// supply of bkava as some bkava may not be deposited in earn vaults
 	totalEarnBkavaDeposited := sdk.ZeroInt()
 
 	var iterErr error
@@ -63,8 +63,8 @@ func GetStakingAPR(ctx sdk.Context, k Keeper, params types.Params) (sdk.Dec, err
 	}
 
 	// Incentive APR = rewards per second * seconds per year / total supplied to earn vaults
-	// Override collateral type to use "kava" instead of "bist" when fetching
-	incentiveAPY, err := GetAPYFromMultiRewardPeriod(ctx, k, types.BondDenom, bistRewardPeriod, totalEarnBkavaDeposited)
+	// Override collateral type to use "kava" instead of "bkava" when fetching
+	incentiveAPY, err := GetAPYFromMultiRewardPeriod(ctx, k, types.BondDenom, bkavaRewardPeriod, totalEarnBkavaDeposited)
 	if err != nil {
 		return sdk.ZeroDec(), err
 	}
@@ -123,8 +123,8 @@ func GetAPYFromMultiRewardPeriod(
 
 func getMarketID(denom string) string {
 	// Rewrite denoms as pricefeed has different names for some assets,
-	// e.g. "uist" -> "kava", "erc20/multichain/usdc" -> "usdc"
-	// bist is not included as it is handled separately
+	// e.g. "ukava" -> "kava", "erc20/multichain/usdc" -> "usdc"
+	// bkava is not included as it is handled separately
 
 	// TODO: Replace hardcoded conversion with possible params set somewhere
 	// to be more flexible. E.g. a map of denoms to pricefeed market denoms in

@@ -7,16 +7,16 @@ import (
 
 	sdkmath "cosmossdk.io/math"
 	"github.com/cosmos/cosmos-sdk/crypto/keys/ed25519"
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/earn/keeper"
-	"github.com/istchain/istchain/x/earn/types"
-	"github.com/istchain/istchain/x/hard"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/earn/keeper"
+	"github.com/kava-labs/kava/x/earn/types"
+	"github.com/kava-labs/kava/x/hard"
 
-	hardkeeper "github.com/istchain/istchain/x/hard/keeper"
-	hardtypes "github.com/istchain/istchain/x/hard/types"
-	pricefeedtypes "github.com/istchain/istchain/x/pricefeed/types"
-	savingskeeper "github.com/istchain/istchain/x/savings/keeper"
-	savingstypes "github.com/istchain/istchain/x/savings/types"
+	hardkeeper "github.com/kava-labs/kava/x/hard/keeper"
+	hardtypes "github.com/kava-labs/kava/x/hard/types"
+	pricefeedtypes "github.com/kava-labs/kava/x/pricefeed/types"
+	savingskeeper "github.com/kava-labs/kava/x/savings/keeper"
+	savingstypes "github.com/kava-labs/kava/x/savings/types"
 
 	abci "github.com/cometbft/cometbft/abci/types"
 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
@@ -32,10 +32,10 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-var TestBistDenoms = []string{
-	"bist-kavavaloper15gqc744d05xacn4n6w2furuads9fu4pqn6zxlu",
-	"bist-kavavaloper15qdefkmwswysgg4qxgqpqr35k3m49pkx8yhpte",
-	"bist-kavavaloper1ypjp0m04pyp73hwgtc0dgkx0e9rrydeckewa42",
+var TestBkavaDenoms = []string{
+	"bkava-kavavaloper15gqc744d05xacn4n6w2furuads9fu4pqn6zxlu",
+	"bkava-kavavaloper15qdefkmwswysgg4qxgqpqr35k3m49pkx8yhpte",
+	"bkava-kavavaloper1ypjp0m04pyp73hwgtc0dgkx0e9rrydeckewa42",
 }
 
 // Suite implements a test suite for the earn module integration tests
@@ -158,9 +158,9 @@ func (suite *Suite) SetupTest() {
 				"uist",
 				"busd",
 				"usdx",
-				TestBistDenoms[0],
-				TestBistDenoms[1],
-				TestBistDenoms[2],
+				TestBkavaDenoms[0],
+				TestBkavaDenoms[1],
+				TestBkavaDenoms[2],
 			},
 		),
 		nil,

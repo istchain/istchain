@@ -3,8 +3,8 @@ package types_test
 import (
 	"testing"
 
-	"github.com/istchain/istchain/x/evmutil/testutil"
-	"github.com/istchain/istchain/x/evmutil/types"
+	"github.com/kava-labs/kava/x/evmutil/testutil"
+	"github.com/kava-labs/kava/x/evmutil/types"
 	"github.com/stretchr/testify/require"
 )
 
@@ -76,7 +76,7 @@ func TestConversionPairValidate_Direct(t *testing.T) {
 		{
 			"valid",
 			types.ConversionPair{
-				IstERC20Address: testutil.MustNewInternalEVMAddressFromString("0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2").Bytes(),
+				KavaERC20Address: testutil.MustNewInternalEVMAddressFromString("0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2").Bytes(),
 				Denom:            "weth",
 			},
 			errArgs{
@@ -87,7 +87,7 @@ func TestConversionPairValidate_Direct(t *testing.T) {
 		{
 			"invalid - length",
 			types.ConversionPair{
-				IstERC20Address: []byte{1},
+				KavaERC20Address: []byte{1},
 				Denom:            "weth",
 			},
 			errArgs{
@@ -119,7 +119,7 @@ func TestConversionPair_GetAddress(t *testing.T) {
 		"weth",
 	)
 
-	require.Equal(t, types.HexBytes(addr.Bytes()), pair.IstERC20Address, "struct address should match input bytes")
+	require.Equal(t, types.HexBytes(addr.Bytes()), pair.KavaERC20Address, "struct address should match input bytes")
 	require.Equal(t, addr, pair.GetAddress(), "get internal address should match input bytes")
 }
 

@@ -10,7 +10,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 
-	kavadistTypes "github.com/istchain/istchain/x/kavadist/types"
+	kavadistTypes "github.com/kava-labs/kava/x/kavadist/types"
 )
 
 // Parameter keys and default values
@@ -31,8 +31,8 @@ var (
 	DefaultMultipliers        = MultipliersPerDenoms{}
 	DefaultClaimEnd           = tmtime.Canonical(time.Unix(1, 0))
 
-	BondDenom              = "uist"
-	USDXMintingRewardDenom = "uist"
+	BondDenom              = "ukava"
+	USDXMintingRewardDenom = "ukava"
 
 	IncentiveMacc = kavadistTypes.ModuleName
 )

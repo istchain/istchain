@@ -1,6 +1,6 @@
 Sample configuration files for:
 
 ```
-SystemD: istd.service
-macOS:  io.istchain.istd.plist
+SystemD: kvd.service
+macOS:  io.kava.kvd.plist
 ```

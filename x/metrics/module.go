@@ -14,7 +14,7 @@ import (
 
 	abci "github.com/cometbft/cometbft/abci/types"
 
-	"github.com/istchain/istchain/x/metrics/types"
+	"github.com/kava-labs/kava/x/metrics/types"
 )
 
 var (

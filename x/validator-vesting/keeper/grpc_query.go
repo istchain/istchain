@@ -6,7 +6,7 @@ import (
 
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/istchain/istchain/x/validator-vesting/types"
+	"github.com/kava-labs/kava/x/validator-vesting/types"
 )
 
 type queryServer struct {
@@ -25,18 +25,18 @@ func (s queryServer) CirculatingSupply(c context.Context, req *types.QueryCircul
 	QueryCirculatingSupplyResponse, error) {
 	ctx := sdk.UnwrapSDKContext(c)
 
-	totalSupply := s.bk.GetSupply(ctx, "uist").Amount
+	totalSupply := s.bk.GetSupply(ctx, "ukava").Amount
 	supplyInt := getCirculatingSupply(ctx.BlockTime(), totalSupply)
 	return &types.QueryCirculatingSupplyResponse{
 		Amount: supplyInt,
 	}, nil
 }
 
-// TotalSupply returns the total amount of uist tokens
+// TotalSupply returns the total amount of ukava tokens
 func (s queryServer) TotalSupply(c context.Context, req *types.QueryTotalSupplyRequest) (*types.QueryTotalSupplyResponse, error) {
 	ctx := sdk.UnwrapSDKContext(c)
 
-	totalSupply := s.bk.GetSupply(ctx, "uist").Amount
+	totalSupply := s.bk.GetSupply(ctx, "ukava").Amount
 	supplyInt := sdk.NewDecFromInt(totalSupply).Mul(sdk.MustNewDecFromStr("0.000001")).TruncateInt()
 	return &types.QueryTotalSupplyResponse{
 		Amount: supplyInt,

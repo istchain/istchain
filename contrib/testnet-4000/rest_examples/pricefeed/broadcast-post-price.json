@@ -5,7 +5,7 @@
       {
         "type": "pricefeed/MsgPostPrice",
         "value": {
-          "from": "ist15qdefkmwswysgg4qxgqpqr35k3m49pkx2jdfnw",
+          "from": "kava15qdefkmwswysgg4qxgqpqr35k3m49pkx2jdfnw",
           "market_id": "xrp:usd",
           "price": "0.290000000000000000",
           "expiry": "2100-03-29T10:40:00Z"

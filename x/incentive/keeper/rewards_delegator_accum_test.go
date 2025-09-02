@@ -6,7 +6,7 @@ import (
 
 	"github.com/stretchr/testify/suite"
 
-	"github.com/istchain/istchain/x/incentive/types"
+	"github.com/kava-labs/kava/x/incentive/types"
 )
 
 type AccumulateDelegatorRewardsTests struct {
@@ -47,7 +47,7 @@ func (suite *AccumulateDelegatorRewardsTests) TestStateUpdatedWhenBlockTimeHasIn
 					RewardFactor:   d("0.02"),
 				},
 				{
-					CollateralType: "uist",
+					CollateralType: "ukava",
 					RewardFactor:   d("0.04"),
 				},
 			},
@@ -64,7 +64,7 @@ func (suite *AccumulateDelegatorRewardsTests) TestStateUpdatedWhenBlockTimeHasIn
 		types.BondDenom,
 		time.Unix(0, 0), // ensure the test is within start and end times
 		distantFuture,
-		cs(c("hard", 2000), c("uist", 1000)), // same denoms as in global indexes
+		cs(c("hard", 2000), c("ukava", 1000)), // same denoms as in global indexes
 	)
 
 	suite.keeper.AccumulateDelegatorRewards(suite.ctx, period)
@@ -78,7 +78,7 @@ func (suite *AccumulateDelegatorRewardsTests) TestStateUpdatedWhenBlockTimeHasIn
 			RewardFactor:   d("7.22"),
 		},
 		{
-			CollateralType: "uist",
+			CollateralType: "ukava",
 			RewardFactor:   d("3.64"),
 		},
 	})
@@ -97,7 +97,7 @@ func (suite *AccumulateDelegatorRewardsTests) TestStateUnchangedWhenBlockTimeHas
 					RewardFactor:   d("0.02"),
 				},
 				{
-					CollateralType: "uist",
+					CollateralType: "ukava",
 					RewardFactor:   d("0.04"),
 				},
 			},
@@ -114,7 +114,7 @@ func (suite *AccumulateDelegatorRewardsTests) TestStateUnchangedWhenBlockTimeHas
 		types.BondDenom,
 		time.Unix(0, 0), // ensure the test is within start and end times
 		distantFuture,
-		cs(c("hard", 2000), c("uist", 1000)), // same denoms as in global indexes
+		cs(c("hard", 2000), c("ukava", 1000)), // same denoms as in global indexes
 	)
 
 	suite.keeper.AccumulateDelegatorRewards(suite.ctx, period)
@@ -140,7 +140,7 @@ func (suite *AccumulateDelegatorRewardsTests) TestNoAccumulationWhenSourceShares
 					RewardFactor:   d("0.02"),
 				},
 				{
-					CollateralType: "uist",
+					CollateralType: "ukava",
 					RewardFactor:   d("0.04"),
 				},
 			},
@@ -158,7 +158,7 @@ func (suite *AccumulateDelegatorRewardsTests) TestNoAccumulationWhenSourceShares
 		types.BondDenom,
 		time.Unix(0, 0), // ensure the test is within start and end times
 		distantFuture,
-		cs(c("hard", 2000), c("uist", 1000)), // same denoms as in global indexes
+		cs(c("hard", 2000), c("ukava", 1000)), // same denoms as in global indexes
 	)
 
 	suite.keeper.AccumulateDelegatorRewards(suite.ctx, period)
@@ -180,7 +180,7 @@ func (suite *AccumulateDelegatorRewardsTests) TestStateAddedWhenStateDoesNotExis
 		types.BondDenom,
 		time.Unix(0, 0), // ensure the test is within start and end times
 		distantFuture,
-		cs(c("hard", 2000), c("uist", 1000)),
+		cs(c("hard", 2000), c("ukava", 1000)),
 	)
 
 	firstAccrualTime := time.Date(1998, 1, 1, 0, 0, 0, 0, time.UTC)
@@ -206,7 +206,7 @@ func (suite *AccumulateDelegatorRewardsTests) TestStateAddedWhenStateDoesNotExis
 			RewardFactor:   d("0.02"),
 		},
 		{
-			CollateralType: "uist",
+			CollateralType: "ukava",
 			RewardFactor:   d("0.01"),
 		},
 	})
@@ -251,7 +251,7 @@ func (suite *AccumulateDelegatorRewardsTests) TestNoAccumulationWhenBeforeStartT
 					RewardFactor:   d("0.02"),
 				},
 				{
-					CollateralType: "uist",
+					CollateralType: "ukava",
 					RewardFactor:   d("0.04"),
 				},
 			},
@@ -268,7 +268,7 @@ func (suite *AccumulateDelegatorRewardsTests) TestNoAccumulationWhenBeforeStartT
 		types.BondDenom,
 		firstAccrualTime.Add(time.Nanosecond), // start time after accrual time
 		distantFuture,
-		cs(c("hard", 2000), c("uist", 1000)),
+		cs(c("hard", 2000), c("ukava", 1000)),
 	)
 
 	suite.ctx = suite.ctx.WithBlockTime(firstAccrualTime)
@@ -296,7 +296,7 @@ func (suite *AccumulateDelegatorRewardsTests) TestPanicWhenCurrentTimeLessThanPr
 		types.BondDenom,
 		time.Time{}, // start time after accrual time
 		distantFuture,
-		cs(c("hard", 2000), c("uist", 1000)),
+		cs(c("hard", 2000), c("ukava", 1000)),
 	)
 
 	suite.ctx = suite.ctx.WithBlockTime(firstAccrualTime)

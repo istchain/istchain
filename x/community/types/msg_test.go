@@ -8,13 +8,13 @@ import (
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/community/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/community/types"
 )
 
 func TestFundCommunityPool_ValidateBasic(t *testing.T) {
 	validCoins := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewIntFromUint64(1e6)),
+		sdk.NewCoin("ukava", sdkmath.NewIntFromUint64(1e6)),
 		sdk.NewCoin("some-denom", sdkmath.NewIntFromUint64(1e4)),
 	)
 	testCases := []struct {
@@ -57,7 +57,7 @@ func TestFundCommunityPool_ValidateBasic(t *testing.T) {
 			message: types.MsgFundCommunityPool{
 				Depositor: app.RandomAddress().String(),
 				Amount: sdk.NewCoins(
-					sdk.NewCoin("uist", sdk.ZeroInt()),
+					sdk.NewCoin("ukava", sdk.ZeroInt()),
 				),
 			},
 		},

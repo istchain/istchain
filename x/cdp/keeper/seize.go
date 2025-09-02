@@ -7,7 +7,7 @@ import (
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/istchain/istchain/x/cdp/types"
+	"github.com/kava-labs/kava/x/cdp/types"
 )
 
 // AttemptKeeperLiquidation liquidates the cdp with the input collateral type and owner if it is below the required collateralization ratio

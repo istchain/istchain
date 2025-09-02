@@ -12,8 +12,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/staking"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/savings/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/savings/types"
 )
 
 func (suite *KeeperTestSuite) TestDeposit() {
@@ -23,8 +23,8 @@ func (suite *KeeperTestSuite) TestDeposit() {
 	valAddr := sdk.ValAddress(valAccAddr)
 	initialBalance := sdkmath.NewInt(1e9)
 
-	bistDenom := fmt.Sprintf("bist-%s", valAddr.String())
-	invalidBkavaDenom := fmt.Sprintf("bist-%s", sdk.ValAddress(addrs[2]).String())
+	bkavaDenom := fmt.Sprintf("bkava-%s", valAddr.String())
+	invalidBkavaDenom := fmt.Sprintf("bkava-%s", sdk.ValAddress(addrs[2]).String())
 
 	type args struct {
 		allowedDenoms             []string
@@ -49,7 +49,7 @@ func (suite *KeeperTestSuite) TestDeposit() {
 		{
 			"valid",
 			args{
-				allowedDenoms:             []string{"bnb", "btcb", "uist"},
+				allowedDenoms:             []string{"bnb", "btcb", "ukava"},
 				depositor:                 sdk.AccAddress(crypto.AddressHash([]byte("test"))),
 				initialDepositorBalance:   sdk.NewCoins(sdk.NewCoin("bnb", sdkmath.NewInt(1000)), sdk.NewCoin("btcb", sdkmath.NewInt(1000))),
 				depositAmount:             sdk.NewCoins(sdk.NewCoin("bnb", sdkmath.NewInt(100))),
@@ -66,7 +66,7 @@ func (suite *KeeperTestSuite) TestDeposit() {
 		{
 			"valid multi deposit",
 			args{
-				allowedDenoms:             []string{"bnb", "btcb", "uist"},
+				allowedDenoms:             []string{"bnb", "btcb", "ukava"},
 				depositor:                 sdk.AccAddress(crypto.AddressHash([]byte("test"))),
 				initialDepositorBalance:   sdk.NewCoins(sdk.NewCoin("bnb", sdkmath.NewInt(1000)), sdk.NewCoin("btcb", sdkmath.NewInt(1000))),
 				depositAmount:             sdk.NewCoins(sdk.NewCoin("bnb", sdkmath.NewInt(100))),
@@ -81,16 +81,16 @@ func (suite *KeeperTestSuite) TestDeposit() {
 			},
 		},
 		{
-			"valid bist",
+			"valid bkava",
 			args{
-				allowedDenoms:             []string{"bnb", "btcb", "uist", "bist"},
+				allowedDenoms:             []string{"bnb", "btcb", "ukava", "bkava"},
 				depositor:                 sdk.AccAddress(crypto.AddressHash([]byte("test"))),
-				initialDepositorBalance:   sdk.NewCoins(sdk.NewCoin(bistDenom, sdkmath.NewInt(1000)), sdk.NewCoin("btcb", sdkmath.NewInt(1000))),
-				depositAmount:             sdk.NewCoins(sdk.NewCoin(bistDenom, sdkmath.NewInt(100))),
+				initialDepositorBalance:   sdk.NewCoins(sdk.NewCoin(bkavaDenom, sdkmath.NewInt(1000)), sdk.NewCoin("btcb", sdkmath.NewInt(1000))),
+				depositAmount:             sdk.NewCoins(sdk.NewCoin(bkavaDenom, sdkmath.NewInt(100))),
 				numberDeposits:            1,
-				expectedAccountBalance:    sdk.NewCoins(sdk.NewCoin(bistDenom, sdkmath.NewInt(900)), sdk.NewCoin("btcb", sdkmath.NewInt(1000))),
-				expectedModAccountBalance: sdk.NewCoins(sdk.NewCoin(bistDenom, sdkmath.NewInt(100))),
-				expectedDepositCoins:      sdk.NewCoins(sdk.NewCoin(bistDenom, sdkmath.NewInt(100))),
+				expectedAccountBalance:    sdk.NewCoins(sdk.NewCoin(bkavaDenom, sdkmath.NewInt(900)), sdk.NewCoin("btcb", sdkmath.NewInt(1000))),
+				expectedModAccountBalance: sdk.NewCoins(sdk.NewCoin(bkavaDenom, sdkmath.NewInt(100))),
+				expectedDepositCoins:      sdk.NewCoins(sdk.NewCoin(bkavaDenom, sdkmath.NewInt(100))),
 			},
 			errArgs{
 				expectPass: true,
@@ -100,7 +100,7 @@ func (suite *KeeperTestSuite) TestDeposit() {
 		{
 			"invalid deposit denom",
 			args{
-				allowedDenoms:             []string{"bnb", "btcb", "uist"},
+				allowedDenoms:             []string{"bnb", "btcb", "ukava"},
 				depositor:                 sdk.AccAddress(crypto.AddressHash([]byte("test"))),
 				initialDepositorBalance:   sdk.NewCoins(sdk.NewCoin("bnb", sdkmath.NewInt(1000)), sdk.NewCoin("btcb", sdkmath.NewInt(1000))),
 				depositAmount:             sdk.NewCoins(sdk.NewCoin("fake", sdkmath.NewInt(100))),
@@ -115,9 +115,9 @@ func (suite *KeeperTestSuite) TestDeposit() {
 			},
 		},
 		{
-			"invalid bist",
+			"invalid bkava",
 			args{
-				allowedDenoms:             []string{"bnb", "btcb", "uist", "bist"},
+				allowedDenoms:             []string{"bnb", "btcb", "ukava", "bkava"},
 				depositor:                 sdk.AccAddress(crypto.AddressHash([]byte("test"))),
 				initialDepositorBalance:   sdk.NewCoins(sdk.NewCoin(invalidBkavaDenom, sdkmath.NewInt(1000)), sdk.NewCoin("btcb", sdkmath.NewInt(1000))),
 				depositAmount:             sdk.NewCoins(sdk.NewCoin(invalidBkavaDenom, sdkmath.NewInt(100))),
@@ -134,7 +134,7 @@ func (suite *KeeperTestSuite) TestDeposit() {
 		{
 			"insufficient funds",
 			args{
-				allowedDenoms:             []string{"bnb", "btcb", "uist"},
+				allowedDenoms:             []string{"bnb", "btcb", "ukava"},
 				depositor:                 sdk.AccAddress(crypto.AddressHash([]byte("test"))),
 				initialDepositorBalance:   sdk.NewCoins(sdk.NewCoin("bnb", sdkmath.NewInt(1000)), sdk.NewCoin("btcb", sdkmath.NewInt(1000))),
 				depositAmount:             sdk.NewCoins(sdk.NewCoin("bnb", sdkmath.NewInt(10000))),
@@ -167,7 +167,7 @@ func (suite *KeeperTestSuite) TestDeposit() {
 			)
 
 			stakingParams := stakingtypes.DefaultParams()
-			stakingParams.BondDenom = "uist"
+			stakingParams.BondDenom = "ukava"
 
 			tApp.InitializeFromGenesisStates(authGS,
 				app.GenesisState{types.ModuleName: tApp.AppCodec().MustMarshalJSON(&savingsGS)},
@@ -178,9 +178,9 @@ func (suite *KeeperTestSuite) TestDeposit() {
 			suite.ctx = ctx
 			suite.keeper = keeper
 
-			// Create validator and delegate for bist
-			suite.CreateAccountWithAddress(valAccAddr, cs(c("uist", 100e10)))
-			suite.CreateAccountWithAddress(delegator, cs(c("uist", 100e10)))
+			// Create validator and delegate for bkava
+			suite.CreateAccountWithAddress(valAccAddr, cs(c("ukava", 100e10)))
+			suite.CreateAccountWithAddress(delegator, cs(c("ukava", 100e10)))
 
 			suite.CreateNewUnbondedValidator(valAddr, initialBalance)
 			suite.CreateDelegation(valAddr, delegator, initialBalance)

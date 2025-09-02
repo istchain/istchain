@@ -1,6 +1,6 @@
 {
   "base_req": {
-    "from": "ist15qdefkmwswysgg4qxgqpqr35k3m49pkx2jdfnw",
+    "from": "kava15qdefkmwswysgg4qxgqpqr35k3m49pkx2jdfnw",
     "memo": "",
     "chain_id": "testing",
     "account_number": "0",
@@ -9,7 +9,7 @@
     "gas_adjustment": "1.0",
     "simulate": false
   },
-  "from": "ist15qdefkmwswysgg4qxgqpqr35k3m49pkx2jdfnw",
+  "from": "kava15qdefkmwswysgg4qxgqpqr35k3m49pkx2jdfnw",
   "market_id": "xrp:usd",
   "price": "0.29",
   "expiry": "4110000000"

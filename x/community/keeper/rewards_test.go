@@ -9,7 +9,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/istchain/istchain/x/community/keeper"
+	"github.com/kava-labs/kava/x/community/keeper"
 )
 
 func TestStakingRewardsCalculator(t *testing.T) {
@@ -165,12 +165,12 @@ func TestStakingRewardsCalculator(t *testing.T) {
 			expectedRate: sdkmath.LegacyMustNewDecFromStr("0.000000024187758858"), // verified manually, rounded would be 0.000000024187758859
 		},
 		{
-			name:         "rps only: 1 uist / year rewards",
+			name:         "rps only: 1 ukava / year rewards",
 			totalSupply:  sdk.NewInt(870950000e6),
 			totalBonded:  sdkmath.NewInt(130380000e6),
 			inflation:    sdkmath.LegacyZeroDec(),
 			communityTax: sdkmath.LegacyZeroDec(),
-			perSecReward: sdkmath.LegacyMustNewDecFromStr("0.000000031709791984"), // 1 uist per year
+			perSecReward: sdkmath.LegacyMustNewDecFromStr("0.000000031709791984"), // 1 ukava per year
 			expectedRate: sdkmath.LegacyMustNewDecFromStr("0.000000000000007669"), // verified manually, rounded would be 0.000000000000007670
 		},
 	}

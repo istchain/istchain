@@ -1,4 +1,4 @@
-module github.com/istchain/istchain
+module github.com/kava-labs/kava
 
 go 1.22.7
 

@@ -19,23 +19,23 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/istchain/istchain/app"
-	cdpkeeper "github.com/istchain/istchain/x/cdp/keeper"
-	cdptypes "github.com/istchain/istchain/x/cdp/types"
-	committeekeeper "github.com/istchain/istchain/x/committee/keeper"
-	committeetypes "github.com/istchain/istchain/x/committee/types"
-	earnkeeper "github.com/istchain/istchain/x/earn/keeper"
-	earntypes "github.com/istchain/istchain/x/earn/types"
-	hardkeeper "github.com/istchain/istchain/x/hard/keeper"
-	hardtypes "github.com/istchain/istchain/x/hard/types"
-	incentivekeeper "github.com/istchain/istchain/x/incentive/keeper"
-	"github.com/istchain/istchain/x/incentive/types"
-	liquidkeeper "github.com/istchain/istchain/x/liquid/keeper"
-	liquidtypes "github.com/istchain/istchain/x/liquid/types"
-	routerkeeper "github.com/istchain/istchain/x/router/keeper"
-	routertypes "github.com/istchain/istchain/x/router/types"
-	swapkeeper "github.com/istchain/istchain/x/swap/keeper"
-	swaptypes "github.com/istchain/istchain/x/swap/types"
+	"github.com/kava-labs/kava/app"
+	cdpkeeper "github.com/kava-labs/kava/x/cdp/keeper"
+	cdptypes "github.com/kava-labs/kava/x/cdp/types"
+	committeekeeper "github.com/kava-labs/kava/x/committee/keeper"
+	committeetypes "github.com/kava-labs/kava/x/committee/types"
+	earnkeeper "github.com/kava-labs/kava/x/earn/keeper"
+	earntypes "github.com/kava-labs/kava/x/earn/types"
+	hardkeeper "github.com/kava-labs/kava/x/hard/keeper"
+	hardtypes "github.com/kava-labs/kava/x/hard/types"
+	incentivekeeper "github.com/kava-labs/kava/x/incentive/keeper"
+	"github.com/kava-labs/kava/x/incentive/types"
+	liquidkeeper "github.com/kava-labs/kava/x/liquid/keeper"
+	liquidtypes "github.com/kava-labs/kava/x/liquid/types"
+	routerkeeper "github.com/kava-labs/kava/x/router/keeper"
+	routertypes "github.com/kava-labs/kava/x/router/types"
+	swapkeeper "github.com/kava-labs/kava/x/swap/keeper"
+	swaptypes "github.com/kava-labs/kava/x/swap/types"
 )
 
 type IntegrationTester struct {
@@ -172,7 +172,7 @@ func (suite *IntegrationTester) MintLiquidAnyValAddr(
 	_, found := suite.App.GetStakingKeeper().GetValidator(suite.Ctx, validator)
 	if !found {
 		// Create validator
-		if err := suite.DeliverMsgCreateValidator(validator, sdk.NewCoin("uist", sdkmath.NewInt(1e9))); err != nil {
+		if err := suite.DeliverMsgCreateValidator(validator, sdk.NewCoin("ukava", sdkmath.NewInt(1e9))); err != nil {
 			return sdk.Coin{}, err
 		}
 
@@ -561,7 +561,7 @@ func (suite *IntegrationTester) GetBeginBlockClaimedStakingRewards(
 		// - amount:
 		// - validator: kavavaloper1em2mlkrkx0qsa6327tgvl3g0fh8a95hjnqvrwh
 		// Event: withdraw_rewards
-		// - amount: 523909uist
+		// - amount: 523909ukava
 		// - validator: kavavaloper1nmgpgr8l4t8pw9zqx9cltuymvz85wmw9sy8kjy
 		attrsMap := attrsToMap(event.Attributes)
 

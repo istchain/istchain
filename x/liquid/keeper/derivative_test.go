@@ -10,8 +10,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/staking"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/liquid/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/liquid/types"
 )
 
 func (suite *KeeperTestSuite) TestBurnDerivative() {
@@ -56,7 +56,7 @@ func (suite *KeeperTestSuite) TestBurnDerivative() {
 		},
 		{
 			name:             "error when user doesn't have enough funds",
-			balance:          c("uist", 10),
+			balance:          c("ukava", 10),
 			moduleDelegation: i(1e9),
 			burnAmount:       c(liquidDenom, 1e9),
 			expectedErr:      sdkerrors.ErrInsufficientFunds,
@@ -298,7 +298,7 @@ func (suite *KeeperTestSuite) TestMintDerivative() {
 				return
 			}
 
-			derivative := sdk.NewCoins(sdk.NewCoin(fmt.Sprintf("bist-%s", valAddr), tc.expectedDerivatives))
+			derivative := sdk.NewCoins(sdk.NewCoin(fmt.Sprintf("bkava-%s", valAddr), tc.expectedDerivatives))
 			suite.AccountBalanceEqual(delegator, derivative)
 
 			suite.DelegationSharesEqual(valAddr, delegator, tc.expectedSharesRemaining)
@@ -351,22 +351,22 @@ func (suite *KeeperTestSuite) TestIsDerivativeDenom() {
 		},
 		{
 			name:        "invalid - invalid val addr",
-			denom:       "bist-asdfasdf",
+			denom:       "bkava-asdfasdf",
 			wantIsDenom: false,
 		},
 		{
-			name:        "invalid - uist",
-			denom:       "uist",
+			name:        "invalid - ukava",
+			denom:       "ukava",
 			wantIsDenom: false,
 		},
 		{
-			name:        "invalid - plain bist",
-			denom:       "bist",
+			name:        "invalid - plain bkava",
+			denom:       "bkava",
 			wantIsDenom: false,
 		},
 		{
-			name:        "invalid - bist prefix",
-			denom:       "bist-",
+			name:        "invalid - bkava prefix",
+			denom:       "bkava-",
 			wantIsDenom: false,
 		},
 	}
@@ -546,6 +546,6 @@ func (suite *KeeperTestSuite) TestDerivativeFromTokens() {
 
 	derivatives, err := suite.Keeper.DerivativeFromTokens(suite.Ctx, valAddr, suite.NewBondCoin(initialBalance))
 	suite.NoError(err)
-	expected := sdk.NewCoin(fmt.Sprintf("bist-%s", valAddr), initialBalance)
+	expected := sdk.NewCoin(fmt.Sprintf("bkava-%s", valAddr), initialBalance)
 	suite.Equal(expected, derivatives)
 }

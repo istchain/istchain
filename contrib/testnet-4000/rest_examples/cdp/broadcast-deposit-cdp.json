@@ -4,8 +4,8 @@
       {
         "type": "cdp/MsgDeposit",
         "value": {
-          "depositor": "ist1rjnv8ns2wvz9calje5pmcnpxm055pegprywvjj",
-          "owner": "ist1mzqz3jfs9nzfp6v7qp647rv0afxlu2csl0txmq",
+          "depositor": "kava1rjnv8ns2wvz9calje5pmcnpxm055pegprywvjj",
+          "owner": "kava1mzqz3jfs9nzfp6v7qp647rv0afxlu2csl0txmq",
           "collateral": [
             {
               "denom": "xrp",

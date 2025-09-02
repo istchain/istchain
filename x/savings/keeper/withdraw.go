@@ -6,7 +6,7 @@ import (
 	errorsmod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/istchain/istchain/x/savings/types"
+	"github.com/kava-labs/kava/x/savings/types"
 )
 
 // Withdraw returns some or all of a deposit back to original depositor

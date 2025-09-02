@@ -36,9 +36,9 @@ import (
 	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/evmutil/keeper"
-	"github.com/istchain/istchain/x/evmutil/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/evmutil/keeper"
+	"github.com/kava-labs/kava/x/evmutil/types"
 )
 
 type Suite struct {
@@ -88,7 +88,7 @@ func (suite *Suite) SetupTest() {
 	feemarketGenesis.Params.NoBaseFee = false
 
 	cdc := suite.App.AppCodec()
-	coins := sdk.NewCoins(sdk.NewInt64Coin("uist", 1000_000_000_000_000_000))
+	coins := sdk.NewCoins(sdk.NewInt64Coin("ukava", 1000_000_000_000_000_000))
 	authGS := app.NewFundedGenStateWithSameCoins(cdc, coins, []sdk.AccAddress{
 		sdk.AccAddress(suite.Key1.PubKey().Address()),
 		sdk.AccAddress(suite.Key2.PubKey().Address()),
@@ -184,10 +184,10 @@ func (suite *Suite) ModuleBalance(denom string) sdk.Int {
 	return suite.App.GetModuleAccountBalance(suite.Ctx, types.ModuleName, denom)
 }
 
-func (suite *Suite) FundAccountWithIst(addr sdk.AccAddress, coins sdk.Coins) {
-	uist := coins.AmountOf("uist")
-	if uist.IsPositive() {
-		err := suite.App.FundAccount(suite.Ctx, addr, sdk.NewCoins(sdk.NewCoin("uist", uist)))
+func (suite *Suite) FundAccountWithKava(addr sdk.AccAddress, coins sdk.Coins) {
+	ukava := coins.AmountOf("ukava")
+	if ukava.IsPositive() {
+		err := suite.App.FundAccount(suite.Ctx, addr, sdk.NewCoins(sdk.NewCoin("ukava", ukava)))
 		suite.Require().NoError(err)
 	}
 	akava := coins.AmountOf("akava")
@@ -197,10 +197,10 @@ func (suite *Suite) FundAccountWithIst(addr sdk.AccAddress, coins sdk.Coins) {
 	}
 }
 
-func (suite *Suite) FundModuleAccountWithIst(moduleName string, coins sdk.Coins) {
-	uist := coins.AmountOf("uist")
-	if uist.IsPositive() {
-		err := suite.App.FundModuleAccount(suite.Ctx, moduleName, sdk.NewCoins(sdk.NewCoin("uist", uist)))
+func (suite *Suite) FundModuleAccountWithKava(moduleName string, coins sdk.Coins) {
+	ukava := coins.AmountOf("ukava")
+	if ukava.IsPositive() {
+		err := suite.App.FundModuleAccount(suite.Ctx, moduleName, sdk.NewCoins(sdk.NewCoin("ukava", ukava)))
 		suite.Require().NoError(err)
 	}
 	akava := coins.AmountOf("akava")
@@ -217,7 +217,7 @@ func (suite *Suite) DeployERC20() types.InternalEVMAddress {
 	suite.App.FundModuleAccount(
 		suite.Ctx,
 		types.ModuleName,
-		sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(0))),
+		sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(0))),
 	)
 
 	contractAddr, err := suite.Keeper.DeployTestMintableERC20Contract(suite.Ctx, "USDC", "USDC", uint8(18))
@@ -318,7 +318,7 @@ func (suite *Suite) SendTx(
 	// Mint the max gas to the FeeCollector to ensure balance in case of refund
 	suite.MintFeeCollector(sdk.NewCoins(
 		sdk.NewCoin(
-			"uist",
+			"ukava",
 			sdkmath.NewInt(baseFee.Int64()*int64(gasRes.Gas*2)),
 		)))
 

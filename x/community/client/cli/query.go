@@ -8,7 +8,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 
-	"github.com/istchain/istchain/x/community/types"
+	"github.com/kava-labs/kava/x/community/types"
 )
 
 // GetQueryCmd returns the cli query commands for the community module.

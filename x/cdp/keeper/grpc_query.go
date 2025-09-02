@@ -11,7 +11,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/istchain/istchain/x/cdp/types"
+	"github.com/kava-labs/kava/x/cdp/types"
 )
 
 type QueryServer struct {

@@ -7,9 +7,9 @@ import (
 
 	sdkmath "cosmossdk.io/math"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
-	"github.com/istchain/istchain/x/evmutil"
-	"github.com/istchain/istchain/x/evmutil/testutil"
-	"github.com/istchain/istchain/x/evmutil/types"
+	"github.com/kava-labs/kava/x/evmutil"
+	"github.com/kava-labs/kava/x/evmutil/testutil"
+	"github.com/kava-labs/kava/x/evmutil/types"
 )
 
 type genesisTestSuite struct {
@@ -40,7 +40,7 @@ func (s *genesisTestSuite) TestInitGenesis_SetAccounts() {
 func (s *genesisTestSuite) TestInitGenesis_SetParams() {
 	params := types.DefaultParams()
 	conversionPair := types.ConversionPair{
-		IstERC20Address: testutil.MustNewInternalEVMAddressFromString("0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2").Bytes(),
+		KavaERC20Address: testutil.MustNewInternalEVMAddressFromString("0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2").Bytes(),
 		Denom:            "weth",
 	}
 	params.EnabledConversionPairs = []types.ConversionPair{conversionPair}
@@ -92,7 +92,7 @@ func (s *genesisTestSuite) TestExportGenesis() {
 	params := types.DefaultParams()
 	params.EnabledConversionPairs = []types.ConversionPair{
 		{
-			IstERC20Address: testutil.MustNewInternalEVMAddressFromString("0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2").Bytes(),
+			KavaERC20Address: testutil.MustNewInternalEVMAddressFromString("0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2").Bytes(),
 			Denom:            "weth"},
 	}
 	params.AllowedCosmosDenoms = []types.AllowedCosmosCoinERC20Token{

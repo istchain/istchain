@@ -7,9 +7,9 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 
 	distrtypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
-	"github.com/istchain/istchain/app"
-	types "github.com/istchain/istchain/x/community/types"
-	kavadisttypes "github.com/istchain/istchain/x/kavadist/types"
+	"github.com/kava-labs/kava/app"
+	types "github.com/kava-labs/kava/x/community/types"
+	kavadisttypes "github.com/kava-labs/kava/x/kavadist/types"
 )
 
 func (suite *disableInflationTestSuite) TestStartCommunityFundConsolidation() {
@@ -21,11 +21,11 @@ func (suite *disableInflationTestSuite) TestStartCommunityFundConsolidation() {
 		{
 			"basic test with both balances and dust",
 			sdk.NewDecCoins(
-				sdk.NewDecCoinFromDec("uist", sdk.NewDecWithPrec(123456, 2)),
+				sdk.NewDecCoinFromDec("ukava", sdk.NewDecWithPrec(123456, 2)),
 				sdk.NewDecCoinFromDec("usdx", sdk.NewDecWithPrec(654321, 3)),
 			),
 			sdk.NewCoins(
-				sdk.NewInt64Coin("uist", 10_000),
+				sdk.NewInt64Coin("ukava", 10_000),
 				sdk.NewInt64Coin("usdx", 10_000),
 			),
 		},
@@ -33,14 +33,14 @@ func (suite *disableInflationTestSuite) TestStartCommunityFundConsolidation() {
 			"empty x/distribution feepool",
 			sdk.DecCoins(nil),
 			sdk.NewCoins(
-				sdk.NewInt64Coin("uist", 10_000),
+				sdk.NewInt64Coin("ukava", 10_000),
 				sdk.NewInt64Coin("usdx", 10_000),
 			),
 		},
 		{
 			"empty x/kavadist balance",
 			sdk.NewDecCoins(
-				sdk.NewDecCoinFromDec("uist", sdk.NewDecWithPrec(123456, 2)),
+				sdk.NewDecCoinFromDec("ukava", sdk.NewDecWithPrec(123456, 2)),
 				sdk.NewDecCoinFromDec("usdx", sdk.NewDecWithPrec(654321, 3)),
 			),
 			sdk.Coins{},
@@ -65,7 +65,7 @@ func (suite *disableInflationTestSuite) TestStartCommunityFundConsolidation() {
 
 			// More coins than initial feepool/communitypool
 			fundCoins := sdk.NewCoins(
-				sdk.NewInt64Coin("uist", 10_000),
+				sdk.NewInt64Coin("ukava", 10_000),
 				sdk.NewInt64Coin("usdx", 10_000),
 			)
 
@@ -99,7 +99,7 @@ func (suite *disableInflationTestSuite) TestStartCommunityFundConsolidation() {
 				"x/kavadist balance should be funded",
 			)
 
-			expectedKavaDistCoins := sdk.NewCoins(sdk.NewCoin("uist", kavaDistCoinsBefore.AmountOf("uist")))
+			expectedKavaDistCoins := sdk.NewCoins(sdk.NewCoin("ukava", kavaDistCoinsBefore.AmountOf("ukava")))
 
 			// -------------
 			// Run upgrade
@@ -126,7 +126,7 @@ func (suite *disableInflationTestSuite) TestStartCommunityFundConsolidation() {
 				suite.Equal(
 					expectedKavaDistCoins,
 					kavaDistCoinsAfter,
-					"x/kavadist balance should ony contain uist",
+					"x/kavadist balance should ony contain ukava",
 				)
 
 				totalExpectedCommunityPoolCoins := communityBalanceBefore.

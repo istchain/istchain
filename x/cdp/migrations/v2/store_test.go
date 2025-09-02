@@ -10,8 +10,8 @@ import (
 	moduletestutil "github.com/cosmos/cosmos-sdk/types/module/testutil"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 
-	v2cdp "github.com/istchain/istchain/x/cdp/migrations/v2"
-	"github.com/istchain/istchain/x/cdp/types"
+	v2cdp "github.com/kava-labs/kava/x/cdp/migrations/v2"
+	"github.com/kava-labs/kava/x/cdp/types"
 )
 
 func TestStoreMigrationAddsKeyTableIncludingNewParam(t *testing.T) {

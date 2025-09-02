@@ -26,7 +26,7 @@
         "tx_size_cost_per_byte": "10"
       }
     },
-    "istdist": {
+    "kavadist": {
       "params": {
         "active": true,
         "periods": [
@@ -82,14 +82,14 @@
         "inflation_max": "0.130000000000000000",
         "inflation_min": "0.010000000000000000",
         "inflation_rate_change": "0.130000000000000000",
-        "mint_denom": "uist"
+        "mint_denom": "ukava"
       }
     },
     "cdp": {
       "cdps": [],
       "debt_denom": "debt",
       "deposits": [],
-      "gov_denom": "uist",
+      "gov_denom": "ukava",
       "params": {
         "circuit_breaker": false,
         "collateral_params": [
@@ -145,7 +145,7 @@
         "min_deposit": [
           {
             "amount": "200000000",
-            "denom": "uist"
+            "denom": "ukava"
           }
         ]
       },
@@ -168,7 +168,7 @@
       "last_total_power": "0",
       "last_validator_powers": null,
       "params": {
-        "bond_denom": "uist",
+        "bond_denom": "ukava",
         "max_entries": 7,
         "max_validators": 100,
         "unbonding_time": "3600000000000"
@@ -183,7 +183,7 @@
     "crisis": {
       "constant_fee": {
         "amount": "1333000000",
-        "denom": "uist"
+        "denom": "ukava"
       }
     },
     "pricefeed": {
@@ -193,7 +193,7 @@
             "active": true,
             "base_asset": "bnb",
             "market_id": "bnb:usd",
-            "oracles": ["ist15qdefkmwswysgg4qxgqpqr35k3m49pkx2jdfnw"],
+            "oracles": ["kava15qdefkmwswysgg4qxgqpqr35k3m49pkx2jdfnw"],
             "quote_asset": "usd"
           }
         ]
@@ -202,7 +202,7 @@
         {
           "expiry": "2020-04-20T00:00:00Z",
           "market_id": "bnb:usd",
-          "oracle_address": "ist15qdefkmwswysgg4qxgqpqr35k3m49pkx2jdfnw",
+          "oracle_address": "kava15qdefkmwswysgg4qxgqpqr35k3m49pkx2jdfnw",
           "price": "12.2639061184"
         }
       ]
@@ -220,7 +220,7 @@
     },
     "bep3": {
       "params": {
-        "bnb_deputy_address": "ist15wmww3chakqllq4n3ksm37lx36qz067gxe6f0k",
+        "bnb_deputy_address": "kava15wmww3chakqllq4n3ksm37lx36qz067gxe6f0k",
         "min_block_lock": "80",
         "max_block_lock": "600",
         "supported_assets": [

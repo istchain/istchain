@@ -10,10 +10,10 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/community/keeper"
-	"github.com/istchain/istchain/x/community/testutil"
-	"github.com/istchain/istchain/x/community/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/community/keeper"
+	"github.com/kava-labs/kava/x/community/testutil"
+	"github.com/kava-labs/kava/x/community/types"
 )
 
 type grpcQueryTestSuite struct {
@@ -68,7 +68,7 @@ func (suite *grpcQueryTestSuite) TestGrpcQueryBalance() {
 			name: "handles response with balance",
 			setup: func() {
 				expCoins = sdk.NewCoins(
-					sdk.NewCoin("uist", sdkmath.NewInt(100)),
+					sdk.NewCoin("ukava", sdkmath.NewInt(100)),
 					sdk.NewCoin("usdx", sdkmath.NewInt(1000)),
 				)
 				suite.App.FundModuleAccount(suite.Ctx, types.ModuleName, expCoins)
@@ -102,7 +102,7 @@ func (suite *grpcQueryTestSuite) TestGrpcQueryTotalBalance() {
 			name: "handles response with balance",
 			setup: func() {
 				expCoins = sdk.NewDecCoins(
-					sdk.NewDecCoin("uist", sdkmath.NewInt(100)),
+					sdk.NewDecCoin("ukava", sdkmath.NewInt(100)),
 					sdk.NewDecCoin("usdx", sdkmath.NewInt(1000)),
 				)
 
@@ -115,7 +115,7 @@ func (suite *grpcQueryTestSuite) TestGrpcQueryTotalBalance() {
 			name: "handles response with both x/community + x/distribution balance",
 			setup: func() {
 				decCoins1 := sdk.NewDecCoins(
-					sdk.NewDecCoin("uist", sdkmath.NewInt(100)),
+					sdk.NewDecCoin("ukava", sdkmath.NewInt(100)),
 					sdk.NewDecCoin("usdx", sdkmath.NewInt(1000)),
 				)
 
@@ -125,7 +125,7 @@ func (suite *grpcQueryTestSuite) TestGrpcQueryTotalBalance() {
 				suite.Require().NoError(err)
 
 				decCoins2 := sdk.NewDecCoins(
-					sdk.NewDecCoin("uist", sdkmath.NewInt(100)),
+					sdk.NewDecCoin("ukava", sdkmath.NewInt(100)),
 					sdk.NewDecCoin("usdc", sdkmath.NewInt(1000)),
 				)
 
@@ -142,7 +142,7 @@ func (suite *grpcQueryTestSuite) TestGrpcQueryTotalBalance() {
 			name: "handles response with only x/distribution balance",
 			setup: func() {
 				expCoins = sdk.NewDecCoins(
-					sdk.NewDecCoin("uist", sdkmath.NewInt(100)),
+					sdk.NewDecCoin("ukava", sdkmath.NewInt(100)),
 					sdk.NewDecCoin("usdc", sdkmath.NewInt(1000)),
 				)
 

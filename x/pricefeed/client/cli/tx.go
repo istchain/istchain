@@ -15,7 +15,7 @@ import (
 
 	tmtime "github.com/cometbft/cometbft/types/time"
 
-	"github.com/istchain/istchain/x/pricefeed/types"
+	"github.com/kava-labs/kava/x/pricefeed/types"
 )
 
 // GetTxCmd returns the transaction commands for this module

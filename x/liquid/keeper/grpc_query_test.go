@@ -10,9 +10,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/staking"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/liquid/keeper"
-	"github.com/istchain/istchain/x/liquid/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/liquid/keeper"
+	"github.com/kava-labs/kava/x/liquid/types"
 )
 
 type grpcQueryTestSuite struct {
@@ -182,7 +182,7 @@ func (suite *grpcQueryTestSuite) TestQueryTotalSupply() {
 			expectedErr:   nil,
 		},
 		{
-			name: "returns TVL from one bist denom",
+			name: "returns TVL from one bkava denom",
 			setup: func() {
 				initBalance := suite.NewBondCoin(i(1e9))
 				valAcc := suite.CreateAccount(sdk.NewCoins(initBalance), 0)
@@ -204,7 +204,7 @@ func (suite *grpcQueryTestSuite) TestQueryTotalSupply() {
 			expectedErr:   nil,
 		},
 		{
-			name: "returns TVL from multiple bist denoms",
+			name: "returns TVL from multiple bkava denoms",
 			setup: func() {
 				initBalance := suite.NewBondCoin(i(1e9))
 				val1Acc := suite.CreateAccount(sdk.NewCoins(initBalance), 0)

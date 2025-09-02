@@ -9,13 +9,13 @@ import (
 	proposaltypes "github.com/cosmos/cosmos-sdk/x/params/types/proposal"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/istchain/istchain/app"
-	cdpkeeper "github.com/istchain/istchain/x/cdp/keeper"
-	cdptypes "github.com/istchain/istchain/x/cdp/types"
-	"github.com/istchain/istchain/x/incentive/keeper"
-	"github.com/istchain/istchain/x/incentive/testutil"
-	"github.com/istchain/istchain/x/incentive/types"
-	kavadisttypes "github.com/istchain/istchain/x/kavadist/types"
+	"github.com/kava-labs/kava/app"
+	cdpkeeper "github.com/kava-labs/kava/x/cdp/keeper"
+	cdptypes "github.com/kava-labs/kava/x/cdp/types"
+	"github.com/kava-labs/kava/x/incentive/keeper"
+	"github.com/kava-labs/kava/x/incentive/testutil"
+	"github.com/kava-labs/kava/x/incentive/types"
+	kavadisttypes "github.com/kava-labs/kava/x/kavadist/types"
 )
 
 type USDXIntegrationTests struct {
@@ -289,7 +289,7 @@ func (suite *USDXRewardsTestSuite) TestAccumulateUSDXMintingRewards() {
 			"7 seconds",
 			args{
 				ctype:                 "bnb-a",
-				rewardsPerSecond:      c("uist", 122354),
+				rewardsPerSecond:      c("ukava", 122354),
 				initialTotalPrincipal: c("usdx", 1000000000000),
 				timeElapsed:           7,
 				expectedRewardFactor:  d("0.000000856478000000"),
@@ -299,7 +299,7 @@ func (suite *USDXRewardsTestSuite) TestAccumulateUSDXMintingRewards() {
 			"1 day",
 			args{
 				ctype:                 "bnb-a",
-				rewardsPerSecond:      c("uist", 122354),
+				rewardsPerSecond:      c("ukava", 122354),
 				initialTotalPrincipal: c("usdx", 1000000000000),
 				timeElapsed:           86400,
 				expectedRewardFactor:  d("0.0105713856"),
@@ -309,7 +309,7 @@ func (suite *USDXRewardsTestSuite) TestAccumulateUSDXMintingRewards() {
 			"0 seconds",
 			args{
 				ctype:                 "bnb-a",
-				rewardsPerSecond:      c("uist", 122354),
+				rewardsPerSecond:      c("ukava", 122354),
 				initialTotalPrincipal: c("usdx", 1000000000000),
 				timeElapsed:           0,
 				expectedRewardFactor:  d("0.0"),
@@ -357,24 +357,24 @@ func (suite *USDXRewardsTestSuite) TestSynchronizeUSDXMintingReward() {
 			"10 blocks",
 			args{
 				ctype:                "bnb-a",
-				rewardsPerSecond:     c("uist", 122354),
+				rewardsPerSecond:     c("ukava", 122354),
 				initialCollateral:    c("bnb", 1000000000000),
 				initialPrincipal:     c("usdx", 10000000000),
 				blockTimes:           []int{10, 10, 10, 10, 10, 10, 10, 10, 10, 10},
 				expectedRewardFactor: d("0.001223540000000000"),
-				expectedRewards:      c("uist", 12235400),
+				expectedRewards:      c("ukava", 12235400),
 			},
 		},
 		{
 			"10 blocks - long block time",
 			args{
 				ctype:                "bnb-a",
-				rewardsPerSecond:     c("uist", 122354),
+				rewardsPerSecond:     c("ukava", 122354),
 				initialCollateral:    c("bnb", 1000000000000),
 				initialPrincipal:     c("usdx", 10000000000),
 				blockTimes:           []int{86400, 86400, 86400, 86400, 86400, 86400, 86400, 86400, 86400, 86400},
 				expectedRewardFactor: d("10.57138560000000000"),
-				expectedRewards:      c("uist", 105713856000),
+				expectedRewards:      c("ukava", 105713856000),
 			},
 		},
 	}
@@ -443,24 +443,24 @@ func (suite *USDXRewardsTestSuite) TestSimulateUSDXMintingRewardSynchronization(
 			"10 blocks",
 			args{
 				ctype:                "bnb-a",
-				rewardsPerSecond:     c("uist", 122354),
+				rewardsPerSecond:     c("ukava", 122354),
 				initialCollateral:    c("bnb", 1000000000000),
 				initialPrincipal:     c("usdx", 10000000000),
 				blockTimes:           []int{10, 10, 10, 10, 10, 10, 10, 10, 10, 10},
 				expectedRewardFactor: d("0.001223540000000000"),
-				expectedRewards:      c("uist", 12235400),
+				expectedRewards:      c("ukava", 12235400),
 			},
 		},
 		{
 			"10 blocks - long block time",
 			args{
 				ctype:                "bnb-a",
-				rewardsPerSecond:     c("uist", 122354),
+				rewardsPerSecond:     c("ukava", 122354),
 				initialCollateral:    c("bnb", 1000000000000),
 				initialPrincipal:     c("usdx", 10000000000),
 				blockTimes:           []int{86400, 86400, 86400, 86400, 86400, 86400, 86400, 86400, 86400, 86400},
 				expectedRewardFactor: d("10.57138560000000000"),
-				expectedRewards:      c("uist", 105713856000),
+				expectedRewards:      c("ukava", 105713856000),
 			},
 		},
 	}
@@ -496,7 +496,7 @@ func (suite *USDXRewardsTestSuite) TestSimulateUSDXMintingRewardSynchronization(
 			claim, found = suite.keeper.GetUSDXMintingClaim(suite.ctx, suite.addrs[0])
 			suite.Require().True(found)
 			suite.Require().Equal(claim.RewardIndexes[0].RewardFactor, sdk.ZeroDec())
-			suite.Require().Equal(claim.Reward, sdk.NewCoin("uist", sdk.ZeroInt()))
+			suite.Require().Equal(claim.Reward, sdk.NewCoin("ukava", sdk.ZeroInt()))
 
 			updatedClaim := suite.keeper.SimulateUSDXMintingSynchronization(suite.ctx, claim)
 			suite.Require().Equal(tc.args.expectedRewardFactor, updatedClaim.RewardIndexes[0].RewardFactor)

@@ -11,16 +11,16 @@ import (
 	proposaltypes "github.com/cosmos/cosmos-sdk/x/params/types/proposal"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/committee"
-	committeekeeper "github.com/istchain/istchain/x/committee/keeper"
-	committeetypes "github.com/istchain/istchain/x/committee/types"
-	"github.com/istchain/istchain/x/hard"
-	hardkeeper "github.com/istchain/istchain/x/hard/keeper"
-	"github.com/istchain/istchain/x/incentive/keeper"
-	"github.com/istchain/istchain/x/incentive/testutil"
-	"github.com/istchain/istchain/x/incentive/types"
-	kavadisttypes "github.com/istchain/istchain/x/kavadist/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/committee"
+	committeekeeper "github.com/kava-labs/kava/x/committee/keeper"
+	committeetypes "github.com/kava-labs/kava/x/committee/types"
+	"github.com/kava-labs/kava/x/hard"
+	hardkeeper "github.com/kava-labs/kava/x/hard/keeper"
+	"github.com/kava-labs/kava/x/incentive/keeper"
+	"github.com/kava-labs/kava/x/incentive/testutil"
+	"github.com/kava-labs/kava/x/incentive/types"
+	kavadisttypes "github.com/kava-labs/kava/x/kavadist/types"
 )
 
 type BorrowIntegrationTests struct {
@@ -185,11 +185,11 @@ func (suite *BorrowRewardsTestSuite) TestAccumulateHardBorrowRewards() {
 			"multiple reward denoms: 7 seconds",
 			args{
 				borrow:           c("bnb", 1000000000000),
-				rewardsPerSecond: cs(c("hard", 122354), c("uist", 122354)),
+				rewardsPerSecond: cs(c("hard", 122354), c("ukava", 122354)),
 				timeElapsed:      7,
 				expectedRewardIndexes: types.RewardIndexes{
 					types.NewRewardIndex("hard", d("0.000000856478000001")),
-					types.NewRewardIndex("uist", d("0.000000856478000001")),
+					types.NewRewardIndex("ukava", d("0.000000856478000001")),
 				},
 			},
 		},
@@ -197,11 +197,11 @@ func (suite *BorrowRewardsTestSuite) TestAccumulateHardBorrowRewards() {
 			"multiple reward denoms: 1 day",
 			args{
 				borrow:           c("bnb", 1000000000000),
-				rewardsPerSecond: cs(c("hard", 122354), c("uist", 122354)),
+				rewardsPerSecond: cs(c("hard", 122354), c("ukava", 122354)),
 				timeElapsed:      86400,
 				expectedRewardIndexes: types.RewardIndexes{
 					types.NewRewardIndex("hard", d("0.010571385600010177")),
-					types.NewRewardIndex("uist", d("0.010571385600010177")),
+					types.NewRewardIndex("ukava", d("0.010571385600010177")),
 				},
 			},
 		},
@@ -209,11 +209,11 @@ func (suite *BorrowRewardsTestSuite) TestAccumulateHardBorrowRewards() {
 			"multiple reward denoms: 0 seconds",
 			args{
 				borrow:           c("bnb", 1000000000000),
-				rewardsPerSecond: cs(c("hard", 122354), c("uist", 122354)),
+				rewardsPerSecond: cs(c("hard", 122354), c("ukava", 122354)),
 				timeElapsed:      0,
 				expectedRewardIndexes: types.RewardIndexes{
 					types.NewRewardIndex("hard", d("0.0")),
-					types.NewRewardIndex("uist", d("0.0")),
+					types.NewRewardIndex("ukava", d("0.0")),
 				},
 			},
 		},
@@ -221,11 +221,11 @@ func (suite *BorrowRewardsTestSuite) TestAccumulateHardBorrowRewards() {
 			"multiple reward denoms with different rewards per second: 1 day",
 			args{
 				borrow:           c("bnb", 1000000000000),
-				rewardsPerSecond: cs(c("hard", 122354), c("uist", 555555)),
+				rewardsPerSecond: cs(c("hard", 122354), c("ukava", 555555)),
 				timeElapsed:      86400,
 				expectedRewardIndexes: types.RewardIndexes{
 					types.NewRewardIndex("hard", d("0.010571385600010177")),
-					types.NewRewardIndex("uist", d("0.047999952000046210")),
+					types.NewRewardIndex("ukava", d("0.047999952000046210")),
 				},
 			},
 		},
@@ -235,7 +235,7 @@ func (suite *BorrowRewardsTestSuite) TestAccumulateHardBorrowRewards() {
 			userAddr := suite.addrs[3]
 			authBuilder := app.NewAuthBankGenesisBuilder().WithSimpleAccount(
 				userAddr,
-				cs(c("bnb", 1e15), c("uist", 1e15), c("btcb", 1e15), c("xrp", 1e15), c("zzz", 1e15)),
+				cs(c("bnb", 1e15), c("ukava", 1e15), c("btcb", 1e15), c("xrp", 1e15), c("zzz", 1e15)),
 			)
 
 			incentBuilder := testutil.NewIncentiveGenesisBuilder().
@@ -288,7 +288,7 @@ func (suite *BorrowRewardsTestSuite) TestInitializeHardBorrowRewards() {
 
 	standardMoneyMarketRewardDenoms := map[string]sdk.Coins{
 		"bnb":  cs(c("hard", 1)),
-		"btcb": cs(c("hard", 1), c("uist", 1)),
+		"btcb": cs(c("hard", 1), c("ukava", 1)),
 	}
 
 	testCases := []test{
@@ -319,7 +319,7 @@ func (suite *BorrowRewardsTestSuite) TestInitializeHardBorrowRewards() {
 						"btcb",
 						types.RewardIndexes{
 							types.NewRewardIndex("hard", d("0.0")),
-							types.NewRewardIndex("uist", d("0.0")),
+							types.NewRewardIndex("ukava", d("0.0")),
 						},
 					),
 				},
@@ -356,7 +356,7 @@ func (suite *BorrowRewardsTestSuite) TestInitializeHardBorrowRewards() {
 						"btcb",
 						types.RewardIndexes{
 							types.NewRewardIndex("hard", d("0.0")),
-							types.NewRewardIndex("uist", d("0.0")),
+							types.NewRewardIndex("ukava", d("0.0")),
 						},
 					),
 				},
@@ -388,7 +388,7 @@ func (suite *BorrowRewardsTestSuite) TestInitializeHardBorrowRewards() {
 			userAddr := suite.addrs[3]
 			authBuilder := app.NewAuthBankGenesisBuilder().WithSimpleAccount(
 				userAddr,
-				cs(c("bnb", 1e15), c("uist", 1e15), c("btcb", 1e15), c("xrp", 1e15), c("zzz", 1e15)),
+				cs(c("bnb", 1e15), c("ukava", 1e15), c("btcb", 1e15), c("xrp", 1e15), c("zzz", 1e15)),
 			)
 
 			incentBuilder := testutil.NewIncentiveGenesisBuilder().WithGenesisTime(suite.genesisTime)
@@ -459,8 +459,8 @@ func (suite *BorrowRewardsTestSuite) TestSynchronizeHardBorrowReward() {
 		{
 			"single reward denom: user reward index updated when reward is zero",
 			args{
-				incentiveBorrowRewardDenom: "uist",
-				borrow:                     c("uist", 1), // borrow a tiny amount so that rewards round to zero
+				incentiveBorrowRewardDenom: "ukava",
+				borrow:                     c("ukava", 1), // borrow a tiny amount so that rewards round to zero
 				rewardsPerSecond:           cs(c("hard", 122354)),
 				blockTimes:                 []int{10, 10, 10, 10, 10, 10, 10, 10, 10, 10},
 				expectedRewardIndexes:      types.RewardIndexes{types.NewRewardIndex("hard", d("0.122354003908172328"))},
@@ -473,13 +473,13 @@ func (suite *BorrowRewardsTestSuite) TestSynchronizeHardBorrowReward() {
 			args{
 				incentiveBorrowRewardDenom: "bnb",
 				borrow:                     c("bnb", 10000000000),
-				rewardsPerSecond:           cs(c("hard", 122354), c("uist", 122354)),
+				rewardsPerSecond:           cs(c("hard", 122354), c("ukava", 122354)),
 				blockTimes:                 []int{10, 10, 10, 10, 10, 10, 10, 10, 10, 10},
 				expectedRewardIndexes: types.RewardIndexes{
 					types.NewRewardIndex("hard", d("0.001223540000173228")),
-					types.NewRewardIndex("uist", d("0.001223540000173228")),
+					types.NewRewardIndex("ukava", d("0.001223540000173228")),
 				},
-				expectedRewards: cs(c("hard", 12235400), c("uist", 12235400)),
+				expectedRewards: cs(c("hard", 12235400), c("ukava", 12235400)),
 			},
 		},
 		{
@@ -487,13 +487,13 @@ func (suite *BorrowRewardsTestSuite) TestSynchronizeHardBorrowReward() {
 			args{
 				incentiveBorrowRewardDenom: "bnb",
 				borrow:                     c("bnb", 10000000000),
-				rewardsPerSecond:           cs(c("hard", 122354), c("uist", 122354)),
+				rewardsPerSecond:           cs(c("hard", 122354), c("ukava", 122354)),
 				blockTimes:                 []int{86400, 86400, 86400, 86400, 86400, 86400, 86400, 86400, 86400, 86400},
 				expectedRewardIndexes: types.RewardIndexes{
 					types.NewRewardIndex("hard", d("10.571385603126235340")),
-					types.NewRewardIndex("uist", d("10.571385603126235340")),
+					types.NewRewardIndex("ukava", d("10.571385603126235340")),
 				},
-				expectedRewards: cs(c("hard", 105713856031), c("uist", 105713856031)),
+				expectedRewards: cs(c("hard", 105713856031), c("ukava", 105713856031)),
 			},
 		},
 		{
@@ -501,13 +501,13 @@ func (suite *BorrowRewardsTestSuite) TestSynchronizeHardBorrowReward() {
 			args{
 				incentiveBorrowRewardDenom: "bnb",
 				borrow:                     c("bnb", 10000000000),
-				rewardsPerSecond:           cs(c("hard", 122354), c("uist", 555555)),
+				rewardsPerSecond:           cs(c("hard", 122354), c("ukava", 555555)),
 				blockTimes:                 []int{10, 10, 10, 10, 10, 10, 10, 10, 10, 10},
 				expectedRewardIndexes: types.RewardIndexes{
 					types.NewRewardIndex("hard", d("0.001223540000173228")),
-					types.NewRewardIndex("uist", d("0.005555550000786558")),
+					types.NewRewardIndex("ukava", d("0.005555550000786558")),
 				},
-				expectedRewards: cs(c("hard", 12235400), c("uist", 55555500)),
+				expectedRewards: cs(c("hard", 12235400), c("ukava", 55555500)),
 			},
 		},
 		{
@@ -523,11 +523,11 @@ func (suite *BorrowRewardsTestSuite) TestSynchronizeHardBorrowReward() {
 				expectedRewards:            cs(c("hard", 10571385601)),
 				updateRewardsViaCommmittee: true,
 				updatedBaseDenom:           "bnb",
-				updatedRewardsPerSecond:    cs(c("hard", 122354), c("uist", 100000)),
-				updatedExpectedRewards:     cs(c("hard", 21142771202), c("uist", 8640000000)),
+				updatedRewardsPerSecond:    cs(c("hard", 122354), c("ukava", 100000)),
+				updatedExpectedRewards:     cs(c("hard", 21142771202), c("ukava", 8640000000)),
 				updatedExpectedRewardIndexes: types.RewardIndexes{
 					types.NewRewardIndex("hard", d("2.114277120120202320")),
-					types.NewRewardIndex("uist", d("0.864000000049120715")),
+					types.NewRewardIndex("ukava", d("0.864000000049120715")),
 				},
 				updatedTimeDuration: 86400,
 			},
@@ -562,11 +562,11 @@ func (suite *BorrowRewardsTestSuite) TestSynchronizeHardBorrowReward() {
 				expectedRewards:            sdk.Coins{},
 				updateRewardsViaCommmittee: true,
 				updatedBaseDenom:           "zzz",
-				updatedRewardsPerSecond:    cs(c("hard", 100000), c("uist", 100500), c("swap", 500)),
-				updatedExpectedRewards:     cs(c("hard", 8640000000), c("uist", 8683200001), c("swap", 43200000)),
+				updatedRewardsPerSecond:    cs(c("hard", 100000), c("ukava", 100500), c("swap", 500)),
+				updatedExpectedRewards:     cs(c("hard", 8640000000), c("ukava", 8683200001), c("swap", 43200000)),
 				updatedExpectedRewardIndexes: types.RewardIndexes{
 					types.NewRewardIndex("hard", d("0.864000000049803065")),
-					types.NewRewardIndex("uist", d("0.868320000050052081")),
+					types.NewRewardIndex("ukava", d("0.868320000050052081")),
 					types.NewRewardIndex("swap", d("0.004320000000249015")),
 				},
 				updatedTimeDuration: 86400,
@@ -577,8 +577,8 @@ func (suite *BorrowRewardsTestSuite) TestSynchronizeHardBorrowReward() {
 		suite.Run(tc.name, func() {
 			userAddr := suite.addrs[3]
 			authBuilder := app.NewAuthBankGenesisBuilder().
-				WithSimpleAccount(suite.addrs[2], cs(c("uist", 1e9))).
-				WithSimpleAccount(userAddr, cs(c("bnb", 1e15), c("uist", 1e15), c("btcb", 1e15), c("xrp", 1e15), c("zzz", 1e15)))
+				WithSimpleAccount(suite.addrs[2], cs(c("ukava", 1e9))).
+				WithSimpleAccount(userAddr, cs(c("bnb", 1e15), c("ukava", 1e15), c("btcb", 1e15), c("xrp", 1e15), c("zzz", 1e15)))
 
 			incentBuilder := testutil.NewIncentiveGenesisBuilder().WithGenesisTime(suite.genesisTime)
 			if tc.args.rewardsPerSecond != nil {
@@ -591,10 +591,10 @@ func (suite *BorrowRewardsTestSuite) TestSynchronizeHardBorrowReward() {
 
 			// Borrow a fixed amount from another user to dilute primary user's rewards per second.
 			suite.Require().NoError(
-				suite.hardKeeper.Deposit(suite.ctx, suite.addrs[2], cs(c("uist", 200_000_000))),
+				suite.hardKeeper.Deposit(suite.ctx, suite.addrs[2], cs(c("ukava", 200_000_000))),
 			)
 			suite.Require().NoError(
-				suite.hardKeeper.Borrow(suite.ctx, suite.addrs[2], cs(c("uist", 100_000_000))),
+				suite.hardKeeper.Borrow(suite.ctx, suite.addrs[2], cs(c("ukava", 100_000_000))),
 			)
 
 			// User deposits and borrows to increase total borrowed amount
@@ -805,9 +805,9 @@ func (suite *BorrowRewardsTestSuite) TestUpdateHardBorrowIndexDenoms() {
 			args{
 				initialDeposit:            cs(c("bnb", 10000000000)),
 				firstBorrow:               cs(c("bnb", 50000000)),
-				modification:              withdrawModification{coins: cs(c("uist", 500000000))},
+				modification:              withdrawModification{coins: cs(c("ukava", 500000000))},
 				rewardsPerSecond:          cs(c("hard", 122354)),
-				expectedBorrowIndexDenoms: []string{"bnb", "uist"},
+				expectedBorrowIndexDenoms: []string{"bnb", "ukava"},
 			},
 		},
 		{
@@ -815,9 +815,9 @@ func (suite *BorrowRewardsTestSuite) TestUpdateHardBorrowIndexDenoms() {
 			args{
 				initialDeposit:            cs(c("btcb", 10000000000)),
 				firstBorrow:               cs(c("btcb", 50000000)),
-				modification:              withdrawModification{coins: cs(c("uist", 500000000), c("bnb", 50000000000), c("xrp", 50000000000))},
+				modification:              withdrawModification{coins: cs(c("ukava", 500000000), c("bnb", 50000000000), c("xrp", 50000000000))},
 				rewardsPerSecond:          cs(c("hard", 122354)),
-				expectedBorrowIndexDenoms: []string{"btcb", "uist", "bnb", "xrp"},
+				expectedBorrowIndexDenoms: []string{"btcb", "ukava", "bnb", "xrp"},
 			},
 		},
 		{
@@ -835,9 +835,9 @@ func (suite *BorrowRewardsTestSuite) TestUpdateHardBorrowIndexDenoms() {
 			args{
 				initialDeposit:            cs(c("bnb", 10000000000)),
 				firstBorrow:               cs(c("bnb", 50000000)),
-				modification:              withdrawModification{coins: cs(c("uist", 500000000))},
-				rewardsPerSecond:          cs(c("hard", 122354), c("uist", 122354)),
-				expectedBorrowIndexDenoms: []string{"bnb", "uist"},
+				modification:              withdrawModification{coins: cs(c("ukava", 500000000))},
+				rewardsPerSecond:          cs(c("hard", 122354), c("ukava", 122354)),
+				expectedBorrowIndexDenoms: []string{"bnb", "ukava"},
 			},
 		},
 		{
@@ -845,9 +845,9 @@ func (suite *BorrowRewardsTestSuite) TestUpdateHardBorrowIndexDenoms() {
 			args{
 				initialDeposit:            cs(c("btcb", 10000000000)),
 				firstBorrow:               cs(c("btcb", 50000000)),
-				modification:              withdrawModification{coins: cs(c("uist", 500000000), c("bnb", 50000000000), c("xrp", 50000000000))},
-				rewardsPerSecond:          cs(c("hard", 122354), c("uist", 122354)),
-				expectedBorrowIndexDenoms: []string{"btcb", "uist", "bnb", "xrp"},
+				modification:              withdrawModification{coins: cs(c("ukava", 500000000), c("bnb", 50000000000), c("xrp", 50000000000))},
+				rewardsPerSecond:          cs(c("hard", 122354), c("ukava", 122354)),
+				expectedBorrowIndexDenoms: []string{"btcb", "ukava", "bnb", "xrp"},
 			},
 		},
 		{
@@ -856,7 +856,7 @@ func (suite *BorrowRewardsTestSuite) TestUpdateHardBorrowIndexDenoms() {
 				initialDeposit:            cs(c("bnb", 100000000000)),
 				firstBorrow:               cs(c("bnb", 50000000)),
 				modification:              withdrawModification{coins: cs(c("bnb", 50000000000))},
-				rewardsPerSecond:          cs(c("hard", 122354), c("uist", 122354)),
+				rewardsPerSecond:          cs(c("hard", 122354), c("ukava", 122354)),
 				expectedBorrowIndexDenoms: []string{"bnb"},
 			},
 		},
@@ -874,20 +874,20 @@ func (suite *BorrowRewardsTestSuite) TestUpdateHardBorrowIndexDenoms() {
 			"single reward denom: fully repaying a denom deletes only the denom's supply reward index",
 			args{
 				initialDeposit:            cs(c("bnb", 1000000000)),
-				firstBorrow:               cs(c("bnb", 100000000), c("uist", 10000000)),
+				firstBorrow:               cs(c("bnb", 100000000), c("ukava", 10000000)),
 				modification:              withdrawModification{coins: cs(c("bnb", 1100000000)), repay: true},
 				rewardsPerSecond:          cs(c("hard", 122354)),
-				expectedBorrowIndexDenoms: []string{"uist"},
+				expectedBorrowIndexDenoms: []string{"ukava"},
 			},
 		},
 		{
 			"multiple reward denoms: fully repaying a denom deletes the denom's supply reward index",
 			args{
 				initialDeposit:            cs(c("bnb", 1000000000)),
-				firstBorrow:               cs(c("bnb", 100000000), c("uist", 10000000)),
+				firstBorrow:               cs(c("bnb", 100000000), c("ukava", 10000000)),
 				modification:              withdrawModification{coins: cs(c("bnb", 1100000000)), repay: true},
-				rewardsPerSecond:          cs(c("hard", 122354), c("uist", 122354)),
-				expectedBorrowIndexDenoms: []string{"uist"},
+				rewardsPerSecond:          cs(c("hard", 122354), c("ukava", 122354)),
+				expectedBorrowIndexDenoms: []string{"ukava"},
 			},
 		},
 	}
@@ -897,17 +897,17 @@ func (suite *BorrowRewardsTestSuite) TestUpdateHardBorrowIndexDenoms() {
 			authBuilder := app.NewAuthBankGenesisBuilder().
 				WithSimpleAccount(
 					userAddr,
-					cs(c("bnb", 1e15), c("uist", 1e15), c("btcb", 1e15), c("xrp", 1e15), c("zzz", 1e15)),
+					cs(c("bnb", 1e15), c("ukava", 1e15), c("btcb", 1e15), c("xrp", 1e15), c("zzz", 1e15)),
 				).
 				WithSimpleAccount(
 					suite.addrs[0],
-					cs(c("bnb", 1e15), c("uist", 1e15), c("btcb", 1e15), c("xrp", 1e15), c("zzz", 1e15)),
+					cs(c("bnb", 1e15), c("ukava", 1e15), c("btcb", 1e15), c("xrp", 1e15), c("zzz", 1e15)),
 				)
 
 			incentBuilder := testutil.NewIncentiveGenesisBuilder().
 				WithGenesisTime(suite.genesisTime).
 				WithSimpleBorrowRewardPeriod("bnb", tc.args.rewardsPerSecond).
-				WithSimpleBorrowRewardPeriod("uist", tc.args.rewardsPerSecond).
+				WithSimpleBorrowRewardPeriod("ukava", tc.args.rewardsPerSecond).
 				WithSimpleBorrowRewardPeriod("btcb", tc.args.rewardsPerSecond).
 				WithSimpleBorrowRewardPeriod("xrp", tc.args.rewardsPerSecond)
 
@@ -1004,7 +1004,7 @@ func (suite *BorrowRewardsTestSuite) TestSimulateHardBorrowRewardSynchronization
 	for _, tc := range testCases {
 		suite.Run(tc.name, func() {
 			userAddr := suite.addrs[3]
-			authBuilder := app.NewAuthBankGenesisBuilder().WithSimpleAccount(userAddr, cs(c("bnb", 1e15), c("uist", 1e15), c("btcb", 1e15), c("xrp", 1e15), c("zzz", 1e15)))
+			authBuilder := app.NewAuthBankGenesisBuilder().WithSimpleAccount(userAddr, cs(c("bnb", 1e15), c("ukava", 1e15), c("btcb", 1e15), c("xrp", 1e15), c("zzz", 1e15)))
 
 			incentBuilder := testutil.NewIncentiveGenesisBuilder().
 				WithGenesisTime(suite.genesisTime).

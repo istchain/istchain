@@ -1,8 +1,8 @@
 package v0_17
 
 import (
-	v016auction "github.com/istchain/istchain/x/auction/legacy/v0_16"
-	v017auction "github.com/istchain/istchain/x/auction/types"
+	v016auction "github.com/kava-labs/kava/x/auction/legacy/v0_16"
+	v017auction "github.com/kava-labs/kava/x/auction/types"
 )
 
 func Migrate(oldState v016auction.GenesisState) *v017auction.GenesisState {

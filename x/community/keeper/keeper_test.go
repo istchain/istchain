@@ -12,9 +12,9 @@ import (
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/istchain/istchain/x/community/keeper"
-	"github.com/istchain/istchain/x/community/testutil"
-	"github.com/istchain/istchain/x/community/types"
+	"github.com/kava-labs/kava/x/community/keeper"
+	"github.com/kava-labs/kava/x/community/testutil"
+	"github.com/kava-labs/kava/x/community/types"
 )
 
 // Test suite used for all keeper tests
@@ -36,7 +36,7 @@ func (suite *KeeperTestSuite) TestCommunityPool() {
 	maccAddr := suite.App.GetAccountKeeper().GetModuleAddress(types.ModuleAccountName)
 
 	funds := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(10000)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(10000)),
 		sdk.NewCoin("usdx", sdkmath.NewInt(100)),
 	)
 	sender := suite.CreateFundedAccount(funds)

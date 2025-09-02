@@ -8,10 +8,10 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/istchain/istchain/app"
-	cdptypes "github.com/istchain/istchain/x/cdp/types"
-	"github.com/istchain/istchain/x/incentive/testutil"
-	pricefeedtypes "github.com/istchain/istchain/x/pricefeed/types"
+	"github.com/kava-labs/kava/app"
+	cdptypes "github.com/kava-labs/kava/x/cdp/types"
+	"github.com/kava-labs/kava/x/incentive/testutil"
+	pricefeedtypes "github.com/kava-labs/kava/x/pricefeed/types"
 )
 
 // Avoid cluttering test cases with long function names
@@ -161,8 +161,8 @@ func NewPricefeedGenStateMultiFromTime(cdc codec.JSONCodec, t time.Time) app.Gen
 }
 
 func NewHardGenStateMulti(genTime time.Time) testutil.HardGenesisBuilder {
-	kavaMM := testutil.NewStandardMoneyMarket("uist")
-	kavaMM.SpotMarketID = "ist:usd"
+	kavaMM := testutil.NewStandardMoneyMarket("ukava")
+	kavaMM.SpotMarketID = "kava:usd"
 	btcMM := testutil.NewStandardMoneyMarket("btcb")
 	btcMM.SpotMarketID = "btc:usd"
 
@@ -178,7 +178,7 @@ func NewHardGenStateMulti(genTime time.Time) testutil.HardGenesisBuilder {
 
 func NewStakingGenesisState(cdc codec.JSONCodec) app.GenesisState {
 	genState := stakingtypes.DefaultGenesisState()
-	genState.Params.BondDenom = "uist"
+	genState.Params.BondDenom = "ukava"
 	return app.GenesisState{
 		stakingtypes.ModuleName: cdc.MustMarshalJSON(genState),
 	}

@@ -13,7 +13,7 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/cosmos/cosmos-sdk/types/query"
 
-	"github.com/istchain/istchain/x/savings/types"
+	"github.com/kava-labs/kava/x/savings/types"
 )
 
 type queryServer struct {
@@ -113,8 +113,8 @@ func (s queryServer) TotalSupply(ctx context.Context, req *types.QueryTotalSuppl
 
 	s.keeper.IterateDeposits(sdkCtx, func(deposit types.Deposit) (stop bool) {
 		for _, c := range deposit.Amount {
-			// separate out bist denoms
-			if strings.HasPrefix(c.Denom, bistPrefix) {
+			// separate out bkava denoms
+			if strings.HasPrefix(c.Denom, bkavaPrefix) {
 				liquidStakedDerivatives = liquidStakedDerivatives.Add(c)
 			} else {
 				totalSupply = totalSupply.Add(c)
@@ -123,7 +123,7 @@ func (s queryServer) TotalSupply(ctx context.Context, req *types.QueryTotalSuppl
 		return false
 	})
 
-	// determine underlying value of bist denoms
+	// determine underlying value of bkava denoms
 	if len(liquidStakedDerivatives) > 0 {
 		underlyingValue, err := s.keeper.liquidKeeper.GetStakedTokensForDerivatives(
 			sdkCtx,
@@ -132,7 +132,7 @@ func (s queryServer) TotalSupply(ctx context.Context, req *types.QueryTotalSuppl
 		if err != nil {
 			return nil, err
 		}
-		totalSupply = totalSupply.Add(sdk.NewCoin(bistDenom, underlyingValue.Amount))
+		totalSupply = totalSupply.Add(sdk.NewCoin(bkavaDenom, underlyingValue.Amount))
 	}
 
 	return &types.QueryTotalSupplyResponse{

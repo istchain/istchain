@@ -2,7 +2,7 @@ package testutil
 
 import (
 	"github.com/cosmos/cosmos-sdk/codec"
-	"github.com/istchain/istchain/app"
+	"github.com/kava-labs/kava/app"
 
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 )
@@ -18,7 +18,7 @@ var _ GenesisBuilder = (*StakingGenesisBuilder)(nil)
 
 func NewStakingGenesisBuilder() StakingGenesisBuilder {
 	gen := stakingtypes.DefaultGenesisState()
-	gen.Params.BondDenom = "uist"
+	gen.Params.BondDenom = "ukava"
 
 	return StakingGenesisBuilder{
 		GenesisState: *gen,

@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/istchain/istchain/x/swap/types"
+	"github.com/kava-labs/kava/x/swap/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	paramstypes "github.com/cosmos/cosmos-sdk/x/params/types"
@@ -19,7 +19,7 @@ import (
 
 func TestParams_UnmarshalJSON(t *testing.T) {
 	pools := types.NewAllowedPools(
-		types.NewAllowedPool("hard", "uist"),
+		types.NewAllowedPool("hard", "ukava"),
 		types.NewAllowedPool("hard", "usdx"),
 	)
 	poolData, err := json.Marshal(pools)
@@ -45,7 +45,7 @@ func TestParams_UnmarshalJSON(t *testing.T) {
 
 func TestParams_MarshalYAML(t *testing.T) {
 	pools := types.NewAllowedPools(
-		types.NewAllowedPool("hard", "uist"),
+		types.NewAllowedPool("hard", "ukava"),
 		types.NewAllowedPool("hard", "usdx"),
 	)
 	fee, err := sdk.NewDecFromStr("0.5")
@@ -134,9 +134,9 @@ func TestParams_Validation(t *testing.T) {
 			name: "duplicate pools",
 			key:  types.KeyAllowedPools,
 			testFn: func(params *types.Params) {
-				params.AllowedPools = types.NewAllowedPools(types.NewAllowedPool("uist", "uist"))
+				params.AllowedPools = types.NewAllowedPools(types.NewAllowedPool("ukava", "ukava"))
 			},
-			expectedErr: "pool cannot have two tokens of the same type, received 'uist' and 'uist'",
+			expectedErr: "pool cannot have two tokens of the same type, received 'ukava' and 'ukava'",
 		},
 		{
 			name: "nil swap fee",
@@ -212,8 +212,8 @@ func TestParams_Validation(t *testing.T) {
 func TestParams_String(t *testing.T) {
 	params := types.NewParams(
 		types.NewAllowedPools(
-			types.NewAllowedPool("hard", "uist"),
-			types.NewAllowedPool("uist", "usdx"),
+			types.NewAllowedPool("hard", "ukava"),
+			types.NewAllowedPool("ukava", "usdx"),
 		),
 		sdk.MustNewDecFromStr("0.5"),
 	)
@@ -221,8 +221,8 @@ func TestParams_String(t *testing.T) {
 	require.NoError(t, params.Validate())
 
 	output := params.String()
-	assert.Contains(t, output, types.PoolID("hard", "uist"))
-	assert.Contains(t, output, types.PoolID("uist", "usdx"))
+	assert.Contains(t, output, types.PoolID("hard", "ukava"))
+	assert.Contains(t, output, types.PoolID("ukava", "usdx"))
 	assert.Contains(t, output, "0.5")
 }
 
@@ -234,47 +234,47 @@ func TestAllowedPool_Validation(t *testing.T) {
 	}{
 		{
 			name:        "blank token a",
-			allowedPool: types.NewAllowedPool("", "uist"),
+			allowedPool: types.NewAllowedPool("", "ukava"),
 			expectedErr: "invalid denom: ",
 		},
 		{
 			name:        "blank token b",
-			allowedPool: types.NewAllowedPool("uist", ""),
+			allowedPool: types.NewAllowedPool("ukava", ""),
 			expectedErr: "invalid denom: ",
 		},
 		{
 			name:        "invalid token a",
-			allowedPool: types.NewAllowedPool("1uist", "uist"),
-			expectedErr: "invalid denom: 1uist",
+			allowedPool: types.NewAllowedPool("1ukava", "ukava"),
+			expectedErr: "invalid denom: 1ukava",
 		},
 		{
 			name:        "invalid token b",
-			allowedPool: types.NewAllowedPool("uist", "1uist"),
-			expectedErr: "invalid denom: 1uist",
+			allowedPool: types.NewAllowedPool("ukava", "1ukava"),
+			expectedErr: "invalid denom: 1ukava",
 		},
 		{
 			name:        "matching tokens",
-			allowedPool: types.NewAllowedPool("uist", "uist"),
-			expectedErr: "pool cannot have two tokens of the same type, received 'uist' and 'uist'",
+			allowedPool: types.NewAllowedPool("ukava", "ukava"),
+			expectedErr: "pool cannot have two tokens of the same type, received 'ukava' and 'ukava'",
 		},
 		{
 			name:        "invalid token order",
-			allowedPool: types.NewAllowedPool("usdx", "uist"),
-			expectedErr: "invalid token order: 'uist' must come before 'usdx'",
+			allowedPool: types.NewAllowedPool("usdx", "ukava"),
+			expectedErr: "invalid token order: 'ukava' must come before 'usdx'",
 		},
 		{
 			name:        "invalid token order due to capitalization",
-			allowedPool: types.NewAllowedPool("uist", "UKAVA"),
-			expectedErr: "invalid token order: 'UKAVA' must come before 'uist'",
+			allowedPool: types.NewAllowedPool("ukava", "UKAVA"),
+			expectedErr: "invalid token order: 'UKAVA' must come before 'ukava'",
 		},
 		{
 			name:        "invalid token a with colon",
-			allowedPool: types.NewAllowedPool("test:denom", "uist"),
+			allowedPool: types.NewAllowedPool("test:denom", "ukava"),
 			expectedErr: "tokenA cannot have colons in the denom: test:denom",
 		},
 		{
 			name:        "invalid token b with colon",
-			allowedPool: types.NewAllowedPool("uist", "u:kava"),
+			allowedPool: types.NewAllowedPool("ukava", "u:kava"),
 			expectedErr: "tokenB cannot have colons in the denom: u:kava",
 		},
 	}
@@ -288,7 +288,7 @@ func TestAllowedPool_Validation(t *testing.T) {
 }
 
 func TestAllowedPool_TokenMatch_CaseSensitive(t *testing.T) {
-	allowedPool := types.NewAllowedPool("UKAVA", "uist")
+	allowedPool := types.NewAllowedPool("UKAVA", "ukava")
 	err := allowedPool.Validate()
 	assert.NoError(t, err)
 
@@ -302,13 +302,13 @@ func TestAllowedPool_TokenMatch_CaseSensitive(t *testing.T) {
 }
 
 func TestAllowedPool_String(t *testing.T) {
-	allowedPool := types.NewAllowedPool("hard", "uist")
+	allowedPool := types.NewAllowedPool("hard", "ukava")
 	require.NoError(t, allowedPool.Validate())
 
 	output := `AllowedPool:
-  Name: hard:uist
+  Name: hard:ukava
 	Token A: hard
-	Token B: uist
+	Token B: ukava
 `
 	assert.Equal(t, output, allowedPool.String())
 }
@@ -335,8 +335,8 @@ func TestAllowedPool_Name(t *testing.T) {
 			name:   "a001:a002",
 		},
 		{
-			tokens: "hard uist",
-			name:   "hard:uist",
+			tokens: "hard ukava",
+			name:   "hard:ukava",
 		},
 		{
 			tokens: "bnb hard",
@@ -370,15 +370,15 @@ func TestAllowedPools_Validate(t *testing.T) {
 		{
 			name: "duplicate pool",
 			allowedPools: types.NewAllowedPools(
-				types.NewAllowedPool("hard", "uist"),
-				types.NewAllowedPool("hard", "uist"),
+				types.NewAllowedPool("hard", "ukava"),
+				types.NewAllowedPool("hard", "ukava"),
 			),
-			expectedErr: "duplicate pool: hard:uist",
+			expectedErr: "duplicate pool: hard:ukava",
 		},
 		{
 			name: "duplicate pools",
 			allowedPools: types.NewAllowedPools(
-				types.NewAllowedPool("hard", "uist"),
+				types.NewAllowedPool("hard", "ukava"),
 				types.NewAllowedPool("bnb", "usdx"),
 				types.NewAllowedPool("btcb", "xrpb"),
 				types.NewAllowedPool("bnb", "usdx"),

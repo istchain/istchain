@@ -10,13 +10,13 @@ import (
 
 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
 
-	"github.com/istchain/istchain/app"
-	// bep3types "github.com/istchain/istchain/x/bep3/types"
-	// cdptypes "github.com/istchain/istchain/x/cdp/types"
+	"github.com/kava-labs/kava/app"
+	// bep3types "github.com/kava-labs/kava/x/bep3/types"
+	// cdptypes "github.com/kava-labs/kava/x/cdp/types"
 
-	"github.com/istchain/istchain/x/committee/testutil"
-	"github.com/istchain/istchain/x/committee/types"
-	// "github.com/istchain/istchain/x/pricefeed"
+	"github.com/kava-labs/kava/x/committee/testutil"
+	"github.com/kava-labs/kava/x/committee/types"
+	// "github.com/kava-labs/kava/x/pricefeed"
 )
 
 // func newCDPGenesisState(params cdptypes.Params) app.GenesisState {

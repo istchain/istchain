@@ -10,9 +10,9 @@ import (
 	tmprototypes "github.com/cometbft/cometbft/proto/tendermint/types"
 	tmtime "github.com/cometbft/cometbft/types/time"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/pricefeed/keeper"
-	"github.com/istchain/istchain/x/pricefeed/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/pricefeed/keeper"
+	"github.com/kava-labs/kava/x/pricefeed/types"
 )
 
 type KeeperTestSuite struct {

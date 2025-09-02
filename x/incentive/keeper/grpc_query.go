@@ -8,8 +8,8 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/istchain/istchain/x/incentive/types"
-	liquidtypes "github.com/istchain/istchain/x/liquid/types"
+	"github.com/kava-labs/kava/x/incentive/types"
+	liquidtypes "github.com/kava-labs/kava/x/liquid/types"
 )
 
 const (
@@ -162,7 +162,7 @@ func (s queryServer) Apy(
 	params := s.keeper.GetParams(sdkCtx)
 	var apys types.APYs
 
-	// bist APY (staking + incentive rewards)
+	// bkava APY (staking + incentive rewards)
 	stakingAPR, err := GetStakingAPR(sdkCtx, s.keeper, params)
 	if err != nil {
 		return nil, err
@@ -172,7 +172,7 @@ func (s queryServer) Apy(
 
 	// Incentive only APYs
 	for _, param := range params.EarnRewardPeriods {
-		// Skip bist as it's calculated earlier with staking rewards
+		// Skip bkava as it's calculated earlier with staking rewards
 		if param.CollateralType == liquidtypes.DefaultDerivativeDenom {
 			continue
 		}

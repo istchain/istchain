@@ -4,9 +4,9 @@ import (
 	"fmt"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/istchain/istchain/x/community/types"
+	"github.com/kava-labs/kava/x/community/types"
 
-	kavadisttypes "github.com/istchain/istchain/x/kavadist/types"
+	kavadisttypes "github.com/kava-labs/kava/x/kavadist/types"
 
 	distrtypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 )
@@ -75,8 +75,8 @@ func (k Keeper) consolidateCommunityKavadist(ctx sdk.Context) error {
 	kavadistAcc := k.accountKeeper.GetModuleAccount(ctx, kavadisttypes.KavaDistMacc)
 	transferCoins := k.bankKeeper.GetAllBalances(ctx, kavadistAcc.GetAddress())
 
-	// Remove uist from transfer coins - ony transfer non-uist coins
-	found, kavaCoins := transferCoins.Find("uist")
+	// Remove ukava from transfer coins - ony transfer non-ukava coins
+	found, kavaCoins := transferCoins.Find("ukava")
 	if found {
 		transferCoins = transferCoins.Sub(kavaCoins)
 	}

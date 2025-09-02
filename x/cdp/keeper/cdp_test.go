@@ -13,9 +13,9 @@ import (
 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
 	tmtime "github.com/cometbft/cometbft/types/time"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/cdp/keeper"
-	"github.com/istchain/istchain/x/cdp/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/cdp/keeper"
+	"github.com/kava-labs/kava/x/cdp/types"
 )
 
 type CdpTestSuite struct {
@@ -367,14 +367,14 @@ func (suite *CdpTestSuite) TestCdpOwnerIndex() {
 }
 
 func (suite *CdpTestSuite) TestMarketStatus() {
-	suite.keeper.SetMarketStatus(suite.ctx, "uist:usd", true)
-	status := suite.keeper.GetMarketStatus(suite.ctx, "uist:usd")
+	suite.keeper.SetMarketStatus(suite.ctx, "ukava:usd", true)
+	status := suite.keeper.GetMarketStatus(suite.ctx, "ukava:usd")
 	suite.Require().True(status)
-	suite.keeper.SetMarketStatus(suite.ctx, "uist:usd", false)
-	status = suite.keeper.GetMarketStatus(suite.ctx, "uist:usd")
+	suite.keeper.SetMarketStatus(suite.ctx, "ukava:usd", false)
+	status = suite.keeper.GetMarketStatus(suite.ctx, "ukava:usd")
 	suite.Require().False(status)
-	suite.keeper.SetMarketStatus(suite.ctx, "uist:usd", true)
-	status = suite.keeper.GetMarketStatus(suite.ctx, "uist:usd")
+	suite.keeper.SetMarketStatus(suite.ctx, "ukava:usd", true)
+	status = suite.keeper.GetMarketStatus(suite.ctx, "ukava:usd")
 	suite.Require().True(status)
 
 	status = suite.keeper.GetMarketStatus(suite.ctx, "unknown:usd")

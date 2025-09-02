@@ -7,7 +7,7 @@ import (
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/istchain/istchain/x/issuance/types"
+	"github.com/kava-labs/kava/x/issuance/types"
 )
 
 func (suite *KeeperTestSuite) TestIncrementCurrentAssetSupply() {

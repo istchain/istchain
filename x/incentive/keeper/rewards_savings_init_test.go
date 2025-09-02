@@ -7,8 +7,8 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/istchain/istchain/x/incentive/types"
-	savingstypes "github.com/istchain/istchain/x/savings/types"
+	"github.com/kava-labs/kava/x/incentive/types"
+	savingstypes "github.com/kava-labs/kava/x/savings/types"
 )
 
 // InitializeSavingsRewardTests runs unit tests for the keeper.InitializeSavingsReward method

@@ -7,9 +7,9 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 
 	"github.com/cometbft/cometbft/crypto"
-	"github.com/istchain/istchain/x/earn/keeper"
-	"github.com/istchain/istchain/x/earn/testutil"
-	"github.com/istchain/istchain/x/earn/types"
+	"github.com/kava-labs/kava/x/earn/keeper"
+	"github.com/kava-labs/kava/x/earn/testutil"
+	"github.com/kava-labs/kava/x/earn/types"
 	"github.com/stretchr/testify/suite"
 )
 

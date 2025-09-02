@@ -9,9 +9,9 @@ import (
 	tmprototypes "github.com/cometbft/cometbft/proto/tendermint/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/incentive/keeper"
-	"github.com/istchain/istchain/x/incentive/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/incentive/keeper"
+	"github.com/kava-labs/kava/x/incentive/types"
 )
 
 // Test suite used for all keeper tests
@@ -47,7 +47,7 @@ func (suite *KeeperTestSuite) SetupApp() {
 
 func (suite *KeeperTestSuite) TestGetSetDeleteUSDXMintingClaim() {
 	suite.SetupApp()
-	c := types.NewUSDXMintingClaim(suite.addrs[0], c("uist", 1000000), types.RewardIndexes{types.NewRewardIndex("bnb-a", sdk.ZeroDec())})
+	c := types.NewUSDXMintingClaim(suite.addrs[0], c("ukava", 1000000), types.RewardIndexes{types.NewRewardIndex("bnb-a", sdk.ZeroDec())})
 	_, found := suite.keeper.GetUSDXMintingClaim(suite.ctx, suite.addrs[0])
 	suite.Require().False(found)
 	suite.Require().NotPanics(func() {
@@ -66,7 +66,7 @@ func (suite *KeeperTestSuite) TestGetSetDeleteUSDXMintingClaim() {
 func (suite *KeeperTestSuite) TestIterateUSDXMintingClaims() {
 	suite.SetupApp()
 	for i := 0; i < len(suite.addrs); i++ {
-		c := types.NewUSDXMintingClaim(suite.addrs[i], c("uist", 100000), types.RewardIndexes{types.NewRewardIndex("bnb-a", sdk.ZeroDec())})
+		c := types.NewUSDXMintingClaim(suite.addrs[i], c("ukava", 100000), types.RewardIndexes{types.NewRewardIndex("bnb-a", sdk.ZeroDec())})
 		suite.Require().NotPanics(func() {
 			suite.keeper.SetUSDXMintingClaim(suite.ctx, c)
 		})
@@ -139,7 +139,7 @@ func (suite *KeeperTestSuite) TestGetSetSwapRewardIndexes() {
 					RewardFactor:   d("0.02"),
 				},
 				{
-					CollateralType: "uist",
+					CollateralType: "ukava",
 					RewardFactor:   d("0.04"),
 				},
 			},
@@ -149,7 +149,7 @@ func (suite *KeeperTestSuite) TestGetSetSwapRewardIndexes() {
 					RewardFactor:   d("0.02"),
 				},
 				{
-					CollateralType: "uist",
+					CollateralType: "ukava",
 					RewardFactor:   d("0.04"),
 				},
 			},
@@ -163,7 +163,7 @@ func (suite *KeeperTestSuite) TestGetSetSwapRewardIndexes() {
 					RewardFactor:   d("0.02"),
 				},
 				{
-					CollateralType: "uist",
+					CollateralType: "ukava",
 					RewardFactor:   d("0.04"),
 				},
 			},
@@ -222,7 +222,7 @@ func (suite *KeeperTestSuite) TestIterateSwapRewardIndexes() {
 					RewardFactor:   d("0.0000002"),
 				},
 				{
-					CollateralType: "uist",
+					CollateralType: "ukava",
 					RewardFactor:   d("0.04"),
 				},
 			},
@@ -348,7 +348,7 @@ func (suite *KeeperTestSuite) TestGetSetEarnRewardIndexes() {
 					RewardFactor:   d("0.02"),
 				},
 				{
-					CollateralType: "uist",
+					CollateralType: "ukava",
 					RewardFactor:   d("0.04"),
 				},
 			},
@@ -358,7 +358,7 @@ func (suite *KeeperTestSuite) TestGetSetEarnRewardIndexes() {
 					RewardFactor:   d("0.02"),
 				},
 				{
-					CollateralType: "uist",
+					CollateralType: "ukava",
 					RewardFactor:   d("0.04"),
 				},
 			},
@@ -372,7 +372,7 @@ func (suite *KeeperTestSuite) TestGetSetEarnRewardIndexes() {
 					RewardFactor:   d("0.02"),
 				},
 				{
-					CollateralType: "uist",
+					CollateralType: "ukava",
 					RewardFactor:   d("0.04"),
 				},
 			},
@@ -424,14 +424,14 @@ func (suite *KeeperTestSuite) TestIterateEarnRewardIndexes() {
 	suite.SetupApp()
 	multiIndexes := types.MultiRewardIndexes{
 		{
-			CollateralType: "uist",
+			CollateralType: "ukava",
 			RewardIndexes: types.RewardIndexes{
 				{
 					CollateralType: "earn",
 					RewardFactor:   d("0.0000002"),
 				},
 				{
-					CollateralType: "uist",
+					CollateralType: "ukava",
 					RewardFactor:   d("0.04"),
 				},
 			},
@@ -511,7 +511,7 @@ var nonEmptyAccrualTimes = []accrualtime{
 		time:  time.Date(1998, 1, 1, 0, 0, 0, 1, time.UTC),
 	},
 	{
-		denom: "uist",
+		denom: "ukava",
 		time:  time.Time{},
 	},
 }

@@ -7,9 +7,9 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/evmutil/testutil"
-	"github.com/istchain/istchain/x/evmutil/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/evmutil/testutil"
+	"github.com/kava-labs/kava/x/evmutil/types"
 )
 
 type ERC20TestSuite struct {
@@ -107,11 +107,11 @@ func (suite *ERC20TestSuite) TestQueryERC20TotalSupply() {
 	})
 }
 
-func (suite *ERC20TestSuite) TestDeployIstWrappedCosmosCoinERC20Contract() {
+func (suite *ERC20TestSuite) TestDeployKavaWrappedCosmosCoinERC20Contract() {
 	suite.Run("fails to deploy invalid contract", func() {
 		// empty other fields means this token is invalid.
 		invalidToken := types.AllowedCosmosCoinERC20Token{CosmosDenom: "nope"}
-		_, err := suite.Keeper.DeployIstWrappedCosmosCoinERC20Contract(suite.Ctx, invalidToken)
+		_, err := suite.Keeper.DeployKavaWrappedCosmosCoinERC20Contract(suite.Ctx, invalidToken)
 		suite.ErrorContains(err, "token's name cannot be empty")
 	})
 
@@ -119,7 +119,7 @@ func (suite *ERC20TestSuite) TestDeployIstWrappedCosmosCoinERC20Contract() {
 		caller, privKey := testutil.RandomEvmAccount()
 
 		token := types.NewAllowedCosmosCoinERC20Token("hard", "EVM HARD", "HARD", 6)
-		addr, err := suite.Keeper.DeployIstWrappedCosmosCoinERC20Contract(suite.Ctx, token)
+		addr, err := suite.Keeper.DeployKavaWrappedCosmosCoinERC20Contract(suite.Ctx, token)
 		suite.NoError(err)
 		suite.NotNil(addr)
 

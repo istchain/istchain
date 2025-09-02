@@ -4,7 +4,7 @@ import (
 	errorsmod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/istchain/istchain/x/hard/types"
+	"github.com/kava-labs/kava/x/hard/types"
 )
 
 // Repay borrowed funds

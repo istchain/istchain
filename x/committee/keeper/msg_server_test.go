@@ -12,10 +12,10 @@ import (
 	proposal "github.com/cosmos/cosmos-sdk/x/params/types/proposal"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/committee/keeper"
-	"github.com/istchain/istchain/x/committee/types"
-	swaptypes "github.com/istchain/istchain/x/swap/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/committee/keeper"
+	"github.com/kava-labs/kava/x/committee/types"
+	swaptypes "github.com/kava-labs/kava/x/swap/types"
 )
 
 //NewDistributionGenesisWithPool creates a default distribution genesis state with some coins in the community pool.
@@ -63,7 +63,7 @@ func (suite *MsgServerTestSuite) SetupTest() {
 		[]types.Proposal{},
 		[]types.Vote{},
 	)
-	suite.communityPoolAmt = sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(1000)))
+	suite.communityPoolAmt = sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(1000)))
 	suite.app.InitializeFromGenesisStates(
 		app.GenesisState{types.ModuleName: cdc.MustMarshalJSON(testGenesis)},
 		// TODO: not used?

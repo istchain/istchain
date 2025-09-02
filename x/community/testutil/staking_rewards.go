@@ -12,10 +12,10 @@ import (
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/community"
-	"github.com/istchain/istchain/x/community/keeper"
-	"github.com/istchain/istchain/x/community/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/community"
+	"github.com/kava-labs/kava/x/community/keeper"
+	"github.com/kava-labs/kava/x/community/types"
 )
 
 // StakingRewardsTestSuite tests staking rewards per second logic
@@ -62,11 +62,11 @@ func (suite *stakingRewardsTestSuite) TestStakingRewards() {
 		// rewards per second to set in state
 		rewardsPerSecond sdkmath.LegacyDec
 
-		// the amount of uist to mint and transfer to the community pool
+		// the amount of ukava to mint and transfer to the community pool
 		// to use to pay for rewards
 		communityPoolFunds sdkmath.Int
 
-		// how many total rewards are expected to be accumulated in uist
+		// how many total rewards are expected to be accumulated in ukava
 		expectedRewardsTotal sdkmath.Int
 	}{
 		// ** These take a long time to run **
@@ -87,7 +87,7 @@ func (suite *stakingRewardsTestSuite) TestStakingRewards() {
 		//	blockTimeRangeMax:    6.5,
 		//	rewardsPerSecond:     sdkmath.LegacyMustNewDecFromStr("1585489.599188229325215626"), // 50 million kava per year
 		//	communityPoolFunds:   sdkmath.NewInt(50000000000000),
-		//	expectedRewardsTotal: sdkmath.NewInt(49999999999999), // truncation results in 1 uist error
+		//	expectedRewardsTotal: sdkmath.NewInt(49999999999999), // truncation results in 1 ukava error
 		//},
 		//
 		//
@@ -102,7 +102,7 @@ func (suite *stakingRewardsTestSuite) TestStakingRewards() {
 			blockTimeRangeMax:    1,
 			rewardsPerSecond:     sdkmath.LegacyMustNewDecFromStr("1585489.599188229325215626"), // 50 million kava per year
 			communityPoolFunds:   sdkmath.NewInt(200000000000),
-			expectedRewardsTotal: sdkmath.NewInt(136986301369), // 50 million / 365 days  - 1 uist
+			expectedRewardsTotal: sdkmath.NewInt(136986301369), // 50 million / 365 days  - 1 ukava
 
 		},
 		{
@@ -113,7 +113,7 @@ func (suite *stakingRewardsTestSuite) TestStakingRewards() {
 			blockTimeRangeMax:    6.5,
 			rewardsPerSecond:     sdkmath.LegacyMustNewDecFromStr("1585489.599188229325215626"), // 50 million kava per year
 			communityPoolFunds:   sdkmath.NewInt(200000000000),
-			expectedRewardsTotal: sdkmath.NewInt(136986301369), // 50 million / 365 days  - 1 uist
+			expectedRewardsTotal: sdkmath.NewInt(136986301369), // 50 million / 365 days  - 1 ukava
 		},
 		//
 		//
@@ -206,17 +206,17 @@ func (suite *stakingRewardsTestSuite) TestStakingRewards() {
 			expectedRewardsTotal: newIntFromString("31561920000000000000000000000000000"), // 10 years worth of rewards (with three leap years)
 		},
 		{
-			name:                 "able to accumulate decimal uist units across blocks",
+			name:                 "able to accumulate decimal ukava units across blocks",
 			periodStart:          time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
 			periodEnd:            time.Date(2023, 1, 2, 0, 0, 0, 0, time.UTC),
 			blockTimeRangeMin:    5.5,
 			blockTimeRangeMax:    6.5,
-			rewardsPerSecond:     sdkmath.LegacyMustNewDecFromStr("0.100000000000000000"), // blocks are not long enough to accumulate a single uist with this rate
+			rewardsPerSecond:     sdkmath.LegacyMustNewDecFromStr("0.100000000000000000"), // blocks are not long enough to accumulate a single ukava with this rate
 			communityPoolFunds:   sdkmath.NewInt(10000),
 			expectedRewardsTotal: sdkmath.NewInt(8640),
 		},
 		{
-			name:                 "down to 1 uist per year can be accumulated -- we are safe from underflow at reasonably small values",
+			name:                 "down to 1 ukava per year can be accumulated -- we are safe from underflow at reasonably small values",
 			periodStart:          time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
 			periodEnd:            time.Date(2024, 1, 1, 0, 0, 0, 0, time.UTC),
 			blockTimeRangeMin:    60, // large block times speed up this test case
@@ -244,13 +244,13 @@ func (suite *stakingRewardsTestSuite) TestStakingRewards() {
 			// ensure community pool balance matches the test expectations
 			poolAcc := accountKeeper.GetModuleAccount(ctx, types.ModuleName)
 			// community pool balance should start at zero
-			suite.Require().True(bankKeeper.GetBalance(ctx, poolAcc.GetAddress(), "uist").Amount.IsZero(), "expected community pool to start with zero coins in test genesis")
+			suite.Require().True(bankKeeper.GetBalance(ctx, poolAcc.GetAddress(), "ukava").Amount.IsZero(), "expected community pool to start with zero coins in test genesis")
 			// fund withexact amount from test case
-			suite.App.FundAccount(ctx, poolAcc.GetAddress(), sdk.NewCoins(sdk.NewCoin("uist", tc.communityPoolFunds)))
+			suite.App.FundAccount(ctx, poolAcc.GetAddress(), sdk.NewCoins(sdk.NewCoin("ukava", tc.communityPoolFunds)))
 
 			// get starting balance of fee collector to substract later in case this is non-zero in genesis
 			feeCollectorAcc := accountKeeper.GetModuleAccount(ctx, authtypes.FeeCollectorName)
-			initialFeeCollectorBalance := bankKeeper.GetBalance(ctx, feeCollectorAcc.GetAddress(), "uist").Amount
+			initialFeeCollectorBalance := bankKeeper.GetBalance(ctx, feeCollectorAcc.GetAddress(), "ukava").Amount
 
 			// set rewards per second in state
 			params, found := keeper.GetParams(ctx)
@@ -286,7 +286,7 @@ func (suite *stakingRewardsTestSuite) TestStakingRewards() {
 				ctx = suite.App.NewContext(true, tmproto.Header{Height: height, Time: blockTime})
 			}
 
-			endingFeeCollectorBalance := bankKeeper.GetBalance(ctx, feeCollectorAcc.GetAddress(), "uist").Amount
+			endingFeeCollectorBalance := bankKeeper.GetBalance(ctx, feeCollectorAcc.GetAddress(), "ukava").Amount
 			feeCollectorBalanceAdded := endingFeeCollectorBalance.Sub(initialFeeCollectorBalance)
 
 			// assert fee pool was payed the correct rewards
@@ -301,14 +301,14 @@ func (suite *stakingRewardsTestSuite) TestStakingRewards() {
 				// assert events emitted match expected rewards
 				suite.Equal(
 					tc.expectedRewardsTotal.String(),
-					eventCoins.AmountOf("uist").String(),
+					eventCoins.AmountOf("ukava").String(),
 					"expected event coins to match",
 				)
 			}
 
 			// assert the community pool deducted the same amount
 			expectedCommunityPoolBalance := tc.communityPoolFunds.Sub(tc.expectedRewardsTotal)
-			actualCommunityPoolBalance := bankKeeper.GetBalance(ctx, poolAcc.GetAddress(), "uist").Amount
+			actualCommunityPoolBalance := bankKeeper.GetBalance(ctx, poolAcc.GetAddress(), "ukava").Amount
 			suite.Equal(expectedCommunityPoolBalance.String(), actualCommunityPoolBalance.String(), "expected community pool balance to match")
 		})
 	}
@@ -337,8 +337,8 @@ func (suite *stakingRewardsTestSuite) TestStakingRewardsDoNotAccumulateWhenPoolI
 	keeper.SetParams(ctx, params)
 
 	// fund community pool account
-	app.FundAccount(ctx, poolAcc.GetAddress(), sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(10000000)))) // 10 KAVA
-	initialFeeCollectorBalance := bankKeeper.GetBalance(ctx, feeCollectorAcc.GetAddress(), "uist").Amount
+	app.FundAccount(ctx, poolAcc.GetAddress(), sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(10000000)))) // 10 KAVA
+	initialFeeCollectorBalance := bankKeeper.GetBalance(ctx, feeCollectorAcc.GetAddress(), "ukava").Amount
 
 	// run first block (no rewards hapeen on first block)
 	community.BeginBlocker(ctx, keeper)
@@ -359,7 +359,7 @@ func (suite *stakingRewardsTestSuite) TestStakingRewardsDoNotAccumulateWhenPoolI
 	community.BeginBlocker(ctx, keeper)
 
 	// refund the community pool with 100 KAVA -- plenty of funds
-	app.FundAccount(ctx, poolAcc.GetAddress(), sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(100000000)))) // 100 KAVA
+	app.FundAccount(ctx, poolAcc.GetAddress(), sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(100000000)))) // 100 KAVA
 
 	// run fifth block 10 seconds in future which no rewards will be paid
 	blockTime = blockTime.Add(10 * time.Second)
@@ -368,7 +368,7 @@ func (suite *stakingRewardsTestSuite) TestStakingRewardsDoNotAccumulateWhenPoolI
 
 	// assert that only 20 total KAVA has been distributed in rewards
 	// and blocks where community pool had d
-	rewards := bankKeeper.GetBalance(ctx, feeCollectorAcc.GetAddress(), "uist").Amount.Sub(initialFeeCollectorBalance)
+	rewards := bankKeeper.GetBalance(ctx, feeCollectorAcc.GetAddress(), "ukava").Amount.Sub(initialFeeCollectorBalance)
 	suite.Require().Equal(sdkmath.NewInt(20000000).String(), rewards.String())
 }
 

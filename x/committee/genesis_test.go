@@ -9,11 +9,11 @@ import (
 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/committee"
-	"github.com/istchain/istchain/x/committee/keeper"
-	"github.com/istchain/istchain/x/committee/testutil"
-	"github.com/istchain/istchain/x/committee/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/committee"
+	"github.com/kava-labs/kava/x/committee/keeper"
+	"github.com/kava-labs/kava/x/committee/testutil"
+	"github.com/kava-labs/kava/x/committee/types"
 )
 
 type GenesisTestSuite struct {

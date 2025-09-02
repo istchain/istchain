@@ -1,6 +1,6 @@
-# IstChain EVM contracts
+# Kava EVM contracts
 
-Contracts for the IstChain EVM used by the IstChain blockchain.
+Contracts for the Kava EVM used by the Kava blockchain.
 Includes an ERC20 contract for wrapping native cosmos sdk.Coins.
 
 ## Setup

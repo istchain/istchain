@@ -9,9 +9,9 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
 
-	hardtypes "github.com/istchain/istchain/x/hard/types"
-	"github.com/istchain/istchain/x/incentive/keeper"
-	"github.com/istchain/istchain/x/incentive/types"
+	hardtypes "github.com/kava-labs/kava/x/hard/types"
+	"github.com/kava-labs/kava/x/incentive/keeper"
+	"github.com/kava-labs/kava/x/incentive/types"
 )
 
 // SynchronizeHardBorrowRewardTests runs unit tests for the keeper.SynchronizeHardBorrowReward method
@@ -368,7 +368,7 @@ func TestCalculateRewards(t *testing.T) {
 						RewardFactor:   d("0.000000001"),
 					},
 					{
-						CollateralType: "uist",
+						CollateralType: "ukava",
 						RewardFactor:   d("0.1"),
 					},
 				},
@@ -378,7 +378,7 @@ func TestCalculateRewards(t *testing.T) {
 						RewardFactor:   d("1000.0"),
 					},
 					{
-						CollateralType: "uist",
+						CollateralType: "ukava",
 						RewardFactor:   d("0.100000001"),
 					},
 				},
@@ -386,7 +386,7 @@ func TestCalculateRewards(t *testing.T) {
 			},
 			expected: expected{
 				// for each denom: (new - old) * sourceAmount
-				coins: cs(c("hard", 999999999999), c("uist", 1)),
+				coins: cs(c("hard", 999999999999), c("ukava", 1)),
 			},
 		},
 		{
@@ -404,7 +404,7 @@ func TestCalculateRewards(t *testing.T) {
 						RewardFactor:   d("1000.0"),
 					},
 					{
-						CollateralType: "uist",
+						CollateralType: "ukava",
 						RewardFactor:   d("0.100000001"),
 					},
 				},
@@ -412,7 +412,7 @@ func TestCalculateRewards(t *testing.T) {
 			},
 			expected: expected{
 				// for each denom: (new - old) * sourceAmount
-				coins: cs(c("hard", 999999999999), c("uist", 100000001)),
+				coins: cs(c("hard", 999999999999), c("ukava", 100000001)),
 			},
 		},
 		{
@@ -445,7 +445,7 @@ func TestCalculateRewards(t *testing.T) {
 						RewardFactor:   d("0.1"),
 					},
 					{
-						CollateralType: "uist",
+						CollateralType: "ukava",
 						RewardFactor:   d("0.1"),
 					},
 				},

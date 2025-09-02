@@ -9,8 +9,8 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	earntypes "github.com/istchain/istchain/x/earn/types"
-	"github.com/istchain/istchain/x/router/types"
+	earntypes "github.com/kava-labs/kava/x/earn/types"
+	"github.com/kava-labs/kava/x/router/types"
 )
 
 type msgServer struct {

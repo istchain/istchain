@@ -7,7 +7,7 @@ import (
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/istchain/istchain/x/liquid/types"
+	"github.com/kava-labs/kava/x/liquid/types"
 )
 
 // MintDerivative removes a user's staking delegation and mints them equivalent staking derivative coins.
@@ -128,7 +128,7 @@ func (k Keeper) GetStakedTokensForDerivatives(ctx sdk.Context, coins sdk.Coins) 
 			return sdk.Coin{}, fmt.Errorf("invalid derivative denom %s: validator not found", coin.Denom)
 		}
 
-		// bist is 1:1 to delegation shares
+		// bkava is 1:1 to delegation shares
 		valTokens := validator.TokensFromSharesTruncated(sdk.NewDecFromInt(coin.Amount))
 		total = total.Add(valTokens.TruncateInt())
 	}
@@ -138,23 +138,23 @@ func (k Keeper) GetStakedTokensForDerivatives(ctx sdk.Context, coins sdk.Coins) 
 }
 
 // GetTotalDerivativeValue returns the total sum value of all derivative coins
-// for all validators denominated by the bond token (uist).
+// for all validators denominated by the bond token (ukava).
 func (k Keeper) GetTotalDerivativeValue(ctx sdk.Context) (sdk.Coin, error) {
-	bistCoins := sdk.NewCoins()
+	bkavaCoins := sdk.NewCoins()
 
 	k.bankKeeper.IterateTotalSupply(ctx, func(c sdk.Coin) bool {
 		if k.IsDerivativeDenom(ctx, c.Denom) {
-			bistCoins = bistCoins.Add(c)
+			bkavaCoins = bkavaCoins.Add(c)
 		}
 
 		return false
 	})
 
-	return k.GetStakedTokensForDerivatives(ctx, bistCoins)
+	return k.GetStakedTokensForDerivatives(ctx, bkavaCoins)
 }
 
 // GetDerivativeValue returns the total underlying value of the provided
-// derivative denominated by the bond token (uist).
+// derivative denominated by the bond token (ukava).
 func (k Keeper) GetDerivativeValue(ctx sdk.Context, denom string) (sdk.Coin, error) {
 	return k.GetStakedTokensForDerivatives(ctx, sdk.NewCoins(k.bankKeeper.GetSupply(ctx, denom)))
 }

@@ -18,8 +18,8 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/liquid/keeper"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/liquid/keeper"
 )
 
 // Test suite used for all keeper tests

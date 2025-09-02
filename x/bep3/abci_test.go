@@ -11,10 +11,10 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/bep3"
-	"github.com/istchain/istchain/x/bep3/keeper"
-	"github.com/istchain/istchain/x/bep3/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/bep3"
+	"github.com/kava-labs/kava/x/bep3/keeper"
+	"github.com/kava-labs/kava/x/bep3/types"
 )
 
 type ABCITestSuite struct {
@@ -33,7 +33,7 @@ func (suite *ABCITestSuite) SetupTest() {
 
 	// Set up auth GenesisState
 	_, addrs := app.GeneratePrivKeyAddressPairs(12)
-	coins := sdk.NewCoins(c("bnb", 10000000000), c("uist", 10000000000))
+	coins := sdk.NewCoins(c("bnb", 10000000000), c("ukava", 10000000000))
 	authGS := app.NewFundedGenStateWithSameCoins(tApp.AppCodec(), coins, addrs)
 	// Initialize test app
 	tApp.InitializeFromGenesisStates(authGS, NewBep3GenStateMulti(tApp.AppCodec(), addrs[11]))

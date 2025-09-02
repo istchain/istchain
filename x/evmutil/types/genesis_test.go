@@ -7,8 +7,8 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/stretchr/testify/require"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/evmutil/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/evmutil/types"
 )
 
 func TestGenesisState_Validate(t *testing.T) {

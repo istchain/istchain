@@ -12,21 +12,21 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/istchain/istchain/app"
-	cdpkeeper "github.com/istchain/istchain/x/cdp/keeper"
-	"github.com/istchain/istchain/x/community/keeper"
-	"github.com/istchain/istchain/x/community/testutil"
-	"github.com/istchain/istchain/x/community/types"
-	hardkeeper "github.com/istchain/istchain/x/hard/keeper"
-	hardtypes "github.com/istchain/istchain/x/hard/types"
-	pricefeedtypes "github.com/istchain/istchain/x/pricefeed/types"
+	"github.com/kava-labs/kava/app"
+	cdpkeeper "github.com/kava-labs/kava/x/cdp/keeper"
+	"github.com/kava-labs/kava/x/community/keeper"
+	"github.com/kava-labs/kava/x/community/testutil"
+	"github.com/kava-labs/kava/x/community/types"
+	hardkeeper "github.com/kava-labs/kava/x/hard/keeper"
+	hardtypes "github.com/kava-labs/kava/x/hard/types"
+	pricefeedtypes "github.com/kava-labs/kava/x/pricefeed/types"
 )
 
 const chainID = app.TestChainId
 
 func c(denom string, amount int64) sdk.Coin { return sdk.NewInt64Coin(denom, amount) }
-func uist(amt int64) sdk.Coins {
-	return sdk.NewCoins(c("uist", amt))
+func ukava(amt int64) sdk.Coins {
+	return sdk.NewCoins(c("ukava", amt))
 }
 
 func usdx(amt int64) sdk.Coins {
@@ -59,7 +59,7 @@ func (suite *proposalTestSuite) SetupTest() {
 	genTime := tmtime.Now()
 
 	hardGS, pricefeedGS := testutil.NewLendGenesisBuilder().
-		WithMarket("uist", "kava:usd", sdk.OneDec()).
+		WithMarket("ukava", "kava:usd", sdk.OneDec()).
 		WithMarket("usdx", "usdx:usd", sdk.OneDec()).
 		Build()
 
@@ -83,7 +83,7 @@ func (suite *proposalTestSuite) SetupTest() {
 		app.GenesisState{hardtypes.ModuleName: tApp.AppCodec().MustMarshalJSON(&hardGS)},
 		app.GenesisState{pricefeedtypes.ModuleName: tApp.AppCodec().MustMarshalJSON(&pricefeedGS)},
 		app.GenesisState{types.ModuleName: tApp.AppCodec().MustMarshalJSON(&communityGs)},
-		testutil.NewCDPGenState(tApp.AppCodec(), "uist", "kava", sdk.NewDec(2)),
+		testutil.NewCDPGenState(tApp.AppCodec(), "ukava", "kava", sdk.NewDec(2)),
 	)
 
 	suite.App = tApp
@@ -94,8 +94,8 @@ func (suite *proposalTestSuite) SetupTest() {
 	suite.hardKeeper = suite.App.GetHardKeeper()
 
 	// give the community pool some funds
-	// uist
-	suite.FundCommunityPool(uist(2e10))
+	// ukava
+	suite.FundCommunityPool(ukava(2e10))
 	// usdx
 	suite.FundCommunityPool(usdx(2e10))
 	// other-denom
@@ -145,43 +145,43 @@ func (suite *proposalTestSuite) TestCommunityLendDepositProposal() {
 		{
 			name: "valid - one proposal, one denom",
 			proposals: []*types.CommunityPoolLendDepositProposal{
-				{Amount: uist(1e8)},
+				{Amount: ukava(1e8)},
 			},
 			expectedErr:      "",
-			expectedDeposits: []sdk.Coins{uist(1e8)},
+			expectedDeposits: []sdk.Coins{ukava(1e8)},
 		},
 		{
 			name: "valid - one proposal, multiple denoms",
 			proposals: []*types.CommunityPoolLendDepositProposal{
-				{Amount: uist(1e8).Add(usdx(1e8)...)},
+				{Amount: ukava(1e8).Add(usdx(1e8)...)},
 			},
 			expectedErr:      "",
-			expectedDeposits: []sdk.Coins{uist(1e8).Add(usdx(1e8)...)},
+			expectedDeposits: []sdk.Coins{ukava(1e8).Add(usdx(1e8)...)},
 		},
 		{
 			name: "valid - multiple proposals, same denom",
 			proposals: []*types.CommunityPoolLendDepositProposal{
-				{Amount: uist(1e8)},
-				{Amount: uist(1e9)},
+				{Amount: ukava(1e8)},
+				{Amount: ukava(1e9)},
 			},
 			expectedErr:      "",
-			expectedDeposits: []sdk.Coins{uist(1e8 + 1e9)},
+			expectedDeposits: []sdk.Coins{ukava(1e8 + 1e9)},
 		},
 		{
 			name: "valid - multiple proposals, different denoms",
 			proposals: []*types.CommunityPoolLendDepositProposal{
-				{Amount: uist(1e8)},
+				{Amount: ukava(1e8)},
 				{Amount: usdx(1e8)},
 			},
 			expectedErr:      "",
-			expectedDeposits: []sdk.Coins{uist(1e8).Add(usdx(1e8)...)},
+			expectedDeposits: []sdk.Coins{ukava(1e8).Add(usdx(1e8)...)},
 		},
 		{
 			name: "invalid - insufficient balance",
 			proposals: []*types.CommunityPoolLendDepositProposal{
 				{
 					Description: "more coins than i have!",
-					Amount:      uist(1e11),
+					Amount:      ukava(1e11),
 				},
 			},
 			expectedErr:      "community pool does not have sufficient coins to distribute",
@@ -231,72 +231,72 @@ func (suite *proposalTestSuite) TestCommunityLendWithdrawProposal() {
 			// in the week it would take a proposal to pass, the position would have grown
 			// to withdraw the entire position, it'd be safest to set a very high withdraw
 			name:           "valid - requesting withdrawal of more than total will withdraw all",
-			initialDeposit: uist(1e9),
+			initialDeposit: ukava(1e9),
 			proposals: []*types.CommunityPoolLendWithdrawProposal{
-				{Amount: uist(1e12)},
+				{Amount: ukava(1e12)},
 			},
 			expectedErr:        "",
-			expectedWithdrawal: uist(1e9),
+			expectedWithdrawal: ukava(1e9),
 		},
 		{
 			name:           "valid - single proposal, single denom, full withdrawal",
-			initialDeposit: uist(1e9),
+			initialDeposit: ukava(1e9),
 			proposals: []*types.CommunityPoolLendWithdrawProposal{
-				{Amount: uist(1e9)},
+				{Amount: ukava(1e9)},
 			},
 			expectedErr:        "",
-			expectedWithdrawal: uist(1e9),
+			expectedWithdrawal: ukava(1e9),
 		},
 		{
 			name:           "valid - single proposal, multiple denoms, full withdrawal",
-			initialDeposit: uist(1e9).Add(usdx(1e9)...),
+			initialDeposit: ukava(1e9).Add(usdx(1e9)...),
 			proposals: []*types.CommunityPoolLendWithdrawProposal{
-				{Amount: uist(1e9).Add(usdx(1e9)...)},
+				{Amount: ukava(1e9).Add(usdx(1e9)...)},
 			},
 			expectedErr:        "",
-			expectedWithdrawal: uist(1e9).Add(usdx(1e9)...),
+			expectedWithdrawal: ukava(1e9).Add(usdx(1e9)...),
 		},
 		{
 			name:           "valid - single proposal, partial withdrawal",
-			initialDeposit: uist(1e9).Add(usdx(1e9)...),
+			initialDeposit: ukava(1e9).Add(usdx(1e9)...),
 			proposals: []*types.CommunityPoolLendWithdrawProposal{
-				{Amount: uist(1e8).Add(usdx(1e9)...)},
+				{Amount: ukava(1e8).Add(usdx(1e9)...)},
 			},
 			expectedErr:        "",
-			expectedWithdrawal: uist(1e8).Add(usdx(1e9)...),
+			expectedWithdrawal: ukava(1e8).Add(usdx(1e9)...),
 		},
 		{
 			name:           "valid - multiple proposals, full withdrawal",
-			initialDeposit: uist(1e9).Add(usdx(1e9)...),
+			initialDeposit: ukava(1e9).Add(usdx(1e9)...),
 			proposals: []*types.CommunityPoolLendWithdrawProposal{
-				{Amount: uist(1e9)},
+				{Amount: ukava(1e9)},
 				{Amount: usdx(1e9)},
 			},
 			expectedErr:        "",
-			expectedWithdrawal: uist(1e9).Add(usdx(1e9)...),
+			expectedWithdrawal: ukava(1e9).Add(usdx(1e9)...),
 		},
 		{
 			name:           "valid - multiple proposals, partial withdrawal",
-			initialDeposit: uist(1e9).Add(usdx(1e9)...),
+			initialDeposit: ukava(1e9).Add(usdx(1e9)...),
 			proposals: []*types.CommunityPoolLendWithdrawProposal{
-				{Amount: uist(1e8)},
+				{Amount: ukava(1e8)},
 				{Amount: usdx(1e8)},
 			},
 			expectedErr:        "",
-			expectedWithdrawal: uist(1e8).Add(usdx(1e8)...),
+			expectedWithdrawal: ukava(1e8).Add(usdx(1e8)...),
 		},
 		{
 			name:           "invalid - nonexistent position, has no deposits",
 			initialDeposit: sdk.NewCoins(),
 			proposals: []*types.CommunityPoolLendWithdrawProposal{
-				{Amount: uist(1e8)},
+				{Amount: ukava(1e8)},
 			},
 			expectedErr:        "deposit not found",
 			expectedWithdrawal: sdk.NewCoins(),
 		},
 		{
 			name:           "invalid - nonexistent position, has deposits of different denom",
-			initialDeposit: uist(1e8),
+			initialDeposit: ukava(1e8),
 			proposals: []*types.CommunityPoolLendWithdrawProposal{
 				{Amount: usdx(1e8)},
 			},
@@ -310,7 +310,7 @@ func (suite *proposalTestSuite) TestCommunityLendWithdrawProposal() {
 			suite.SetupTest()
 
 			// Disable minting, so that the community pool balance doesn't change
-			// during the test - this is because staking denom is "uist" and no
+			// during the test - this is because staking denom is "ukava" and no
 			// longer "stake" which has an initial and changing balance instead
 			// of just 0
 			suite.App.SetInflation(suite.Ctx, sdk.ZeroDec())
@@ -356,7 +356,7 @@ func (suite *proposalTestSuite) TestCommunityLendWithdrawProposal() {
 // expectation: funds in the community module will be used to repay cdps.
 // if collateral is returned, it stays in the community module.
 func (suite *proposalTestSuite) TestCommunityCDPRepayDebtProposal() {
-	initialModuleFunds := uist(2e10).Add(otherdenom(1e9)...)
+	initialModuleFunds := ukava(2e10).Add(otherdenom(1e9)...)
 	collateralType := "kava-a"
 	type debt struct {
 		collateral sdk.Coin
@@ -371,7 +371,7 @@ func (suite *proposalTestSuite) TestCommunityCDPRepayDebtProposal() {
 	}{
 		{
 			name:        "valid - paid in full",
-			initialDebt: &debt{c("uist", 1e10), c("usdx", 1e9)},
+			initialDebt: &debt{c("ukava", 1e10), c("usdx", 1e9)},
 			proposal: types.NewCommunityCDPRepayDebtProposal(
 				"repaying my debts in full",
 				"title says it all",
@@ -383,7 +383,7 @@ func (suite *proposalTestSuite) TestCommunityCDPRepayDebtProposal() {
 		},
 		{
 			name:        "valid - partial payment",
-			initialDebt: &debt{c("uist", 1e10), c("usdx", 1e9)},
+			initialDebt: &debt{c("ukava", 1e10), c("usdx", 1e9)},
 			proposal: types.NewCommunityCDPRepayDebtProposal(
 				"title goes here",
 				"description goes here",
@@ -395,7 +395,7 @@ func (suite *proposalTestSuite) TestCommunityCDPRepayDebtProposal() {
 		},
 		{
 			name:        "invalid - insufficient funds",
-			initialDebt: &debt{c("uist", 1e10), c("usdx", 1e9)},
+			initialDebt: &debt{c("ukava", 1e10), c("usdx", 1e9)},
 			proposal: types.NewCommunityCDPRepayDebtProposal(
 				"title goes here",
 				"description goes here",
@@ -459,7 +459,7 @@ func (suite *proposalTestSuite) TestCommunityCDPRepayDebtProposal() {
 // expectation: funds in the community module used as cdp collateral will be
 // withdrawn and stays in the community module.
 func (suite *proposalTestSuite) TestCommunityCDPWithdrawCollateralProposal() {
-	initialModuleFunds := uist(2e10).Add(otherdenom(1e9)...)
+	initialModuleFunds := ukava(2e10).Add(otherdenom(1e9)...)
 	collateralType := "kava-a"
 	type debt struct {
 		collateral sdk.Coin
@@ -475,47 +475,47 @@ func (suite *proposalTestSuite) TestCommunityCDPWithdrawCollateralProposal() {
 		{
 			name: "valid - withdrawing max collateral",
 			initialDebt: &debt{
-				c("uist", 1e10),
+				c("ukava", 1e10),
 				c("usdx", 1e9),
 			},
 			proposal: types.NewCommunityCDPWithdrawCollateralProposal(
 				"withdrawing max collateral",
 				"i might get liquidated",
 				collateralType,
-				c("uist", 8e9-1), // Withdraw all collateral except 2*principal-1 amount
+				c("ukava", 8e9-1), // Withdraw all collateral except 2*principal-1 amount
 			),
 			expectedErr:       "",
-			expectedWithdrawn: c("uist", 8e9-1),
+			expectedWithdrawn: c("ukava", 8e9-1),
 		},
 		{
 			name: "valid - withdrawing partial collateral",
 			initialDebt: &debt{
-				c("uist", 1e10),
+				c("ukava", 1e10),
 				c("usdx", 1e9),
 			},
 			proposal: types.NewCommunityCDPWithdrawCollateralProposal(
 				"title goes here",
 				"description goes here",
 				collateralType,
-				c("uist", 1e9),
+				c("ukava", 1e9),
 			),
 			expectedErr:       "",
-			expectedWithdrawn: c("uist", 1e9),
+			expectedWithdrawn: c("ukava", 1e9),
 		},
 		{
 			name: "invalid - withdrawing too much collateral",
 			initialDebt: &debt{
-				c("uist", 1e10),
+				c("ukava", 1e10),
 				c("usdx", 1e9),
 			},
 			proposal: types.NewCommunityCDPWithdrawCollateralProposal(
 				"title goes here",
 				"description goes here",
 				collateralType,
-				c("uist", 9e9), // <-- would be under collateralized
+				c("ukava", 9e9), // <-- would be under collateralized
 			),
 			expectedErr:       "proposed collateral ratio is below liquidation ratio",
-			expectedWithdrawn: c("uist", 0),
+			expectedWithdrawn: c("ukava", 0),
 		},
 	}
 

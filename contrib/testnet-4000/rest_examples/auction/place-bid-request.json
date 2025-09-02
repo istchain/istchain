@@ -1,6 +1,6 @@
 {
     "base_req": {
-        "from": "ist1xy7hrjy9r0algz9w3gzm8u6mrpq97kwta747gj",
+        "from": "kava1xy7hrjy9r0algz9w3gzm8u6mrpq97kwta747gj",
         "memo": "arbitrary text",
         "chain_id": "testing",
         "account_number": "0",

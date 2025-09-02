@@ -1,6 +1,6 @@
 {
   "base_req": {
-    "from": "ist12jk3szk45afmvjc3xc6kvj4e40tuy2m8ckgs03",
+    "from": "kava12jk3szk45afmvjc3xc6kvj4e40tuy2m8ckgs03",
     "memo": "",
     "chain_id": "testing",
     "account_number": "2",
@@ -9,7 +9,7 @@
     "gas_adjustment": "1.0",
     "simulate": false
   },
-  "owner": "ist12jk3szk45afmvjc3xc6kvj4e40tuy2m8ckgs03",
+  "owner": "kava12jk3szk45afmvjc3xc6kvj4e40tuy2m8ckgs03",
   "collateral": [
     {
       "denom": "xrp",

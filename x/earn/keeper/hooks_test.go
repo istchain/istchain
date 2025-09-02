@@ -3,9 +3,9 @@ package keeper_test
 import (
 	"testing"
 
-	"github.com/istchain/istchain/x/earn/testutil"
-	"github.com/istchain/istchain/x/earn/types"
-	"github.com/istchain/istchain/x/earn/types/mocks"
+	"github.com/kava-labs/kava/x/earn/testutil"
+	"github.com/kava-labs/kava/x/earn/types"
+	"github.com/kava-labs/kava/x/earn/types/mocks"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/mock"
@@ -31,7 +31,7 @@ func (suite *hookTestSuite) TestHooks_DepositAndWithdraw() {
 	suite.Keeper.SetHooks(earnHooks)
 
 	vault1Denom := "usdx"
-	vault2Denom := "uist"
+	vault2Denom := "ukava"
 	acc1deposit1Amount := sdk.NewInt64Coin(vault1Denom, 100)
 	acc1deposit2Amount := sdk.NewInt64Coin(vault2Denom, 200)
 

@@ -2,7 +2,7 @@ package keeper
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	v2 "github.com/istchain/istchain/x/evmutil/migrations/v2"
+	v2 "github.com/kava-labs/kava/x/evmutil/migrations/v2"
 )
 
 // Migrator is a struct for handling in-place store migrations.

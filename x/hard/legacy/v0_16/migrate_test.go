@@ -11,9 +11,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/suite"
 
-	app "github.com/istchain/istchain/app"
-	v015hard "github.com/istchain/istchain/x/hard/legacy/v0_15"
-	v016hard "github.com/istchain/istchain/x/hard/types"
+	app "github.com/kava-labs/kava/app"
+	v015hard "github.com/kava-labs/kava/x/hard/legacy/v0_15"
+	v016hard "github.com/kava-labs/kava/x/hard/types"
 )
 
 type migrateTestSuite struct {

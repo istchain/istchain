@@ -8,9 +8,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/auction/keeper"
-	"github.com/istchain/istchain/x/auction/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/auction/keeper"
+	"github.com/kava-labs/kava/x/auction/types"
 	"github.com/stretchr/testify/require"
 )
 
@@ -38,7 +38,7 @@ func TestGrpcAuctionsFilter(t *testing.T) {
 		).WithID(1),
 		types.NewCollateralAuction(
 			"sellerMod",
-			c("uist", 12345678),
+			c("ukava", 12345678),
 			time.Date(1998, time.January, 1, 0, 0, 0, 0, time.UTC),
 			c("usdx", 12345678),
 			types.WeightedAddresses{

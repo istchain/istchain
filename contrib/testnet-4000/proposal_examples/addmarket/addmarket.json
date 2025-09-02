@@ -11,7 +11,7 @@
           "base_asset": "btc",
           "market_id": "btc-usd",
           "oracles": [
-            "ist15qdefkmwswysgg4qxgqpqr35k3m49pkx2jdfnw"
+            "kava15qdefkmwswysgg4qxgqpqr35k3m49pkx2jdfnw"
           ],
           "quote_asset": "usd"
         },
@@ -20,7 +20,7 @@
           "base_asset": "xrp",
           "market_id": "xrp-usd",
           "oracles": [
-            "ist15qdefkmwswysgg4qxgqpqr35k3m49pkx2jdfnw"
+            "kava15qdefkmwswysgg4qxgqpqr35k3m49pkx2jdfnw"
           ],
           "quote_asset": "usd"
         },
@@ -29,7 +29,7 @@
             "base_asset": "bnb",
             "market_id": "bnb-usd",
             "oracles": [
-              "ist15qdefkmwswysgg4qxgqpqr35k3m49pkx2jdfnw"
+              "kava15qdefkmwswysgg4qxgqpqr35k3m49pkx2jdfnw"
             ],
             "quote_asset": "usd"
         }          
@@ -38,7 +38,7 @@
   ],
   "deposit": [
     {
-      "denom": "uist",
+      "denom": "ukava",
       "amount": "1000000"
     }
   ]

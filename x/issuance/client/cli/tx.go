@@ -11,7 +11,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/version"
 
-	"github.com/istchain/istchain/x/issuance/types"
+	"github.com/kava-labs/kava/x/issuance/types"
 )
 
 // GetTxCmd returns the transaction cli commands for the issuance module

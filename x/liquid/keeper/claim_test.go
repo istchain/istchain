@@ -4,8 +4,8 @@ import (
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/staking"
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/liquid/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/liquid/types"
 
 	distrtypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 )
@@ -22,7 +22,7 @@ func (suite *KeeperTestSuite) TestCollectStakingRewards() {
 		suite.Ctx,
 		distrtypes.ModuleName,
 		sdk.NewCoins(
-			sdk.NewCoin("uist", initialBalance),
+			sdk.NewCoin("ukava", initialBalance),
 		),
 	))
 
@@ -48,7 +48,7 @@ func (suite *KeeperTestSuite) TestCollectStakingRewards() {
 	liquidMacc := accKeeper.GetModuleAccount(suite.Ctx, types.ModuleAccountName)
 
 	// Add rewards
-	rewardCoins := sdk.NewDecCoins(sdk.NewDecCoin("uist", sdkmath.NewInt(500e6)))
+	rewardCoins := sdk.NewDecCoins(sdk.NewDecCoin("ukava", sdkmath.NewInt(500e6)))
 	distrKeeper.AllocateTokensToValidator(suite.Ctx, validator, rewardCoins)
 
 	delegation, found := stakingKeeper.GetDelegation(suite.Ctx, liquidMacc.GetAddress(), valAddr1)
@@ -66,7 +66,7 @@ func (suite *KeeperTestSuite) TestCollectStakingRewards() {
 		suite.Require().NoError(err)
 		suite.Require().Equal(truncatedRewards, rewards)
 
-		suite.True(rewards.AmountOf("uist").IsPositive())
+		suite.True(rewards.AmountOf("ukava").IsPositive())
 
 		// Check balances
 		suite.AccountBalanceEqual(liquidMacc.GetAddress(), rewards)
@@ -81,9 +81,9 @@ func (suite *KeeperTestSuite) TestCollectStakingRewards() {
 	})
 
 	suite.Run("collect staking rewards with invalid denom", func() {
-		derivativeDenom := "bist"
+		derivativeDenom := "bkava"
 		_, err := suite.Keeper.CollectStakingRewardsByDenom(suite.Ctx, derivativeDenom, types.ModuleName)
 		suite.Require().Error(err)
-		suite.Require().Equal("cannot parse denom bist", err.Error())
+		suite.Require().Equal("cannot parse denom bkava", err.Error())
 	})
 }

@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/istchain/istchain/x/router/types"
+	"github.com/kava-labs/kava/x/router/types"
 )
 
 func TestMsgMintDeposit_Signing(t *testing.T) {
@@ -20,12 +20,12 @@ func TestMsgMintDeposit_Signing(t *testing.T) {
 	msg := types.NewMsgMintDeposit(
 		address,
 		validatorAddress,
-		sdk.NewCoin("uist", sdkmath.NewInt(1e9)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(1e9)),
 	)
 
 	// checking for the "type" field ensures the msg is registered on the amino codec
 	signBytes := []byte(
-		`{"type":"router/MsgMintDeposit","value":{"amount":{"amount":"1000000000","denom":"uist"},"depositor":"kava1gepm4nwzz40gtpur93alv9f9wm5ht4l0hzzw9d","validator":"kavavaloper1ypjp0m04pyp73hwgtc0dgkx0e9rrydeckewa42"}}`,
+		`{"type":"router/MsgMintDeposit","value":{"amount":{"amount":"1000000000","denom":"ukava"},"depositor":"kava1gepm4nwzz40gtpur93alv9f9wm5ht4l0hzzw9d","validator":"kavavaloper1ypjp0m04pyp73hwgtc0dgkx0e9rrydeckewa42"}}`,
 	)
 
 	assert.Equal(t, []sdk.AccAddress{address}, msg.GetSigners())
@@ -39,12 +39,12 @@ func TestMsgDelegateMintDeposit_Signing(t *testing.T) {
 	msg := types.NewMsgDelegateMintDeposit(
 		address,
 		validatorAddress,
-		sdk.NewCoin("uist", sdkmath.NewInt(1e9)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(1e9)),
 	)
 
 	// checking for the "type" field ensures the msg is registered on the amino codec
 	signBytes := []byte(
-		`{"type":"router/MsgDelegateMintDeposit","value":{"amount":{"amount":"1000000000","denom":"uist"},"depositor":"kava1gepm4nwzz40gtpur93alv9f9wm5ht4l0hzzw9d","validator":"kavavaloper1ypjp0m04pyp73hwgtc0dgkx0e9rrydeckewa42"}}`,
+		`{"type":"router/MsgDelegateMintDeposit","value":{"amount":{"amount":"1000000000","denom":"ukava"},"depositor":"kava1gepm4nwzz40gtpur93alv9f9wm5ht4l0hzzw9d","validator":"kavavaloper1ypjp0m04pyp73hwgtc0dgkx0e9rrydeckewa42"}}`,
 	)
 
 	assert.Equal(t, []sdk.AccAddress{address}, msg.GetSigners())
@@ -58,12 +58,12 @@ func TestMsgWithdrawBurn_Signing(t *testing.T) {
 	msg := types.NewMsgWithdrawBurn(
 		address,
 		validatorAddress,
-		sdk.NewCoin("uist", sdkmath.NewInt(1e9)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(1e9)),
 	)
 
 	// checking for the "type" field ensures the msg is registered on the amino codec
 	signBytes := []byte(
-		`{"type":"router/MsgWithdrawBurn","value":{"amount":{"amount":"1000000000","denom":"uist"},"from":"kava1gepm4nwzz40gtpur93alv9f9wm5ht4l0hzzw9d","validator":"kavavaloper1ypjp0m04pyp73hwgtc0dgkx0e9rrydeckewa42"}}`,
+		`{"type":"router/MsgWithdrawBurn","value":{"amount":{"amount":"1000000000","denom":"ukava"},"from":"kava1gepm4nwzz40gtpur93alv9f9wm5ht4l0hzzw9d","validator":"kavavaloper1ypjp0m04pyp73hwgtc0dgkx0e9rrydeckewa42"}}`,
 	)
 
 	assert.Equal(t, []sdk.AccAddress{address}, msg.GetSigners())
@@ -77,12 +77,12 @@ func TestMsgWithdrawBurnUndelegate_Signing(t *testing.T) {
 	msg := types.NewMsgWithdrawBurnUndelegate(
 		address,
 		validatorAddress,
-		sdk.NewCoin("uist", sdkmath.NewInt(1e9)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(1e9)),
 	)
 
 	// checking for the "type" field ensures the msg is registered on the amino codec
 	signBytes := []byte(
-		`{"type":"router/MsgWithdrawBurnUndelegate","value":{"amount":{"amount":"1000000000","denom":"uist"},"from":"kava1gepm4nwzz40gtpur93alv9f9wm5ht4l0hzzw9d","validator":"kavavaloper1ypjp0m04pyp73hwgtc0dgkx0e9rrydeckewa42"}}`,
+		`{"type":"router/MsgWithdrawBurnUndelegate","value":{"amount":{"amount":"1000000000","denom":"ukava"},"from":"kava1gepm4nwzz40gtpur93alv9f9wm5ht4l0hzzw9d","validator":"kavavaloper1ypjp0m04pyp73hwgtc0dgkx0e9rrydeckewa42"}}`,
 	)
 
 	assert.Equal(t, []sdk.AccAddress{address}, msg.GetSigners())
@@ -92,7 +92,7 @@ func TestMsgWithdrawBurnUndelegate_Signing(t *testing.T) {
 func TestMsg_Validate(t *testing.T) {
 	validAddress := "kava1gepm4nwzz40gtpur93alv9f9wm5ht4l0hzzw9d"
 	validValidatorAddress := "kavavaloper1ypjp0m04pyp73hwgtc0dgkx0e9rrydeckewa42"
-	validCoin := sdk.NewInt64Coin("uist", 1e9)
+	validCoin := sdk.NewInt64Coin("ukava", 1e9)
 
 	type msgArgs struct {
 		depositor string
@@ -153,7 +153,7 @@ func TestMsg_Validate(t *testing.T) {
 			msgArgs: msgArgs{
 				depositor: validAddress,
 				validator: validValidatorAddress,
-				amount:    sdk.NewCoin("uist", sdk.ZeroInt()),
+				amount:    sdk.NewCoin("ukava", sdk.ZeroInt()),
 			},
 			expectedErr: sdkerrors.ErrInvalidCoins,
 		},
@@ -162,7 +162,7 @@ func TestMsg_Validate(t *testing.T) {
 			msgArgs: msgArgs{
 				depositor: validAddress,
 				validator: validValidatorAddress,
-				amount:    sdk.Coin{Denom: "uist", Amount: sdkmath.NewInt(-1)},
+				amount:    sdk.Coin{Denom: "ukava", Amount: sdkmath.NewInt(-1)},
 			},
 			expectedErr: sdkerrors.ErrInvalidCoins,
 		},

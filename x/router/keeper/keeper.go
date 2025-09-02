@@ -1,7 +1,7 @@
 package keeper
 
 import (
-	"github.com/istchain/istchain/x/router/types"
+	"github.com/kava-labs/kava/x/router/types"
 )
 
 // Keeper is the keeper for the module

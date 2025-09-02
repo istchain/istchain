@@ -17,7 +17,7 @@ const (
 	// ModuleAccountName is the module account's name
 	ModuleAccountName = ModuleName
 
-	DefaultDerivativeDenom = "bist"
+	DefaultDerivativeDenom = "bkava"
 
 	DenomSeparator = "-"
 )

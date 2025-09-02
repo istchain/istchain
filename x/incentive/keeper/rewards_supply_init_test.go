@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/suite"
 
-	"github.com/istchain/istchain/x/incentive/types"
+	"github.com/kava-labs/kava/x/incentive/types"
 )
 
 // InitializeHardSupplyRewardTests runs unit tests for the keeper.InitializeHardSupplyReward method

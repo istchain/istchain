@@ -5,8 +5,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/auth/types"
 	disttypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 
-	hardtypes "github.com/istchain/istchain/x/hard/types"
-	savingstypes "github.com/istchain/istchain/x/savings/types"
+	hardtypes "github.com/kava-labs/kava/x/hard/types"
+	savingstypes "github.com/kava-labs/kava/x/savings/types"
 )
 
 // AccountKeeper defines the expected account keeper

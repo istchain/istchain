@@ -11,10 +11,10 @@ import (
 	tmtime "github.com/cometbft/cometbft/types/time"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/savings"
-	"github.com/istchain/istchain/x/savings/keeper"
-	"github.com/istchain/istchain/x/savings/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/savings"
+	"github.com/kava-labs/kava/x/savings/keeper"
+	"github.com/kava-labs/kava/x/savings/types"
 )
 
 type GenesisTestSuite struct {
@@ -40,15 +40,15 @@ func (suite *GenesisTestSuite) SetupTest() {
 
 func (suite *GenesisTestSuite) TestInitExportGenesis() {
 	params := types.NewParams(
-		[]string{"btc", "uist", "bnb"},
+		[]string{"btc", "ukava", "bnb"},
 	)
 
-	depositAmt := sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(1e8)))
+	depositAmt := sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(1e8)))
 
 	deposits := types.Deposits{
 		types.NewDeposit(
 			suite.addrs[0],
-			depositAmt, // 100 uist
+			depositAmt, // 100 ukava
 		),
 	}
 	savingsGenesis := types.NewGenesisState(params, deposits)

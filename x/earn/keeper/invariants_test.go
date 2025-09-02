@@ -3,10 +3,10 @@ package keeper_test
 import (
 	"testing"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/earn/keeper"
-	"github.com/istchain/istchain/x/earn/testutil"
-	"github.com/istchain/istchain/x/earn/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/earn/keeper"
+	"github.com/kava-labs/kava/x/earn/testutil"
+	"github.com/kava-labs/kava/x/earn/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/suite"
@@ -38,7 +38,7 @@ func (suite *invariantTestSuite) SetupValidState() {
 		sdk.MustNewDecFromStr("100"),
 	))
 	suite.Keeper.SetVaultRecord(suite.Ctx, types.NewVaultRecord(
-		"uist",
+		"ukava",
 		sdk.MustNewDecFromStr("250.123456"),
 	))
 
@@ -46,14 +46,14 @@ func (suite *invariantTestSuite) SetupValidState() {
 		suite.addrs[0],
 		types.NewVaultShares(
 			types.NewVaultShare("usdx", sdk.MustNewDecFromStr("50")),
-			types.NewVaultShare("uist", sdk.MustNewDecFromStr("105.123")),
+			types.NewVaultShare("ukava", sdk.MustNewDecFromStr("105.123")),
 		),
 	)
 	vaultShare2 := types.NewVaultShareRecord(
 		suite.addrs[1],
 		types.NewVaultShares(
 			types.NewVaultShare("usdx", sdk.MustNewDecFromStr("50")),
-			types.NewVaultShare("uist", sdk.MustNewDecFromStr("145.000456")),
+			types.NewVaultShare("ukava", sdk.MustNewDecFromStr("145.000456")),
 		),
 	)
 
@@ -137,8 +137,8 @@ func (suite *invariantTestSuite) TestShareRecordsInvariant() {
 		suite.addrs[0],
 		// Directly create vaultshares instead of NewVaultShares() to avoid sanitization
 		types.VaultShares{
-			types.NewVaultShare("uist", sdk.MustNewDecFromStr("50")),
-			types.NewVaultShare("uist", sdk.MustNewDecFromStr("105.123")),
+			types.NewVaultShare("ukava", sdk.MustNewDecFromStr("50")),
+			types.NewVaultShare("ukava", sdk.MustNewDecFromStr("105.123")),
 		},
 	))
 	message, broken = suite.runInvariant("share-records", keeper.ShareRecordsInvariant)

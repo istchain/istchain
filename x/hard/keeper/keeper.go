@@ -9,7 +9,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 
-	"github.com/istchain/istchain/x/hard/types"
+	"github.com/kava-labs/kava/x/hard/types"
 )
 
 // Keeper keeper for the hard module

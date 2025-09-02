@@ -27,7 +27,7 @@ func RegisterInterfaces(registry types.InterfaceRegistry) {
 	)
 
 	registry.RegisterInterface(
-		"istchain.auction.v1beta1.Auction",
+		"kava.auction.v1beta1.Auction",
 		(*Auction)(nil),
 		&SurplusAuction{},
 		&DebtAuction{},
@@ -35,7 +35,7 @@ func RegisterInterfaces(registry types.InterfaceRegistry) {
 	)
 
 	registry.RegisterInterface(
-		"istchain.auction.v1beta1.GenesisAuction",
+		"kava.auction.v1beta1.GenesisAuction",
 		(*GenesisAuction)(nil),
 		&SurplusAuction{},
 		&DebtAuction{},

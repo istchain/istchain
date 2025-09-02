@@ -6,7 +6,7 @@ import (
 	errorsmod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/istchain/istchain/x/bep3/types"
+	"github.com/kava-labs/kava/x/bep3/types"
 )
 
 // IncrementCurrentAssetSupply increments an asset's supply by the coin

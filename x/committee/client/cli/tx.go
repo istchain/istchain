@@ -21,7 +21,7 @@ import (
 	govv1beta1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 	paramsproposal "github.com/cosmos/cosmos-sdk/x/params/types/proposal"
 
-	"github.com/istchain/istchain/x/committee/types"
+	"github.com/kava-labs/kava/x/committee/types"
 )
 
 const PARAMS_CHANGE_PROPOSAL_EXAMPLE = `

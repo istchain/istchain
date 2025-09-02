@@ -13,8 +13,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/version"
 	govv1beta1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 
-	"github.com/istchain/istchain/x/community/client/utils"
-	"github.com/istchain/istchain/x/community/types"
+	"github.com/kava-labs/kava/x/community/client/utils"
+	"github.com/kava-labs/kava/x/community/types"
 )
 
 const (
@@ -50,7 +50,7 @@ func getCmdFundCommunityPool() *cobra.Command {
 		Long:  "Fund community pool removes the listed coins from the sender's account and send them to the community module account.",
 		Args:  cobra.ExactArgs(1),
 		Example: fmt.Sprintf(
-			`%s tx %s fund-community-module 10000000uist --from <key>`, version.AppName, types.ModuleName,
+			`%s tx %s fund-community-module 10000000ukava --from <key>`, version.AppName, types.ModuleName,
 		),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
@@ -83,14 +83,14 @@ func NewCmdSubmitCommunityPoolLendDepositProposal() *cobra.Command {
 The proposal details must be supplied via a JSON file.
 Note that --deposit below is the initial proposal deposit submitted along with the proposal.
 Example:
-$ %s tx gov submit-proposal community-pool-lend-deposit <path/to/proposal.json> --deposit 1000000000uist --from=<key_or_address>
+$ %s tx gov submit-proposal community-pool-lend-deposit <path/to/proposal.json> --deposit 1000000000ukava --from=<key_or_address>
 Where proposal.json contains:
 {
   "title": "Community Pool Deposit",
   "description": "Deposit some KAVA from community pool!",
   "amount": [
     {
-      "denom": "uist",
+      "denom": "ukava",
       "amount": "100000000000"
     }
   ]
@@ -144,14 +144,14 @@ func NewCmdSubmitCommunityPoolLendWithdrawProposal() *cobra.Command {
 The proposal details must be supplied via a JSON file.
 Note that --deposit below is the initial proposal deposit submitted along with the proposal.
 Example:
-$ %s tx gov submit-proposal community-pool-lend-withdraw <path/to/proposal.json> --deposit 1000000000uist --from=<key_or_address>
+$ %s tx gov submit-proposal community-pool-lend-withdraw <path/to/proposal.json> --deposit 1000000000ukava --from=<key_or_address>
 Where proposal.json contains:
 {
   "title": "Community Pool Withdrawal",
   "description": "Withdraw some KAVA from community pool!",
   "amount": [
     {
-      "denom": "uist",
+      "denom": "ukava",
       "amount": "100000000000"
     }
   ]

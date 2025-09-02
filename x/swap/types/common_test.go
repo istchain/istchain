@@ -2,7 +2,7 @@ package types_test
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/istchain/istchain/app"
+	"github.com/kava-labs/kava/app"
 )
 
 func init() {

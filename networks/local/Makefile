@@ -1,4 +1,4 @@
 all:
-	docker build --tag istchain/istchainnode istchainnode
+	docker build --tag kava/kavanode kavanode
 
 .PHONY: all

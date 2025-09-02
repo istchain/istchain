@@ -12,11 +12,11 @@ import (
 	paramstypes "github.com/cosmos/cosmos-sdk/x/params/types"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/istchain/istchain/app"
-	bep3types "github.com/istchain/istchain/x/bep3/types"
-	cdptypes "github.com/istchain/istchain/x/cdp/types"
-	"github.com/istchain/istchain/x/committee/types"
-	pricefeedtypes "github.com/istchain/istchain/x/pricefeed/types"
+	"github.com/kava-labs/kava/app"
+	bep3types "github.com/kava-labs/kava/x/bep3/types"
+	cdptypes "github.com/kava-labs/kava/x/cdp/types"
+	"github.com/kava-labs/kava/x/committee/types"
+	pricefeedtypes "github.com/kava-labs/kava/x/pricefeed/types"
 )
 
 type PermissionTestSuite struct {

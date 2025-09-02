@@ -6,13 +6,13 @@ import (
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/istchain/istchain/x/earn/testutil"
-	"github.com/istchain/istchain/x/earn/types"
+	"github.com/kava-labs/kava/x/earn/testutil"
+	"github.com/kava-labs/kava/x/earn/types"
 
 	"github.com/stretchr/testify/suite"
 )
 
-const savingsVaultDenom = "uist"
+const savingsVaultDenom = "ukava"
 
 type strategySavingsTestSuite struct {
 	testutil.Suite
@@ -284,7 +284,7 @@ func (suite *strategySavingsTestSuite) TestWithdraw_WithAccumulatedSavings() {
 		"account should be deleted when all shares withdrawn but has %s value still",
 		accValue,
 	)
-	suite.Require().Equal("account vault share record for uist not found", err.Error())
+	suite.Require().Equal("account vault share record for ukava not found", err.Error())
 }
 
 func (suite *strategySavingsTestSuite) TestAccountShares() {

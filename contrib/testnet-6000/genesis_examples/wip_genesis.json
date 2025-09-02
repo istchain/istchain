@@ -1,6 +1,6 @@
 {
   "genesis_time": "2020-04-23T16:32:31.393515Z",
-  "chain_id": "istchain-testnet-6000",
+  "chain_id": "kava-testnet-6000",
   "consensus_params": {
     "block": {
       "max_bytes": "22020096",
@@ -47,7 +47,7 @@
       "assets_supplies": [],
       "atomic_swaps": [],
       "params": {
-        "bnb_deputy_address": "ist1tfvn5t8qwngqd2q427za2mel48pcus3z9u73fl",
+        "bnb_deputy_address": "kava1tfvn5t8qwngqd2q427za2mel48pcus3z9u73fl",
         "bnb_deputy_fixed_fee": "1000",
         "max_block_lock": "600",
         "min_block_lock": "80",
@@ -65,7 +65,7 @@
       "cdps": [],
       "debt_denom": "debt",
       "deposits": [],
-      "gov_denom": "uist",
+      "gov_denom": "ukava",
       "params": {
         "circuit_breaker": false,
         "collateral_params": [
@@ -116,11 +116,11 @@
           "id": "0",
           "description": "This committee is for adjusting parameters of the cdp system.",
           "members": [
-            "ist109fpwjvq6un86tw8f8emav2l0e0dha924scrj9"
+            "kava109fpwjvq6un86tw8f8emav2l0e0dha924scrj9"
           ],
           "permissions": [
             {
-              "type": "istchain/SubParamChangePermission",
+              "type": "kava/SubParamChangePermission",
               "value": {
                 "allowed_params": [
                   {
@@ -180,7 +180,7 @@
                     "key": "Active"
                   },
                   {
-                    "subspace": "istdist",
+                    "subspace": "kavadist",
                     "key": "Active"
                   }
                 ],
@@ -231,11 +231,11 @@
           "id": "1",
           "description": "This committee is for testnet",
           "members": [
-            "ist109fpwjvq6un86tw8f8emav2l0e0dha924scrj9"
+            "kava109fpwjvq6un86tw8f8emav2l0e0dha924scrj9"
           ],
           "permissions": [
             {
-              "type": "istchain/GodPermission",
+              "type": "kava/GodPermission",
               "value": {}
             }
           ],
@@ -249,7 +249,7 @@
     "crisis": {
       "constant_fee": {
         "amount": "1333000000",
-        "denom": "uist"
+        "denom": "ukava"
       }
     },
     "distribution": {
@@ -286,7 +286,7 @@
         "min_deposit": [
           {
             "amount": "200000000",
-            "denom": "uist"
+            "denom": "ukava"
           }
         ]
       },
@@ -312,7 +312,7 @@
             "denom": "bnb",
             "available_rewards": {
               "amount": "50000000000",
-              "denom": "uist"
+              "denom": "ukava"
             },
             "duration": "36288000000000000",
             "time_lock": "1892160000000000000",
@@ -322,7 +322,7 @@
       },
       "previous_block_time": "1970-01-01T00:00:00Z"
     },
-    "istdist": {
+    "kavadist": {
       "params": {
         "active": true,
         "periods": [
@@ -346,7 +346,7 @@
         "inflation_max": "0.130000000000000000",
         "inflation_min": "0.010000000000000000",
         "inflation_rate_change": "0.130000000000000000",
-        "mint_denom": "uist"
+        "mint_denom": "ukava"
       }
     },
     "params": null,
@@ -358,8 +358,8 @@
             "base_asset": "bnb",
             "market_id": "bnb:usd",
             "oracles": [
-              "ist1nyqy04x3ecpcuss3llmyu4fc2v4ma99h8vffjz",
-              "ist1znuktqgtjr8g85tetu2wt9wd33gstqr7pad92h"
+              "kava1nyqy04x3ecpcuss3llmyu4fc2v4ma99h8vffjz",
+              "kava1znuktqgtjr8g85tetu2wt9wd33gstqr7pad92h"
             ],
             "quote_asset": "usd"
           }
@@ -369,7 +369,7 @@
         {
           "expiry": "2021-06-20T00:00:00Z",
           "market_id": "bnb:usd",
-          "oracle_address": "ist1znuktqgtjr8g85tetu2wt9wd33gstqr7pad92h",
+          "oracle_address": "kava1znuktqgtjr8g85tetu2wt9wd33gstqr7pad92h",
           "price": "15.929061184"
         }
       ]
@@ -391,7 +391,7 @@
       "last_total_power": "0",
       "last_validator_powers": null,
       "params": {
-        "bond_denom": "uist",
+        "bond_denom": "ukava",
         "historical_entries": 0,
         "max_entries": 7,
         "max_validators": 100,

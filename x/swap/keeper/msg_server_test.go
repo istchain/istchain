@@ -7,9 +7,9 @@ import (
 
 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
 	tmtime "github.com/cometbft/cometbft/types/time"
-	"github.com/istchain/istchain/x/swap/keeper"
-	"github.com/istchain/istchain/x/swap/testutil"
-	"github.com/istchain/istchain/x/swap/types"
+	"github.com/kava-labs/kava/x/swap/keeper"
+	"github.com/kava-labs/kava/x/swap/testutil"
+	"github.com/kava-labs/kava/x/swap/types"
 	"github.com/stretchr/testify/suite"
 
 	sdkmath "cosmossdk.io/math"
@@ -31,7 +31,7 @@ func (suite *msgServerTestSuite) SetupTest() {
 }
 
 func (suite *msgServerTestSuite) TestDeposit_CreatePool() {
-	pool := types.NewAllowedPool("uist", "usdx")
+	pool := types.NewAllowedPool("ukava", "usdx")
 	suite.Require().NoError(pool.Validate())
 	suite.Keeper.SetParams(suite.Ctx, types.NewParams(types.AllowedPools{pool}, types.DefaultSwapFee))
 
@@ -81,7 +81,7 @@ func (suite *msgServerTestSuite) TestDeposit_CreatePool() {
 }
 
 func (suite *msgServerTestSuite) TestDeposit_DeadlineExceeded() {
-	pool := types.NewAllowedPool("uist", "usdx")
+	pool := types.NewAllowedPool("ukava", "usdx")
 	suite.Require().NoError(pool.Validate())
 	suite.Keeper.SetParams(suite.Ctx, types.NewParams(types.AllowedPools{pool}, types.DefaultSwapFee))
 
@@ -106,16 +106,16 @@ func (suite *msgServerTestSuite) TestDeposit_DeadlineExceeded() {
 }
 
 func (suite *msgServerTestSuite) TestDeposit_ExistingPool() {
-	pool := types.NewAllowedPool("uist", "usdx")
+	pool := types.NewAllowedPool("ukava", "usdx")
 	reserves := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(10e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(10e6)),
 		sdk.NewCoin("usdx", sdkmath.NewInt(50e6)),
 	)
 	err := suite.CreatePool(reserves)
 	suite.Require().NoError(err)
 
 	balance := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(1e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(1e6)),
 		sdk.NewCoin("usdx", sdkmath.NewInt(5e6)),
 	)
 	depositor := suite.NewAccountFromAddr(sdk.AccAddress("new depositor-------"), balance)
@@ -123,7 +123,7 @@ func (suite *msgServerTestSuite) TestDeposit_ExistingPool() {
 	deposit := types.NewMsgDeposit(
 		depositor.GetAddress().String(),
 		suite.BankKeeper.GetBalance(suite.Ctx, depositor.GetAddress(), "usdx"),
-		suite.BankKeeper.GetBalance(suite.Ctx, depositor.GetAddress(), "uist"),
+		suite.BankKeeper.GetBalance(suite.Ctx, depositor.GetAddress(), "ukava"),
 		sdk.MustNewDecFromStr("0.01"),
 		time.Now().Add(10*time.Minute).Unix(),
 	)
@@ -133,12 +133,12 @@ func (suite *msgServerTestSuite) TestDeposit_ExistingPool() {
 	suite.Require().NoError(err)
 
 	expectedDeposit := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(1e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(1e6)),
 		sdk.NewCoin("usdx", sdkmath.NewInt(5e6)),
 	)
 
 	expectedShareValue := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(999999)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(999999)),
 		sdk.NewCoin("usdx", sdkmath.NewInt(4999998)),
 	)
 
@@ -172,14 +172,14 @@ func (suite *msgServerTestSuite) TestDeposit_ExistingPool() {
 
 func (suite *msgServerTestSuite) TestDeposit_ExistingPool_SlippageFailure() {
 	reserves := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(10e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(10e6)),
 		sdk.NewCoin("usdx", sdkmath.NewInt(50e6)),
 	)
 	err := suite.CreatePool(reserves)
 	suite.Require().NoError(err)
 
 	balance := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(5e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(5e6)),
 		sdk.NewCoin("usdx", sdkmath.NewInt(5e6)),
 	)
 	depositor := suite.NewAccountFromAddr(sdk.AccAddress("new depositor-------"), balance)
@@ -187,7 +187,7 @@ func (suite *msgServerTestSuite) TestDeposit_ExistingPool_SlippageFailure() {
 	deposit := types.NewMsgDeposit(
 		depositor.GetAddress().String(),
 		suite.BankKeeper.GetBalance(suite.Ctx, depositor.GetAddress(), "usdx"),
-		suite.BankKeeper.GetBalance(suite.Ctx, depositor.GetAddress(), "uist"),
+		suite.BankKeeper.GetBalance(suite.Ctx, depositor.GetAddress(), "ukava"),
 		sdk.MustNewDecFromStr("0.01"),
 		time.Now().Add(10*time.Minute).Unix(),
 	)
@@ -200,7 +200,7 @@ func (suite *msgServerTestSuite) TestDeposit_ExistingPool_SlippageFailure() {
 
 func (suite *msgServerTestSuite) TestWithdraw_AllShares() {
 	reserves := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(10e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(10e6)),
 		sdk.NewCoin("usdx", sdkmath.NewInt(50e6)),
 	)
 	depositor := suite.NewAccountFromAddr(sdk.AccAddress("new depositor-------"), reserves)
@@ -226,8 +226,8 @@ func (suite *msgServerTestSuite) TestWithdraw_AllShares() {
 
 	suite.AccountBalanceEqual(depositor.GetAddress(), reserves)
 	suite.ModuleAccountBalanceEqual(sdk.Coins{})
-	suite.PoolDeleted("uist", "usdx")
-	suite.PoolSharesDeleted(depositor.GetAddress(), "uist", "usdx")
+	suite.PoolDeleted("ukava", "usdx")
+	suite.PoolSharesDeleted(depositor.GetAddress(), "ukava", "usdx")
 
 	suite.EventsContains(suite.GetEvents(), sdk.NewEvent(
 		sdk.EventTypeMessage,
@@ -253,7 +253,7 @@ func (suite *msgServerTestSuite) TestWithdraw_AllShares() {
 
 func (suite *msgServerTestSuite) TestWithdraw_PartialShares() {
 	reserves := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(10e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(10e6)),
 		sdk.NewCoin("usdx", sdkmath.NewInt(50e6)),
 	)
 	depositor := suite.NewAccountFromAddr(sdk.AccAddress("new depositor-------"), reserves)
@@ -264,7 +264,7 @@ func (suite *msgServerTestSuite) TestWithdraw_PartialShares() {
 	err := suite.Keeper.Deposit(suite.Ctx, depositor.GetAddress(), reserves[0], reserves[1], sdk.MustNewDecFromStr("1"))
 	suite.Require().NoError(err)
 
-	minTokenA := sdk.NewCoin("uist", sdkmath.NewInt(4999999))
+	minTokenA := sdk.NewCoin("ukava", sdkmath.NewInt(4999999))
 	minTokenB := sdk.NewCoin("usdx", sdkmath.NewInt(24999998))
 
 	withdraw := types.NewMsgWithdraw(
@@ -285,7 +285,7 @@ func (suite *msgServerTestSuite) TestWithdraw_PartialShares() {
 	suite.AccountBalanceEqual(depositor.GetAddress(), expectedCoinsReceived)
 	suite.ModuleAccountBalanceEqual(reserves.Sub(expectedCoinsReceived...))
 	suite.PoolLiquidityEqual(reserves.Sub(expectedCoinsReceived...))
-	suite.PoolShareValueEqual(depositor, types.NewAllowedPool("uist", "usdx"), reserves.Sub(expectedCoinsReceived...))
+	suite.PoolShareValueEqual(depositor, types.NewAllowedPool("ukava", "usdx"), reserves.Sub(expectedCoinsReceived...))
 
 	suite.EventsContains(suite.GetEvents(), sdk.NewEvent(
 		sdk.EventTypeMessage,
@@ -311,7 +311,7 @@ func (suite *msgServerTestSuite) TestWithdraw_PartialShares() {
 
 func (suite *msgServerTestSuite) TestWithdraw_SlippageFailure() {
 	reserves := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(10e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(10e6)),
 		sdk.NewCoin("usdx", sdkmath.NewInt(50e6)),
 	)
 	depositor := suite.NewAccountFromAddr(sdk.AccAddress("new depositor-------"), reserves)
@@ -322,7 +322,7 @@ func (suite *msgServerTestSuite) TestWithdraw_SlippageFailure() {
 	err := suite.Keeper.Deposit(suite.Ctx, depositor.GetAddress(), reserves[0], reserves[1], sdk.MustNewDecFromStr("1"))
 	suite.Require().NoError(err)
 
-	minTokenA := sdk.NewCoin("uist", sdkmath.NewInt(5e6))
+	minTokenA := sdk.NewCoin("ukava", sdkmath.NewInt(5e6))
 	minTokenB := sdk.NewCoin("usdx", sdkmath.NewInt(25e6))
 
 	withdraw := types.NewMsgWithdraw(
@@ -341,7 +341,7 @@ func (suite *msgServerTestSuite) TestWithdraw_SlippageFailure() {
 
 func (suite *msgServerTestSuite) TestWithdraw_DeadlineExceeded() {
 	balance := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(10e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(10e6)),
 		sdk.NewCoin("usdx", sdkmath.NewInt(50e6)),
 	)
 	from := suite.NewAccountFromAddr(sdk.AccAddress("from----------------"), balance)
@@ -349,7 +349,7 @@ func (suite *msgServerTestSuite) TestWithdraw_DeadlineExceeded() {
 	withdraw := types.NewMsgWithdraw(
 		from.GetAddress().String(),
 		sdkmath.NewInt(2e6),
-		sdk.NewCoin("uist", sdkmath.NewInt(1e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(1e6)),
 		sdk.NewCoin("usdx", sdkmath.NewInt(5e6)),
 		suite.Ctx.BlockTime().Add(-1*time.Second).Unix(),
 	)
@@ -362,18 +362,18 @@ func (suite *msgServerTestSuite) TestWithdraw_DeadlineExceeded() {
 
 func (suite *msgServerTestSuite) TestSwapExactForTokens() {
 	reserves := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(1000e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(1000e6)),
 		sdk.NewCoin("usdx", sdkmath.NewInt(5000e6)),
 	)
 	err := suite.CreatePool(reserves)
 	suite.Require().NoError(err)
 
 	balance := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(10e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(10e6)),
 	)
 	requester := suite.NewAccountFromAddr(sdk.AccAddress("requester-----------"), balance)
 
-	swapInput := sdk.NewCoin("uist", sdkmath.NewInt(1e6))
+	swapInput := sdk.NewCoin("ukava", sdkmath.NewInt(1e6))
 	swapMsg := types.NewMsgSwapExactForTokens(
 		requester.GetAddress().String(),
 		swapInput,
@@ -415,29 +415,29 @@ func (suite *msgServerTestSuite) TestSwapExactForTokens() {
 
 	suite.EventsContains(suite.GetEvents(), sdk.NewEvent(
 		types.EventTypeSwapTrade,
-		sdk.NewAttribute(types.AttributeKeyPoolID, types.PoolID("uist", "usdx")),
+		sdk.NewAttribute(types.AttributeKeyPoolID, types.PoolID("ukava", "usdx")),
 		sdk.NewAttribute(types.AttributeKeyRequester, requester.GetAddress().String()),
 		sdk.NewAttribute(types.AttributeKeySwapInput, swapInput.String()),
 		sdk.NewAttribute(types.AttributeKeySwapOutput, expectedSwapOutput.String()),
-		sdk.NewAttribute(types.AttributeKeyFeePaid, "3000uist"),
+		sdk.NewAttribute(types.AttributeKeyFeePaid, "3000ukava"),
 		sdk.NewAttribute(types.AttributeKeyExactDirection, "input"),
 	))
 }
 
 func (suite *msgServerTestSuite) TestSwapExactForTokens_SlippageFailure() {
 	reserves := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(1000e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(1000e6)),
 		sdk.NewCoin("usdx", sdkmath.NewInt(5000e6)),
 	)
 	err := suite.CreatePool(reserves)
 	suite.Require().NoError(err)
 
 	balance := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(100e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(100e6)),
 	)
 	requester := suite.NewAccountFromAddr(sdk.AccAddress("requester-----------"), balance)
 
-	swapInput := sdk.NewCoin("uist", sdkmath.NewInt(1e6))
+	swapInput := sdk.NewCoin("ukava", sdkmath.NewInt(1e6))
 	swapMsg := types.NewMsgSwapExactForTokens(
 		requester.GetAddress().String(),
 		swapInput,
@@ -455,13 +455,13 @@ func (suite *msgServerTestSuite) TestSwapExactForTokens_SlippageFailure() {
 
 func (suite *msgServerTestSuite) TestSwapExactForTokens_DeadlineExceeded() {
 	balance := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(10e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(10e6)),
 	)
 	requester := suite.NewAccountFromAddr(sdk.AccAddress("requester-----------"), balance)
 
 	swapMsg := types.NewMsgSwapExactForTokens(
 		requester.GetAddress().String(),
-		sdk.NewCoin("uist", sdkmath.NewInt(5e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(5e6)),
 		sdk.NewCoin("usdx", sdkmath.NewInt(25e5)),
 		sdk.MustNewDecFromStr("0.01"),
 		suite.Ctx.BlockTime().Add(-1*time.Second).Unix(),
@@ -475,21 +475,21 @@ func (suite *msgServerTestSuite) TestSwapExactForTokens_DeadlineExceeded() {
 
 func (suite *msgServerTestSuite) TestSwapForExactTokens() {
 	reserves := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(1000e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(1000e6)),
 		sdk.NewCoin("usdx", sdkmath.NewInt(5000e6)),
 	)
 	err := suite.CreatePool(reserves)
 	suite.Require().NoError(err)
 
 	balance := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(10e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(10e6)),
 	)
 	requester := suite.NewAccountFromAddr(sdk.AccAddress("requester-----------"), balance)
 
 	swapOutput := sdk.NewCoin("usdx", sdkmath.NewInt(5e6))
 	swapMsg := types.NewMsgSwapForExactTokens(
 		requester.GetAddress().String(),
-		sdk.NewCoin("uist", sdkmath.NewInt(1e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(1e6)),
 		swapOutput,
 		sdk.MustNewDecFromStr("0.01"),
 		time.Now().Add(10*time.Minute).Unix(),
@@ -500,7 +500,7 @@ func (suite *msgServerTestSuite) TestSwapForExactTokens() {
 	suite.Require().Equal(&types.MsgSwapForExactTokensResponse{}, res)
 	suite.Require().NoError(err)
 
-	expectedSwapInput := sdk.NewCoin("uist", sdkmath.NewInt(1004015))
+	expectedSwapInput := sdk.NewCoin("ukava", sdkmath.NewInt(1004015))
 
 	suite.AccountBalanceEqual(requester.GetAddress(), balance.Sub(expectedSwapInput).Add(swapOutput))
 	suite.ModuleAccountBalanceEqual(reserves.Add(expectedSwapInput).Sub(swapOutput))
@@ -528,32 +528,32 @@ func (suite *msgServerTestSuite) TestSwapForExactTokens() {
 
 	suite.EventsContains(suite.GetEvents(), sdk.NewEvent(
 		types.EventTypeSwapTrade,
-		sdk.NewAttribute(types.AttributeKeyPoolID, types.PoolID("uist", "usdx")),
+		sdk.NewAttribute(types.AttributeKeyPoolID, types.PoolID("ukava", "usdx")),
 		sdk.NewAttribute(types.AttributeKeyRequester, requester.GetAddress().String()),
 		sdk.NewAttribute(types.AttributeKeySwapInput, expectedSwapInput.String()),
 		sdk.NewAttribute(types.AttributeKeySwapOutput, swapOutput.String()),
-		sdk.NewAttribute(types.AttributeKeyFeePaid, "3013uist"),
+		sdk.NewAttribute(types.AttributeKeyFeePaid, "3013ukava"),
 		sdk.NewAttribute(types.AttributeKeyExactDirection, "output"),
 	))
 }
 
 func (suite *msgServerTestSuite) TestSwapForExactTokens_SlippageFailure() {
 	reserves := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(1000e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(1000e6)),
 		sdk.NewCoin("usdx", sdkmath.NewInt(5000e6)),
 	)
 	err := suite.CreatePool(reserves)
 	suite.Require().NoError(err)
 
 	balance := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(10e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(10e6)),
 	)
 	requester := suite.NewAccountFromAddr(sdk.AccAddress("requester-----------"), balance)
 
 	swapOutput := sdk.NewCoin("usdx", sdkmath.NewInt(5e6))
 	swapMsg := types.NewMsgSwapForExactTokens(
 		requester.GetAddress().String(),
-		sdk.NewCoin("uist", sdkmath.NewInt(990991)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(990991)),
 		swapOutput,
 		sdk.MustNewDecFromStr("0.01"),
 		time.Now().Add(10*time.Minute).Unix(),
@@ -568,13 +568,13 @@ func (suite *msgServerTestSuite) TestSwapForExactTokens_SlippageFailure() {
 
 func (suite *msgServerTestSuite) TestSwapForExactTokens_DeadlineExceeded() {
 	balance := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(10e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(10e6)),
 	)
 	requester := suite.NewAccountFromAddr(sdk.AccAddress("requester-----------"), balance)
 
 	swapMsg := types.NewMsgSwapForExactTokens(
 		requester.GetAddress().String(),
-		sdk.NewCoin("uist", sdkmath.NewInt(5e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(5e6)),
 		sdk.NewCoin("usdx", sdkmath.NewInt(25e5)),
 		sdk.MustNewDecFromStr("0.01"),
 		suite.Ctx.BlockTime().Add(-1*time.Second).Unix(),

@@ -9,7 +9,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 
-	"github.com/istchain/istchain/x/issuance/types"
+	"github.com/kava-labs/kava/x/issuance/types"
 )
 
 // GetQueryCmd returns the cli query commands for the issuance module

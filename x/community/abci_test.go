@@ -8,9 +8,9 @@ import (
 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/community"
-	"github.com/istchain/istchain/x/community/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/community"
+	"github.com/kava-labs/kava/x/community/types"
 	"github.com/stretchr/testify/require"
 )
 
@@ -40,8 +40,8 @@ func TestABCIStakingRewardsArePaidOutOnDisableInflationBlock(t *testing.T) {
 	keeper.SetParams(ctx, params)
 
 	// fund community pool account
-	tApp.FundAccount(ctx, poolAcc.GetAddress(), sdk.NewCoins(sdk.NewCoin("uist", sdkmath.NewInt(10000000)))) // 10 KAVA
-	initialFeeCollectorBalance := bankKeeper.GetBalance(ctx, feeCollectorAcc.GetAddress(), "uist").Amount
+	tApp.FundAccount(ctx, poolAcc.GetAddress(), sdk.NewCoins(sdk.NewCoin("ukava", sdkmath.NewInt(10000000)))) // 10 KAVA
+	initialFeeCollectorBalance := bankKeeper.GetBalance(ctx, feeCollectorAcc.GetAddress(), "ukava").Amount
 
 	// run one block
 	community.BeginBlocker(ctx, keeper)
@@ -52,7 +52,7 @@ func TestABCIStakingRewardsArePaidOutOnDisableInflationBlock(t *testing.T) {
 	require.Equal(t, sdkmath.LegacyZeroDec(), params.StakingRewardsPerSecond)
 
 	// assert no rewards are given yet
-	rewards := bankKeeper.GetBalance(ctx, feeCollectorAcc.GetAddress(), "uist").Amount.Sub(initialFeeCollectorBalance)
+	rewards := bankKeeper.GetBalance(ctx, feeCollectorAcc.GetAddress(), "ukava").Amount.Sub(initialFeeCollectorBalance)
 	require.Equal(t, sdkmath.ZeroInt(), rewards)
 
 	// new block when disable inflation runs, 10 seconds from initial block for easy math
@@ -69,6 +69,6 @@ func TestABCIStakingRewardsArePaidOutOnDisableInflationBlock(t *testing.T) {
 	require.Equal(t, sdkmath.LegacyNewDec(1000000), params.StakingRewardsPerSecond)
 
 	// assert that 10 KAVA has been distributed in rewards
-	rewards = bankKeeper.GetBalance(ctx, feeCollectorAcc.GetAddress(), "uist").Amount.Sub(initialFeeCollectorBalance)
+	rewards = bankKeeper.GetBalance(ctx, feeCollectorAcc.GetAddress(), "ukava").Amount.Sub(initialFeeCollectorBalance)
 	require.Equal(t, sdkmath.NewInt(10000000).String(), rewards.String())
 }

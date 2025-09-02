@@ -1,8 +1,8 @@
 package v0_16
 
 import (
-	v015incentive "github.com/istchain/istchain/x/incentive/legacy/v0_15"
-	v016incentive "github.com/istchain/istchain/x/incentive/types"
+	v015incentive "github.com/kava-labs/kava/x/incentive/legacy/v0_15"
+	v016incentive "github.com/kava-labs/kava/x/incentive/types"
 )
 
 func migrateMultiRewardPerids(oldPeriods v015incentive.MultiRewardPeriods) v016incentive.MultiRewardPeriods {

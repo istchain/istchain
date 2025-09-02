@@ -5,13 +5,13 @@ import (
 
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/istchain/istchain/x/swap/types"
+	"github.com/kava-labs/kava/x/swap/types"
 )
 
 func (suite *keeperTestSuite) TestWithdraw_AllShares() {
 	owner := suite.CreateAccount(sdk.Coins{})
 	reserves := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(10e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(10e6)),
 		sdk.NewCoin("usdx", sdkmath.NewInt(50e6)),
 	)
 	totalShares := sdkmath.NewInt(30e6)
@@ -37,7 +37,7 @@ func (suite *keeperTestSuite) TestWithdraw_AllShares() {
 func (suite *keeperTestSuite) TestWithdraw_PartialShares() {
 	owner := suite.CreateAccount(sdk.Coins{})
 	reserves := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(10e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(10e6)),
 		sdk.NewCoin("usdx", sdkmath.NewInt(50e6)),
 	)
 	totalShares := sdkmath.NewInt(30e6)
@@ -45,7 +45,7 @@ func (suite *keeperTestSuite) TestWithdraw_PartialShares() {
 
 	sharesToWithdraw := sdkmath.NewInt(15e6)
 	minCoinA := sdk.NewCoin("usdx", sdkmath.NewInt(25e6))
-	minCoinB := sdk.NewCoin("uist", sdkmath.NewInt(5e6))
+	minCoinB := sdk.NewCoin("ukava", sdkmath.NewInt(5e6))
 
 	err := suite.Keeper.Withdraw(suite.Ctx, owner.GetAddress(), sharesToWithdraw, minCoinA, minCoinB)
 	suite.Require().NoError(err)
@@ -71,7 +71,7 @@ func (suite *keeperTestSuite) TestWithdraw_PartialShares() {
 func (suite *keeperTestSuite) TestWithdraw_NoSharesOwned() {
 	owner := suite.CreateAccount(sdk.Coins{})
 	reserves := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(10e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(10e6)),
 		sdk.NewCoin("usdx", sdkmath.NewInt(50e6)),
 	)
 	totalShares := sdkmath.NewInt(30e6)
@@ -86,7 +86,7 @@ func (suite *keeperTestSuite) TestWithdraw_NoSharesOwned() {
 func (suite *keeperTestSuite) TestWithdraw_GreaterThanSharesOwned() {
 	owner := suite.CreateAccount(sdk.Coins{})
 	reserves := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(10e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(10e6)),
 		sdk.NewCoin("usdx", sdkmath.NewInt(50e6)),
 	)
 	totalShares := sdkmath.NewInt(30e6)
@@ -100,7 +100,7 @@ func (suite *keeperTestSuite) TestWithdraw_GreaterThanSharesOwned() {
 func (suite *keeperTestSuite) TestWithdraw_MinWithdraw() {
 	owner := suite.CreateAccount(sdk.Coins{})
 	reserves := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(10e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(10e6)),
 		sdk.NewCoin("usdx", sdkmath.NewInt(50e6)),
 	)
 	totalShares := sdkmath.NewInt(30e6)
@@ -111,14 +111,14 @@ func (suite *keeperTestSuite) TestWithdraw_MinWithdraw() {
 		minCoinB   sdk.Coin
 		shouldFail bool
 	}{
-		{sdkmath.NewInt(1), sdk.NewCoin("uist", sdkmath.NewInt(1)), sdk.NewCoin("usdx", sdkmath.NewInt(1)), true},
-		{sdkmath.NewInt(1), sdk.NewCoin("usdx", sdkmath.NewInt(5)), sdk.NewCoin("uist", sdkmath.NewInt(1)), true},
+		{sdkmath.NewInt(1), sdk.NewCoin("ukava", sdkmath.NewInt(1)), sdk.NewCoin("usdx", sdkmath.NewInt(1)), true},
+		{sdkmath.NewInt(1), sdk.NewCoin("usdx", sdkmath.NewInt(5)), sdk.NewCoin("ukava", sdkmath.NewInt(1)), true},
 
-		{sdkmath.NewInt(2), sdk.NewCoin("uist", sdkmath.NewInt(1)), sdk.NewCoin("usdx", sdkmath.NewInt(1)), true},
-		{sdkmath.NewInt(2), sdk.NewCoin("usdx", sdkmath.NewInt(5)), sdk.NewCoin("uist", sdkmath.NewInt(1)), true},
+		{sdkmath.NewInt(2), sdk.NewCoin("ukava", sdkmath.NewInt(1)), sdk.NewCoin("usdx", sdkmath.NewInt(1)), true},
+		{sdkmath.NewInt(2), sdk.NewCoin("usdx", sdkmath.NewInt(5)), sdk.NewCoin("ukava", sdkmath.NewInt(1)), true},
 
-		{sdkmath.NewInt(3), sdk.NewCoin("uist", sdkmath.NewInt(1)), sdk.NewCoin("usdx", sdkmath.NewInt(5)), false},
-		{sdkmath.NewInt(3), sdk.NewCoin("usdx", sdkmath.NewInt(5)), sdk.NewCoin("uist", sdkmath.NewInt(1)), false},
+		{sdkmath.NewInt(3), sdk.NewCoin("ukava", sdkmath.NewInt(1)), sdk.NewCoin("usdx", sdkmath.NewInt(5)), false},
+		{sdkmath.NewInt(3), sdk.NewCoin("usdx", sdkmath.NewInt(5)), sdk.NewCoin("ukava", sdkmath.NewInt(1)), false},
 	}
 
 	for _, tc := range testCases {
@@ -139,7 +139,7 @@ func (suite *keeperTestSuite) TestWithdraw_MinWithdraw() {
 func (suite *keeperTestSuite) TestWithdraw_BelowMinimum() {
 	owner := suite.CreateAccount(sdk.Coins{})
 	reserves := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(10e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(10e6)),
 		sdk.NewCoin("usdx", sdkmath.NewInt(50e6)),
 	)
 	totalShares := sdkmath.NewInt(30e6)
@@ -150,7 +150,7 @@ func (suite *keeperTestSuite) TestWithdraw_BelowMinimum() {
 		minCoinB   sdk.Coin
 		shouldFail bool
 	}{
-		{sdkmath.NewInt(15e6), sdk.NewCoin("uist", sdkmath.NewInt(5000001)), sdk.NewCoin("usdx", sdkmath.NewInt(25e6)), true},
+		{sdkmath.NewInt(15e6), sdk.NewCoin("ukava", sdkmath.NewInt(5000001)), sdk.NewCoin("usdx", sdkmath.NewInt(25e6)), true},
 	}
 
 	for _, tc := range testCases {
@@ -171,7 +171,7 @@ func (suite *keeperTestSuite) TestWithdraw_BelowMinimum() {
 func (suite *keeperTestSuite) TestWithdraw_PanicOnMissingPool() {
 	owner := suite.CreateAccount(sdk.Coins{})
 	reserves := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(10e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(10e6)),
 		sdk.NewCoin("usdx", sdkmath.NewInt(50e6)),
 	)
 	totalShares := sdkmath.NewInt(30e6)
@@ -179,7 +179,7 @@ func (suite *keeperTestSuite) TestWithdraw_PanicOnMissingPool() {
 
 	suite.Keeper.DeletePool(suite.Ctx, poolID)
 
-	suite.PanicsWithValue("pool uist:usdx not found", func() {
+	suite.PanicsWithValue("pool ukava:usdx not found", func() {
 		_ = suite.Keeper.Withdraw(suite.Ctx, owner.GetAddress(), totalShares, reserves[0], reserves[1])
 	}, "expected missing pool record to panic")
 }
@@ -187,7 +187,7 @@ func (suite *keeperTestSuite) TestWithdraw_PanicOnMissingPool() {
 func (suite *keeperTestSuite) TestWithdraw_PanicOnInvalidPool() {
 	owner := suite.CreateAccount(sdk.Coins{})
 	reserves := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(10e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(10e6)),
 		sdk.NewCoin("usdx", sdkmath.NewInt(50e6)),
 	)
 	totalShares := sdkmath.NewInt(30e6)
@@ -199,7 +199,7 @@ func (suite *keeperTestSuite) TestWithdraw_PanicOnInvalidPool() {
 	poolRecord.TotalShares = sdk.ZeroInt()
 	suite.Keeper.SetPool_Raw(suite.Ctx, poolRecord)
 
-	suite.PanicsWithValue("invalid pool uist:usdx: total shares must be greater than zero: invalid pool", func() {
+	suite.PanicsWithValue("invalid pool ukava:usdx: total shares must be greater than zero: invalid pool", func() {
 		_ = suite.Keeper.Withdraw(suite.Ctx, owner.GetAddress(), totalShares, reserves[0], reserves[1])
 	}, "expected invalid pool record to panic")
 }
@@ -207,14 +207,14 @@ func (suite *keeperTestSuite) TestWithdraw_PanicOnInvalidPool() {
 func (suite *keeperTestSuite) TestWithdraw_PanicOnModuleInsufficientFunds() {
 	owner := suite.CreateAccount(sdk.Coins{})
 	reserves := sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(10e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(10e6)),
 		sdk.NewCoin("usdx", sdkmath.NewInt(50e6)),
 	)
 	totalShares := sdkmath.NewInt(30e6)
 	suite.setupPool(reserves, totalShares, owner.GetAddress())
 
 	suite.RemoveCoinsFromModule(sdk.NewCoins(
-		sdk.NewCoin("uist", sdkmath.NewInt(1e6)),
+		sdk.NewCoin("ukava", sdkmath.NewInt(1e6)),
 		sdk.NewCoin("usdx", sdkmath.NewInt(5e6)),
 	))
 

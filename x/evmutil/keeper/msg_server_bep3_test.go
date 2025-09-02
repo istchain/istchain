@@ -4,8 +4,8 @@ import (
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/istchain/istchain/x/evmutil/testutil"
-	"github.com/istchain/istchain/x/evmutil/types"
+	"github.com/kava-labs/kava/x/evmutil/testutil"
+	"github.com/kava-labs/kava/x/evmutil/types"
 )
 
 func (suite *MsgServerSuite) TestConvertCoinToERC20_Bep3() {
@@ -200,7 +200,7 @@ func (suite *MsgServerSuite) TestConvertERC20ToCoin_Bep3() {
 			msg: types.MsgConvertERC20ToCoin{
 				Initiator:        "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc",
 				Receiver:         invokerCosmosAddr.String(),
-				IstERC20Address: contractAddr.String(),
+				KavaERC20Address: contractAddr.String(),
 				Amount:           sdkmath.NewInt(12e8),
 			},
 			userErc20Balance: sdkmath.NewInt(2e18),
@@ -214,7 +214,7 @@ func (suite *MsgServerSuite) TestConvertERC20ToCoin_Bep3() {
 			msg: types.MsgConvertERC20ToCoin{
 				Initiator:        invoker.String(),
 				Receiver:         "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc",
-				IstERC20Address: contractAddr.String(),
+				KavaERC20Address: contractAddr.String(),
 				Amount:           sdkmath.NewInt(12e8),
 			},
 			userErc20Balance: sdkmath.NewInt(2e18),
@@ -228,7 +228,7 @@ func (suite *MsgServerSuite) TestConvertERC20ToCoin_Bep3() {
 			msg: types.MsgConvertERC20ToCoin{
 				Initiator:        invoker.String(),
 				Receiver:         invokerCosmosAddr.String(),
-				IstERC20Address: invokerCosmosAddr.String(),
+				KavaERC20Address: invokerCosmosAddr.String(),
 				Amount:           sdkmath.NewInt(12e8),
 			},
 			userErc20Balance: sdkmath.NewInt(2e18),

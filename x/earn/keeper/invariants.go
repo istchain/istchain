@@ -1,7 +1,7 @@
 package keeper
 
 import (
-	"github.com/istchain/istchain/x/earn/types"
+	"github.com/kava-labs/kava/x/earn/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )

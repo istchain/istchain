@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/istchain/istchain/x/earn/types"
+	"github.com/kava-labs/kava/x/earn/types"
 )
 
 // GetVaultTotalShares returns the total shares of a vault.
@@ -40,7 +40,7 @@ func (k *Keeper) GetVaultTotalValue(
 		return sdk.Coin{}, types.ErrInvalidVaultStrategy
 	}
 
-	// Denom can be different from allowedVault.Denom for bist
+	// Denom can be different from allowedVault.Denom for bkava
 	return strategy.GetEstimatedTotalAssets(ctx, denom)
 }
 

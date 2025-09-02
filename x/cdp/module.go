@@ -16,9 +16,9 @@ import (
 
 	abci "github.com/cometbft/cometbft/abci/types"
 
-	"github.com/istchain/istchain/x/cdp/client/cli"
-	"github.com/istchain/istchain/x/cdp/keeper"
-	"github.com/istchain/istchain/x/cdp/types"
+	"github.com/kava-labs/kava/x/cdp/client/cli"
+	"github.com/kava-labs/kava/x/cdp/keeper"
+	"github.com/kava-labs/kava/x/cdp/types"
 )
 
 var (

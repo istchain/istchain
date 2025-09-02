@@ -37,14 +37,14 @@
         "crisis": {
             "constant_fee": {
                 "amount": "1333000000",
-                "denom": "uist"
+                "denom": "ukava"
             }
         },
         "cdp": {
             "cdps": [],
             "debt_denom": "debt",
             "deposits": [],
-            "gov_denom": "uist",
+            "gov_denom": "ukava",
             "params": {
                 "circuit_breaker": false,
                 "collateral_params": [
@@ -137,11 +137,11 @@
                                         "max_change_rate": "0.010000000000000000"
                                     },
                                     "min_self_delegation": "1",
-                                    "delegator_address": "ist15qdefkmwswysgg4qxgqpqr35k3m49pkx2jdfnw",
-                                    "validator_address": "istvaloper15qdefkmwswysgg4qxgqpqr35k3m49pkx8yhpte",
-                                    "pubkey": "istvalconspub1zcjduepq0ykwlzr3guncl5l8npqa5lmq8kc5y2aeqp8zc8e72t3stxujxvxsxqjqwt",
+                                    "delegator_address": "kava15qdefkmwswysgg4qxgqpqr35k3m49pkx2jdfnw",
+                                    "validator_address": "kavavaloper15qdefkmwswysgg4qxgqpqr35k3m49pkx8yhpte",
+                                    "pubkey": "kavavalconspub1zcjduepq0ykwlzr3guncl5l8npqa5lmq8kc5y2aeqp8zc8e72t3stxujxvxsxqjqwt",
                                     "value": {
-                                        "denom": "uist",
+                                        "denom": "ukava",
                                         "amount": "100000000"
                                     }
                                 }
@@ -182,7 +182,7 @@
                 "inflation_max": "0.130000000000000000",
                 "inflation_min": "0.010000000000000000",
                 "inflation_rate_change": "0.130000000000000000",
-                "mint_denom": "uist"
+                "mint_denom": "ukava"
             }
         },
         "distribution": {
@@ -208,7 +208,7 @@
                     "type": "cosmos-sdk/Account",
                     "value": {
                         "account_number": "0",
-                        "address": "ist15qdefkmwswysgg4qxgqpqr35k3m49pkx2jdfnw",
+                        "address": "kava15qdefkmwswysgg4qxgqpqr35k3m49pkx2jdfnw",
                         "coins": [
                             {
                                 "amount": "10000000000",
@@ -216,7 +216,7 @@
                             },
                             {
                                 "amount": "9000000000",
-                                "denom": "uist"
+                                "denom": "ukava"
                             },
                             {
                                 "amount": "90000000000",
@@ -231,7 +231,7 @@
                     "type": "cosmos-sdk/Account",
                     "value": {
                         "account_number": "0",
-                        "address": "ist1xy7hrjy9r0algz9w3gzm8u6mrpq97kwta747gj",
+                        "address": "kava1xy7hrjy9r0algz9w3gzm8u6mrpq97kwta747gj",
                         "coins": [
                             {
                                 "amount": "10000000000",
@@ -239,7 +239,7 @@
                             },
                             {
                                 "amount": "9000000000",
-                                "denom": "uist"
+                                "denom": "ukava"
                             },
                             {
                                 "amount": "90000000000",
@@ -254,7 +254,7 @@
                     "type": "cosmos-sdk/Account",
                     "value": {
                         "account_number": "0",
-                        "address": "ist12jk3szk45afmvjc3xc6kvj4e40tuy2m8ckgs03",
+                        "address": "kava12jk3szk45afmvjc3xc6kvj4e40tuy2m8ckgs03",
                         "coins": [
                             {
                                 "amount": "10000000000",
@@ -262,7 +262,7 @@
                             },
                             {
                                 "amount": "9000000000",
-                                "denom": "uist"
+                                "denom": "ukava"
                             },
                             {
                                 "amount": "90000000000",
@@ -288,7 +288,7 @@
             "last_total_power": "0",
             "last_validator_powers": null,
             "params": {
-                "bond_denom": "uist",
+                "bond_denom": "ukava",
                 "max_entries": 7,
                 "max_validators": 100,
                 "unbonding_time": "3600000000000"
@@ -305,7 +305,7 @@
                         "base_asset": "xrp",
                         "market_id": "xrp:usd",
                         "oracles": [
-                            "ist15qdefkmwswysgg4qxgqpqr35k3m49pkx2jdfnw"
+                            "kava15qdefkmwswysgg4qxgqpqr35k3m49pkx2jdfnw"
                         ],
                         "quote_asset": "usd"
                     },
@@ -328,7 +328,7 @@
                 {
                     "expiry": "2050-01-01T00:00:00Z",
                     "market_id": "xrp:usd",
-                    "oracle_address": "ist15qdefkmwswysgg4qxgqpqr35k3m49pkx2jdfnw",
+                    "oracle_address": "kava15qdefkmwswysgg4qxgqpqr35k3m49pkx2jdfnw",
                     "price": "0.25"
                 }
             ]
@@ -339,7 +339,7 @@
                 "min_deposit": [
                     {
                         "amount": "1000000",
-                        "denom": "uist"
+                        "denom": "ukava"
                     }
                 ]
             },

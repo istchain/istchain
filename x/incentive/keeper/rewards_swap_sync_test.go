@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/suite"
 
-	"github.com/istchain/istchain/x/incentive/types"
+	"github.com/kava-labs/kava/x/incentive/types"
 )
 
 // SynchronizeSwapRewardTests runs unit tests for the keeper.SynchronizeSwapReward method
@@ -352,7 +352,7 @@ func (suite *SynchronizeSwapRewardTests) TestGetSyncedClaim_ClaimUnchangedWhenNo
 
 func (suite *SynchronizeSwapRewardTests) TestGetSyncedClaim_ClaimUpdatedWhenMissingIndexAndHasNoSourceShares() {
 	poolID_1 := "btcb:usdx"
-	poolID_2 := "uist:usdx"
+	poolID_2 := "ukava:usdx"
 	owner := arbitraryAddress()
 
 	// owner has no shares in any pool
@@ -410,7 +410,7 @@ func (suite *SynchronizeSwapRewardTests) TestGetSyncedClaim_ClaimUpdatedWhenMiss
 
 func (suite *SynchronizeSwapRewardTests) TestGetSyncedClaim_ClaimUpdatedWhenMissingIndexButHasSourceShares() {
 	poolID_1 := "btcb:usdx"
-	poolID_2 := "uist:usdx"
+	poolID_2 := "ukava:usdx"
 	owner := arbitraryAddress()
 
 	swapKeeper := newFakeSwapKeeper().

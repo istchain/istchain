@@ -10,9 +10,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/suite"
 
-	app "github.com/istchain/istchain/app"
-	v015incentive "github.com/istchain/istchain/x/incentive/legacy/v0_15"
-	v016incentive "github.com/istchain/istchain/x/incentive/types"
+	app "github.com/kava-labs/kava/app"
+	v015incentive "github.com/kava-labs/kava/x/incentive/legacy/v0_15"
+	v016incentive "github.com/kava-labs/kava/x/incentive/types"
 )
 
 type migrateTestSuite struct {

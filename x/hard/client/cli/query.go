@@ -11,7 +11,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/version"
 
-	"github.com/istchain/istchain/x/hard/types"
+	"github.com/kava-labs/kava/x/hard/types"
 )
 
 // flags for cli queries

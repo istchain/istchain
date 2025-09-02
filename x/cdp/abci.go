@@ -10,9 +10,9 @@ import (
 
 	abci "github.com/cometbft/cometbft/abci/types"
 
-	"github.com/istchain/istchain/x/cdp/keeper"
-	"github.com/istchain/istchain/x/cdp/types"
-	pricefeedtypes "github.com/istchain/istchain/x/pricefeed/types"
+	"github.com/kava-labs/kava/x/cdp/keeper"
+	"github.com/kava-labs/kava/x/cdp/types"
+	pricefeedtypes "github.com/kava-labs/kava/x/pricefeed/types"
 )
 
 // BeginBlocker compounds the debt in outstanding cdps and liquidates cdps that are below the required collateralization ratio

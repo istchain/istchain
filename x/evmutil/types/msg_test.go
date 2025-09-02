@@ -3,9 +3,9 @@ package types_test
 import (
 	"testing"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/evmutil/testutil"
-	"github.com/istchain/istchain/x/evmutil/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/evmutil/testutil"
+	"github.com/kava-labs/kava/x/evmutil/types"
 	"github.com/stretchr/testify/require"
 
 	sdkmath "cosmossdk.io/math"
@@ -194,7 +194,7 @@ func TestMsgConvertERC20ToCoin(t *testing.T) {
 			msg := types.MsgConvertERC20ToCoin{
 				Initiator:        tc.initiator,
 				Receiver:         tc.receiver,
-				IstERC20Address: tc.contractAddr,
+				KavaERC20Address: tc.contractAddr,
 				Amount:           tc.amount,
 			}
 			err := msg.ValidateBasic()

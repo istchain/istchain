@@ -5,7 +5,7 @@ import (
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/istchain/istchain/x/bep3/types"
+	"github.com/kava-labs/kava/x/bep3/types"
 )
 
 // GetParams returns the total set of bep3 parameters.

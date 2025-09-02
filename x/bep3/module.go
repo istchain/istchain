@@ -15,9 +15,9 @@ import (
 
 	abci "github.com/cometbft/cometbft/abci/types"
 
-	"github.com/istchain/istchain/x/bep3/client/cli"
-	"github.com/istchain/istchain/x/bep3/keeper"
-	"github.com/istchain/istchain/x/bep3/types"
+	"github.com/kava-labs/kava/x/bep3/client/cli"
+	"github.com/kava-labs/kava/x/bep3/keeper"
+	"github.com/kava-labs/kava/x/bep3/types"
 )
 
 var (

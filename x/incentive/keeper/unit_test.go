@@ -15,17 +15,17 @@ import (
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-	pricefeedtypes "github.com/istchain/istchain/x/pricefeed/types"
+	pricefeedtypes "github.com/kava-labs/kava/x/pricefeed/types"
 	"github.com/stretchr/testify/suite"
 
 	tmprototypes "github.com/cometbft/cometbft/proto/tendermint/types"
-	"github.com/istchain/istchain/app"
-	cdptypes "github.com/istchain/istchain/x/cdp/types"
-	earntypes "github.com/istchain/istchain/x/earn/types"
+	"github.com/kava-labs/kava/app"
+	cdptypes "github.com/kava-labs/kava/x/cdp/types"
+	earntypes "github.com/kava-labs/kava/x/earn/types"
 
-	hardtypes "github.com/istchain/istchain/x/hard/types"
-	"github.com/istchain/istchain/x/incentive/keeper"
-	"github.com/istchain/istchain/x/incentive/types"
+	hardtypes "github.com/kava-labs/kava/x/hard/types"
+	"github.com/kava-labs/kava/x/incentive/keeper"
+	"github.com/kava-labs/kava/x/incentive/types"
 )
 
 // NewTestContext sets up a basic context with an in-memory db
@@ -563,7 +563,7 @@ func (k *fakeLiquidKeeper) addDerivative(
 }
 
 func (k *fakeLiquidKeeper) IsDerivativeDenom(ctx sdk.Context, denom string) bool {
-	return strings.HasPrefix(denom, "bist-")
+	return strings.HasPrefix(denom, "bkava-")
 }
 
 func (k *fakeLiquidKeeper) GetAllDerivativeDenoms(ctx sdk.Context) (denoms []string) {
@@ -580,16 +580,16 @@ func (k *fakeLiquidKeeper) GetTotalDerivativeValue(ctx sdk.Context) (sdk.Coin, e
 		totalSupply = totalSupply.Add(supply)
 	}
 
-	return sdk.NewCoin("uist", totalSupply), nil
+	return sdk.NewCoin("ukava", totalSupply), nil
 }
 
 func (k *fakeLiquidKeeper) GetDerivativeValue(ctx sdk.Context, denom string) (sdk.Coin, error) {
 	supply, found := k.derivatives[denom]
 	if !found {
-		return sdk.NewCoin("uist", sdk.ZeroInt()), nil
+		return sdk.NewCoin("ukava", sdk.ZeroInt()), nil
 	}
 
-	return sdk.NewCoin("uist", supply), nil
+	return sdk.NewCoin("ukava", supply), nil
 }
 
 func (k *fakeLiquidKeeper) CollectStakingRewardsByDenom(
@@ -599,7 +599,7 @@ func (k *fakeLiquidKeeper) CollectStakingRewardsByDenom(
 ) (sdk.Coins, error) {
 	amt := k.getRewardAmount(ctx, derivativeDenom)
 
-	return sdk.NewCoins(sdk.NewCoin("uist", amt)), nil
+	return sdk.NewCoins(sdk.NewCoin("ukava", amt)), nil
 }
 
 func (k *fakeLiquidKeeper) getRewardAmount(
@@ -768,7 +768,7 @@ var nonEmptyMultiRewardIndexes = types.MultiRewardIndexes{
 				RewardFactor:   d("0.02"),
 			},
 			{
-				CollateralType: "uist",
+				CollateralType: "ukava",
 				RewardFactor:   d("0.04"),
 			},
 		},
@@ -781,7 +781,7 @@ var nonEmptyMultiRewardIndexes = types.MultiRewardIndexes{
 				RewardFactor:   d("0.2"),
 			},
 			{
-				CollateralType: "uist",
+				CollateralType: "ukava",
 				RewardFactor:   d("0.4"),
 			},
 		},
@@ -833,7 +833,7 @@ func appendUniqueMultiRewardIndex(indexes types.MultiRewardIndexes) types.MultiR
 				RewardFactor:   d("0.02"),
 			},
 			{
-				CollateralType: "uist",
+				CollateralType: "ukava",
 				RewardFactor:   d("0.04"),
 			},
 		},

@@ -13,9 +13,9 @@ import (
 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
 	tmtime "github.com/cometbft/cometbft/types/time"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/bep3/keeper"
-	"github.com/istchain/istchain/x/bep3/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/bep3/keeper"
+	"github.com/kava-labs/kava/x/bep3/types"
 )
 
 type AssetTestSuite struct {

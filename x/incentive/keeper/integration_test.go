@@ -7,12 +7,12 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-	"github.com/istchain/istchain/app"
-	cdptypes "github.com/istchain/istchain/x/cdp/types"
-	committeetypes "github.com/istchain/istchain/x/committee/types"
-	"github.com/istchain/istchain/x/incentive/testutil"
-	pricefeedtypes "github.com/istchain/istchain/x/pricefeed/types"
-	swaptypes "github.com/istchain/istchain/x/swap/types"
+	"github.com/kava-labs/kava/app"
+	cdptypes "github.com/kava-labs/kava/x/cdp/types"
+	committeetypes "github.com/kava-labs/kava/x/committee/types"
+	"github.com/kava-labs/kava/x/incentive/testutil"
+	pricefeedtypes "github.com/kava-labs/kava/x/pricefeed/types"
+	swaptypes "github.com/kava-labs/kava/x/swap/types"
 )
 
 // Avoid cluttering test cases with long function names
@@ -169,7 +169,7 @@ func NewPricefeedGenStateMultiFromTime(cdc codec.JSONCodec, t time.Time) app.Gen
 }
 
 func NewHardGenStateMulti(genTime time.Time) testutil.HardGenesisBuilder {
-	kavaMM := testutil.NewStandardMoneyMarket("uist")
+	kavaMM := testutil.NewStandardMoneyMarket("ukava")
 	kavaMM.SpotMarketID = "kava:usd"
 	btcMM := testutil.NewStandardMoneyMarket("btcb")
 	btcMM.SpotMarketID = "btc:usd"
@@ -186,7 +186,7 @@ func NewHardGenStateMulti(genTime time.Time) testutil.HardGenesisBuilder {
 
 func NewStakingGenesisState(cdc codec.JSONCodec) app.GenesisState {
 	genState := stakingtypes.DefaultGenesisState()
-	genState.Params.BondDenom = "uist"
+	genState.Params.BondDenom = "ukava"
 	return app.GenesisState{
 		stakingtypes.ModuleName: cdc.MustMarshalJSON(genState),
 	}
@@ -227,7 +227,7 @@ func NewCommitteeGenesisState(cdc codec.Codec, committeeID uint64, members ...sd
 func NewSwapGenesisState(cdc codec.JSONCodec) app.GenesisState {
 	genesis := swaptypes.NewGenesisState(
 		swaptypes.NewParams(
-			swaptypes.NewAllowedPools(swaptypes.NewAllowedPool("busd", "uist")),
+			swaptypes.NewAllowedPools(swaptypes.NewAllowedPool("busd", "ukava")),
 			d("0.0"),
 		),
 		swaptypes.DefaultPoolRecords,

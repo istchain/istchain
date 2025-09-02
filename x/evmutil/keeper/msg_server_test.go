@@ -12,10 +12,10 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/math"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/x/evmutil/keeper"
-	"github.com/istchain/istchain/x/evmutil/testutil"
-	"github.com/istchain/istchain/x/evmutil/types"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/x/evmutil/keeper"
+	"github.com/kava-labs/kava/x/evmutil/testutil"
+	"github.com/kava-labs/kava/x/evmutil/types"
 )
 
 type MsgServerSuite struct {
@@ -187,7 +187,7 @@ func (suite *MsgServerSuite) TestConvertERC20ToCoin() {
 			types.MsgConvertERC20ToCoin{
 				Initiator:        "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc",
 				Receiver:         invokerCosmosAddr.String(),
-				IstERC20Address: contractAddr.String(),
+				KavaERC20Address: contractAddr.String(),
 				Amount:           sdkmath.NewInt(10_000),
 			},
 			math.MaxBig256,

@@ -13,7 +13,7 @@ import (
 	"github.com/cometbft/cometbft/crypto/secp256k1"
 	tmtime "github.com/cometbft/cometbft/types/time"
 
-	"github.com/istchain/istchain/x/cdp/types"
+	"github.com/kava-labs/kava/x/cdp/types"
 )
 
 type CdpValidationSuite struct {
