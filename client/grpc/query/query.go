@@ -25,24 +25,24 @@ import (
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
 	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
 
-	auctiontypes "github.com/istchain/istchain/x/auction/types"
-	bep3types "github.com/istchain/istchain/x/bep3/types"
-	cdptypes "github.com/istchain/istchain/x/cdp/types"
-	committeetypes "github.com/istchain/istchain/x/committee/types"
-	communitytypes "github.com/istchain/istchain/x/community/types"
-	earntypes "github.com/istchain/istchain/x/earn/types"
-	evmutiltypes "github.com/istchain/istchain/x/evmutil/types"
-	hardtypes "github.com/istchain/istchain/x/hard/types"
-	incentivetypes "github.com/istchain/istchain/x/incentive/types"
-	issuancetypes "github.com/istchain/istchain/x/issuance/types"
-	istdisttypes "github.com/istchain/istchain/x/istdist/types"
-	liquidtypes "github.com/istchain/istchain/x/liquid/types"
-	pricefeedtypes "github.com/istchain/istchain/x/pricefeed/types"
-	savingstypes "github.com/istchain/istchain/x/savings/types"
-	swaptypes "github.com/istchain/istchain/x/swap/types"
+	auctiontypes "github.com/kava-labs/kava/x/auction/types"
+	bep3types "github.com/kava-labs/kava/x/bep3/types"
+	cdptypes "github.com/kava-labs/kava/x/cdp/types"
+	committeetypes "github.com/kava-labs/kava/x/committee/types"
+	communitytypes "github.com/kava-labs/kava/x/community/types"
+	earntypes "github.com/kava-labs/kava/x/earn/types"
+	evmutiltypes "github.com/kava-labs/kava/x/evmutil/types"
+	hardtypes "github.com/kava-labs/kava/x/hard/types"
+	incentivetypes "github.com/kava-labs/kava/x/incentive/types"
+	issuancetypes "github.com/kava-labs/kava/x/issuance/types"
+	kavadisttypes "github.com/kava-labs/kava/x/kavadist/types"
+	liquidtypes "github.com/kava-labs/kava/x/liquid/types"
+	pricefeedtypes "github.com/kava-labs/kava/x/pricefeed/types"
+	savingstypes "github.com/kava-labs/kava/x/savings/types"
+	swaptypes "github.com/kava-labs/kava/x/swap/types"
 )
 
-// QueryClient is a wrapper with all Cosmos and IstChain grpc query clients
+// QueryClient is a wrapper with all Cosmos and Kava grpc query clients
 type QueryClient struct {
 	// cosmos-sdk query clients
 
@@ -70,7 +70,7 @@ type QueryClient struct {
 	IbcChannel  ibcchanneltypes.QueryClient
 	IbcTransfer ibctransfertypes.QueryClient
 
-	// istchain module query clients
+	// kava module query clients
 
 	Auction   auctiontypes.QueryClient
 	Bep3      bep3types.QueryClient
@@ -82,7 +82,7 @@ type QueryClient struct {
 	Hard      hardtypes.QueryClient
 	Incentive incentivetypes.QueryClient
 	Issuance  issuancetypes.QueryClient
-	Istdist   istdisttypes.QueryClient
+	Kavadist  kavadisttypes.QueryClient
 	Liquid    liquidtypes.QueryClient
 	Pricefeed pricefeedtypes.QueryClient
 	Savings   savingstypes.QueryClient
@@ -128,7 +128,7 @@ func NewQueryClient(grpcEndpoint string) (*QueryClient, error) {
 		Hard:      hardtypes.NewQueryClient(conn),
 		Incentive: incentivetypes.NewQueryClient(conn),
 		Issuance:  issuancetypes.NewQueryClient(conn),
-		Istdist:   istdisttypes.NewQueryClient(conn),
+		Kavadist:  kavadisttypes.NewQueryClient(conn),
 		Liquid:    liquidtypes.NewQueryClient(conn),
 		Pricefeed: pricefeedtypes.NewQueryClient(conn),
 		Savings:   savingstypes.NewQueryClient(conn),

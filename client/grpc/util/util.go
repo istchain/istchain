@@ -7,12 +7,12 @@ import (
 	grpctypes "github.com/cosmos/cosmos-sdk/types/grpc"
 	"google.golang.org/grpc/metadata"
 
-	"github.com/istchain/istchain/app"
-	"github.com/istchain/istchain/app/params"
-	query "github.com/istchain/istchain/client/grpc/query"
+	"github.com/kava-labs/kava/app"
+	"github.com/kava-labs/kava/app/params"
+	query "github.com/kava-labs/kava/client/grpc/query"
 )
 
-// Util contains utility functions for the IstChain gRPC client
+// Util contains utility functions for the Kava gRPC client
 type Util struct {
 	query          *query.QueryClient
 	encodingConfig params.EncodingConfig
