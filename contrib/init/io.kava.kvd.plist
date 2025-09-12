@@ -3,16 +3,16 @@
 <plist version="1.0">
 <dict>
 	<key>Label</key>
-	<string>io.istchain.istd</string>
+	<string>io.kava.kvd</string>
 	<key>ProgramArguments</key>
 	<array>
-		<!--Assumes user is "istchain"-->
-		<string>/Users/istchain/go/bin/istd</string>
+		<!--Assumes user is "kava"-->
+		<string>/Users/kava/go/bin/kvd</string>
     <string>start</string>
 	</array>
 	<key>RunAtLoad</key>
 	<true/>
 	<key>UserName</key>
-	<string>istchain</string>
+	<string>kava</string>
 </dict>
 </plist>
