@@ -2,21 +2,21 @@ import { expect } from "chai";
 import { Signer } from "ethers";
 import { ethers } from "hardhat";
 import {
-  ERC20IstChainWrappedCosmosCoin,
-  ERC20IstChainWrappedCosmosCoin__factory as ERC20IstChainWrappedCosmosCoinFactory,
+  ERC20KavaWrappedCosmosCoin,
+  ERC20KavaWrappedCosmosCoin__factory as ERC20KavaWrappedCosmosCoinFactory,
 } from "../typechain-types";
 
 const decimals = 6n;
 
-describe("ERC20IstChainWrappedCosmosCoin", function () {
-  let erc20: ERC20IstChainWrappedCosmosCoin;
-  let erc20Factory: ERC20IstChainWrappedCosmosCoinFactory;
+describe("ERC20KavaWrappedCosmosCoin", function () {
+  let erc20: ERC20KavaWrappedCosmosCoin;
+  let erc20Factory: ERC20KavaWrappedCosmosCoinFactory;
   let owner: Signer;
   let sender: Signer;
 
   beforeEach(async function () {
     erc20Factory = await ethers.getContractFactory(
-      "ERC20IstChainWrappedCosmosCoin"
+      "ERC20KavaWrappedCosmosCoin"
     );
     erc20 = await erc20Factory.deploy("Wrapped ATOM", "ATOM", decimals);
     [owner, sender] = await ethers.getSigners();
