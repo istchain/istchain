@@ -7,7 +7,7 @@ import (
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/istchain/istchain/x/kavadist/types"
+	"github.com/kava-labs/kava/x/kavadist/types"
 )
 
 func (suite *keeperTestSuite) TestGRPCParams() {
@@ -90,7 +90,7 @@ func (suite *keeperTestSuite) TestGRPCBalance() {
 			"response with balance",
 			func() {
 				expCoins = sdk.Coins{
-					sdk.NewCoin("uist", sdkmath.NewInt(100)),
+					sdk.NewCoin("ukava", sdkmath.NewInt(100)),
 				}
 				suite.App.FundModuleAccount(ctx, types.ModuleName, expCoins)
 				req = &types.QueryBalanceRequest{}

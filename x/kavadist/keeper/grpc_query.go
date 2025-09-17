@@ -5,7 +5,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/istchain/istchain/x/istdist/types"
+	"github.com/kava-labs/kava/x/kavadist/types"
 )
 
 type queryServer struct {
@@ -21,7 +21,7 @@ var _ types.QueryServer = queryServer{}
 
 func (s queryServer) Balance(ctx context.Context, req *types.QueryBalanceRequest) (*types.QueryBalanceResponse, error) {
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
-	acc := s.keeper.accountKeeper.GetModuleAccount(sdkCtx, types.IstDistMacc)
+	acc := s.keeper.accountKeeper.GetModuleAccount(sdkCtx, types.KavaDistMacc)
 	balance := s.keeper.bankKeeper.GetAllBalances(sdkCtx, acc.GetAddress())
 	return &types.QueryBalanceResponse{Coins: balance}, nil
 }
