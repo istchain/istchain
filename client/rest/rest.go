@@ -332,64 +332,72 @@ func PostProcessResponse(w http.ResponseWriter, ctx client.Context, resp interfa
 // all arguments pairs. It separates page and limit used for pagination where a
 // default limit can be provided.
 func ParseHTTPArgsWithLimit(r *http.Request, defaultLimit int) (tags []string, page, limit int, err error) {
-	tags = make([]string, 0, len(r.Form))
+	tags, err = buildQueryTags(r.Form)
+	if err != nil {
+		return tags, page, limit, err
+	}
 
-	for key, values := range r.Form {
+	page, err = parsePositiveQueryInt(r, "page", DefaultPage)
+	if err != nil {
+		return tags, page, limit, err
+	}
+
+	limit, err = parsePositiveQueryInt(r, "limit", defaultLimit)
+	if err != nil {
+		return tags, page, limit, err
+	}
+
+	return tags, page, limit, nil
+}
+
+func buildQueryTags(form url.Values) ([]string, error) {
+	tags := make([]string, 0, len(form))
+
+	for key, values := range form {
+		// Pagination is returned separately, so it must not become a Tendermint event filter.
 		if key == "page" || key == "limit" {
 			continue
 		}
 
-		var value string
-		value, err = url.QueryUnescape(values[0])
-
+		value, err := url.QueryUnescape(values[0])
 		if err != nil {
-			return tags, page, limit, err
+			return tags, err
 		}
 
-		var tag string
-
-		switch key {
-		case types.TxHeightKey:
-			tag = fmt.Sprintf("%s=%s", key, value)
-
-		case TxMinHeightKey:
-			tag = fmt.Sprintf("%s>=%s", types.TxHeightKey, value)
-
-		case TxMaxHeightKey:
-			tag = fmt.Sprintf("%s<=%s", types.TxHeightKey, value)
-
-		default:
-			tag = fmt.Sprintf("%s='%s'", key, value)
-		}
-
-		tags = append(tags, tag)
+		tags = append(tags, formatQueryTag(key, value))
 	}
 
-	pageStr := r.FormValue("page")
-	if pageStr == "" {
-		page = DefaultPage
-	} else {
-		page, err = strconv.Atoi(pageStr)
-		if err != nil {
-			return tags, page, limit, err
-		} else if page <= 0 {
-			return tags, page, limit, errors.New("page must greater than 0")
-		}
+	return tags, nil
+}
+
+func formatQueryTag(key, value string) string {
+	switch key {
+	case types.TxHeightKey:
+		return fmt.Sprintf("%s=%s", key, value)
+	case TxMinHeightKey:
+		return fmt.Sprintf("%s>=%s", types.TxHeightKey, value)
+	case TxMaxHeightKey:
+		return fmt.Sprintf("%s<=%s", types.TxHeightKey, value)
+	default:
+		return fmt.Sprintf("%s='%s'", key, value)
+	}
+}
+
+func parsePositiveQueryInt(r *http.Request, key string, defaultValue int) (int, error) {
+	value := r.FormValue(key)
+	if value == "" {
+		return defaultValue, nil
 	}
 
-	limitStr := r.FormValue("limit")
-	if limitStr == "" {
-		limit = defaultLimit
-	} else {
-		limit, err = strconv.Atoi(limitStr)
-		if err != nil {
-			return tags, page, limit, err
-		} else if limit <= 0 {
-			return tags, page, limit, errors.New("limit must greater than 0")
-		}
+	parsed, err := strconv.Atoi(value)
+	if err != nil {
+		return parsed, err
+	}
+	if parsed <= 0 {
+		return parsed, fmt.Errorf("%s must greater than 0", key)
 	}
 
-	return tags, page, limit, nil
+	return parsed, nil
 }
 
 // ParseHTTPArgs parses the request's URL and returns a slice containing all
